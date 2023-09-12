@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import "./App.css";
-import Header from "./components/Header/Header";
-import Main from "./components/Main/Main";
-import Footer from "./components/Footer/Footer";
-import ItemCard from "./components/ItemCard/ItemCard";
-import ModalWithForm from "./components/ModalWithForm/ModalWithForm";
-import { location } from "./utils/constants";
+import Header from "../Header/Header";
+import Main from "../Main/Main";
+import Footer from "../Footer/Footer";
+import ItemModal from "../ItemModal/ItemModal";
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { location } from "../components/utils/constants";
 import {
   getForecastWeather,
   filterDataFromWeatherApi,
-} from "./utils/weatherApi";
-import { defaultClothingItems } from "./utils/clothingItems";
+} from "../utils/weatherApi";
+import { defaultClothingItems } from "../utils/clothingItems";
 
-import secretKey from "../secret";
+import secretKey from "./secret";
 
 const App = () => {
   const [weatherData, setWeatherData] = React.useState({});
@@ -38,90 +38,97 @@ const App = () => {
         .catch((err) => console.log(err));
     }
   }, []);
-};
 
-return (
-  <div className="page">
-    <div className="page_wrapper">
-      <Header
-        weatherData={weatherData}
-        handleAddClick={() => setActiveModal("create")}
-      />
-      <Main
-        weatherData={weatherData}
-        cards={clothingItems}
-        onCardClick={handleCardClick}
-      />
-      <Footer />
+  return (
+    <div className="page">
+      <div className="page_wrapper">
+        <Header
+          weatherData={weatherData}
+          handleAddClick={() => setActiveModal("create")}
+        />
+        <Main
+          weatherData={weatherData}
+          cards={clothingItems}
+          onCardClick={handleCardClick}
+        />
+        <Footer />
+      </div>
+      {activeModal === "create" && (
+        <ModalWithForm
+          title="New Garment"
+          name="new-card"
+          onClose={closeAllModals}
+        >
+          <label className="modal__label">
+            <input
+              type="text"
+              name="name"
+              id="place-name"
+              className="modal__input modal__input_type_card-name"
+              placeholder="Title"
+              required
+              minLength="1"
+              maxLength="30"
+            />
+            <span className="modal__error" id="place-name-error"></span>
+          </label>
+          <label className="modal__label">
+            <input
+              type="url"
+              name="link"
+              id="place-link"
+              className="modal__input modal__input_type_url"
+              placeholder="Image URL"
+              required
+            />
+            <span className="modal__error" id="place-link-error"></span>
+          </label>
+          <p>Select the Weather Type:</p>
+          <div className="modal__input modal__input_type_radio">
+            <div>
+              <input
+                type="radio"
+                id="choiceHot"
+                name="weatherType"
+                value="hot"
+              />
+              <label className="modal__label_radio" htmlFor="choiceHot">
+                Hot
+              </label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="choiceWarm"
+                name="weatherType"
+                value="warm"
+              />
+              <label className="modal__label_radio" htmlFor="choiceWarm">
+                Warm
+              </label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="choiceCold"
+                name="weatherType"
+                value="cold"
+              />
+              <label className="modal__label_radio" htmlFor="choiceCold">
+                Cold
+              </label>
+            </div>
+          </div>
+        </ModalWithForm>
+      )}
+      {activeModal === "preview" && (
+        <ItemModal card={selectedCard} onClose={closeAllModals} />
+      )}
     </div>
-    {activeModal === "create" && (
-      <ModalWithForm
-        title="New Garment"
-        name="new-card"
-        onClose={closeAllModals}
-      >
-        <label className="modal__label">
-          <input
-            type="text"
-            name="name"
-            id="place-name"
-            className="modal__input modal__input_type_card-name"
-            placeholder="Title"
-            required
-            minLength="1"
-            maxLength="30"
-          />
-          <span className="modal__error" id="place-name-error"></span>
-        </label>
-        <label className="modal__label">
-          <input
-            type="url"
-            name="link"
-            id="place-link"
-            className="modal__input modal__input_type_url"
-            placeholder="Image URL"
-            required
-          />
-          <span className="modal__error" id="place-link-error"></span>
-        </label>
-        <p>Select the Weather Type:</p>
-        <div className="modal__input modal__input_type_radio">
-          <div>
-            <input type="radio" id="choiceHot" name="weatherType" value="hot" />
-            <label className="modal__label_radio" htmlFor="choiceHot">
-              Hot
-            </label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="choiceWarm"
-              name="weatherType"
-              value="warm"
-            />
-            <label className="modal__label_radio" htmlFor="choiceWarm">
-              Warm
-            </label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="choiceCold"
-              name="weatherType"
-              value="cold"
-            />
-            <label className="modal__label_radio" htmlFor="choiceCold">
-              Cold
-            </label>
-          </div>
-        </div>
-      </ModalWithForm>
-    )}
-    {activeModal === "preview" && (
-      <ItemModal card={selectedCard} onClose={closeAllModals} />
-    )}
-  </div>
-);
+  );
+};
+export default App;
+
 /* import logo from './logo.svg';
 import './App.css';
 
