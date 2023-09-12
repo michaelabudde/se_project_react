@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import "./App.css";
-import Header from "../Header/Header";
-import Main from "../Main/Main";
-import Footer from "../Footer/Footer";
-import ItemModal from "../ItemModal/ItemModal";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { location } from "../components/utils/constants";
+import Header from "./Header/Header";
+import Main from "./Main/Main";
+import Footer from "./Footer/Footer";
+import ItemModal from "./ItemModal/ItemModal";
+import ModalWithForm from "./ModalWithForm/ModalWithForm";
+import { location } from "../../components/utils/constants";
 import {
   getForecastWeather,
   filterDataFromWeatherApi,
-} from "../utils/weatherApi";
-import { defaultClothingItems } from "../utils/clothingItems";
+} from "../../components/utils/weatherApi";
+import { defaultClothingItems } from "../../components/utils/clothingItems";
 
-import secretKey from "./secret";
+import secretKey from "../../secret";
 
 const App = () => {
   const [weatherData, setWeatherData] = React.useState({});

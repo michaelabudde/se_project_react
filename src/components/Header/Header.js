@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../Header/Header.css";
+import "./Header.css";
 import Navigation from "../Header/Navigation.css";
 import logo from "./public/images/WTWRlogo.svg";
 import avatarDefault from "./public/images/avatar.svg";
@@ -10,7 +10,7 @@ const Header = ({ weatherData, handleAddClick }) => {
     month: "long",
     day: "numeric",
   });
-  const username = "Terence Tegegne";
+  const username = "Terrence Tegegne";
   const avatar = "";
 
   return (
