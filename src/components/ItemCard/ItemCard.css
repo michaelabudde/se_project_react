@@ -1,0 +1,25 @@
+.card__element {
+  position: relative;
+}
+.card__image {
+  width: 328px;
+  height: 328px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+.card__name {
+  position: absolute;
+  top: 18px;
+  right: 140px;
+  margin: 0;
+  text-align: center;
+  padding: 0 12px;
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.6);
+  background-color: #fff;
+  font-family: "CabinetGrotesk-Medium", Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.2;
+}

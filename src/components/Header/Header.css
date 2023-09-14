@@ -2,18 +2,42 @@
   display: flex;
   justify-content: space-between;
   align-content: center;
-  min-height: 40px;
-  padding: 20px;
+  min-height: 60px;
+  padding: 32px 40px 28px 40px;
+  font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
 }
 
 .header__container {
   display: flex;
   align-content: center;
   gap: 20px;
+  flex-direction: row;
 }
 
 .header__nav {
   display: flex;
   align-content: center;
   gap: 20px;
+  font-size: 20px;
+  line-height: 1.2;
+  flex-direction: row;
+}
+.header__logo {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.header__date {
+  color: #000;
+  font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  padding: 5px 20px 5px 20px;
+  width: 100%;
+  min-width: 160px;
+  height: 24px;
 }

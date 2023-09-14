@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import "./App.css";
-import Header from "./Header/Header";
-import Main from "./Main/Main";
-import Footer from "./Footer/Footer";
-import ItemModal from "./ItemModal/ItemModal";
-import ModalWithForm from "./ModalWithForm/ModalWithForm";
-import { location } from "../../components/utils/constants";
+import Header from "../Header/Header";
+import Main from "../Main/Main";
+import Footer from "../Footer/Footer";
+import ItemModal from "../ItemModal/ItemModal";
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { location } from "../../utils/constants";
 import {
   getForecastWeather,
   filterDataFromWeatherApi,
-} from "../../components/utils/weatherApi";
-import { defaultClothingItems } from "../../components/utils/clothingItems";
+} from "../../utils/weatherApi";
+import { defaultClothingItems } from "../../utils/clothingItems";
 
 import secretKey from "../../secret";
 

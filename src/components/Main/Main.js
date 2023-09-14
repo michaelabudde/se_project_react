@@ -1,10 +1,14 @@
 import React from "react";
 import "./Main.css";
 import ItemCard from "../ItemCard/ItemCard";
+import "../ItemCard/ItemCard.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
+import { defaultClothingItems } from "../../utils/clothingItems";
 
-function Main({ WeatherData, cards, onCardClick }) {
-  const actualWeather = weatherData.temperature;
+function Main({ weatherTemp, clothingItems, onCardClick }) {
+  /*   const weatherTemp = "75°F"; */
+  const actualWeather = weatherTemp.temperature;
+
   const weatherType = () => {
     if (actualWeather >= 86) {
       return "hot";
@@ -16,19 +20,19 @@ function Main({ WeatherData, cards, onCardClick }) {
   };
   return (
     <main className="main">
-      <WeatherCard weatherData={weatherData} />
+      <WeatherCard day={false} type="sunny" weatherTemp={weatherTemp} />
       <section className="main__clothes">
         <div className="main__info">
-          <div className="main__description-container">
-            <p className="main__description">
+          <div className="card__section">
+            <p className="card__section-title">
               Today is {actualWeather}°F and it is {weatherType()}
             </p>
-            <p className="main__description_slash"> / </p>
-            <p className="main__description">You may want to wear:</p>
+            <p className="card__section-title_slash"> / </p>
+            <p className="card__section-title">You may want to wear:</p>
           </div>
         </div>
-        <ul className="main__items">
-          {cards
+        <ul className="card__items">
+          {defaultClothingItems
             .filter((card) => card.weather === weatherType())
             .map((filteredCard) => (
               <ItemCard

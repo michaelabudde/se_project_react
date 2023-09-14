@@ -1,8 +1,8 @@
 import React from "react";
 import "./Header.css";
-import Navigation from "../Header/Navigation.css";
-import logo from "./public/images/WTWRlogo.svg";
-import avatarDefault from "./public/images/avatar.svg";
+import navigation from "./Navigation.css";
+import logo from "../../images/WTWRlogo.svg";
+import avatar from "../../images/avatar.svg";
 
 const Header = ({ weatherData, handleAddClick }) => {
   if (!weatherData) return null;
@@ -17,7 +17,7 @@ const Header = ({ weatherData, handleAddClick }) => {
     <header className="header">
       <div className="header__container">
         <img
-          src="./images/WTWRlogo.svg"
+          src={require("../../images/WTWRlogo.svg").default}
           alt="What to Wear logo"
           className="header__logo"
         />
@@ -39,7 +39,7 @@ const Header = ({ weatherData, handleAddClick }) => {
                 {avatar ? (
                   <img
                     className="navigation__user"
-                    src="./images/avatar.svg"
+                    src={require("../../images/avatar.svg").default}
                     alt="user avatar"
                   ></img>
                 ) : (
