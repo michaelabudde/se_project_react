@@ -4,8 +4,8 @@ import navigation from "./Navigation.css";
 import logo from "../../images/WTWRlogo.svg";
 import avatar from "../../images/avatar.svg";
 
-const Header = ({ weatherData, handleAddClick }) => {
-  if (!weatherData) return null;
+const Header = ({ weatherTemp, onCreateModal }) => {
+  if (!weatherTemp) return null;
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -22,14 +22,14 @@ const Header = ({ weatherData, handleAddClick }) => {
           className="header__logo"
         />
         <p className="header__date">
-          {currentDate}, {weatherData.city}
+          {currentDate}, {weatherTemp.city}
         </p>
       </div>
       <div className="header__nav">
         <nav className="navigation">
           <ul className="navigation__container">
             <li>
-              <button onClick={handleAddClick} className="navigation__button">
+              <button onClick={onCreateModal} className="navigation__button">
                 + Add Clothes
               </button>
             </li>

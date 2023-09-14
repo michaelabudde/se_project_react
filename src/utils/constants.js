@@ -32,7 +32,7 @@ export const weatherOptions = [
     type: "storm",
   },
   {
-    url: require("../images/Night-weather/night-sunny.svg").default,
+    url: require("../images/Night-weather/night-clear.svg").default,
     day: false,
     type: "clear",
   },

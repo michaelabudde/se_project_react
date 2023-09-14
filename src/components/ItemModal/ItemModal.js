@@ -1,9 +1,6 @@
 import "./ItemModal.css";
 import "../ModalWithForm/ModalWithForm.css";
-const ItemModal = ({ selectedCard, onClose, onDeleteItem }) => {
-  const handleDeleteItemSubmit = () => {
-    onDeleteItem(selectedCard.id);
-  };
+const ItemModal = ({ selectedCard, onClose }) => {
   return (
     <div className="modal">
       <div className="modal__container-image">
@@ -13,7 +10,7 @@ const ItemModal = ({ selectedCard, onClose, onDeleteItem }) => {
           className="modal__close-button-white"
         ></button>
         <img
-          src={selectedCard.imageUrl}
+          src={selectedCard.link}
           className="modal__image-preview"
           alt="image-preview"
         ></img>

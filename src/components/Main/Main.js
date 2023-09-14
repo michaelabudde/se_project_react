@@ -1,23 +1,23 @@
-import React from "react";
 import "./Main.css";
 import ItemCard from "../ItemCard/ItemCard";
 import "../ItemCard/ItemCard.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
 import { defaultClothingItems } from "../../utils/clothingItems";
-
-function Main({ weatherTemp, clothingItems, onCardClick }) {
-  /*   const weatherTemp = "75°F"; */
-  const actualWeather = weatherTemp.temperature;
-
-  const weatherType = () => {
-    if (actualWeather >= 86) {
+import { useMemo } from "react";
+function Main({ weatherTemp, onCardClick }) {
+  const weatherType = useMemo(() => {
+    if (weatherTemp >= 86) {
       return "hot";
-    } else if (actualWeather >= 66 && actualWeather <= 85) {
+    } else if (weatherTemp >= 66 && weatherTemp <= 85) {
       return "warm";
-    } else if (actualWeather <= 65) {
+    } else if (weatherTemp <= 65) {
       return "cold";
     }
-  };
+  }, [weatherTemp]);
+  console.log(weatherType);
+  const filteredCards = defaultClothingItems.filter((item) => {
+    return item.weather.toLowerCase() === weatherType;
+  });
   return (
     <main className="main">
       <WeatherCard day={false} type="sunny" weatherTemp={weatherTemp} />
@@ -25,23 +25,22 @@ function Main({ weatherTemp, clothingItems, onCardClick }) {
         <div className="main__info">
           <div className="card__section">
             <p className="card__section-title">
-              Today is {actualWeather}°F and it is {weatherType()}
+              Today is {weatherTemp}°F and it is {weatherType()}
             </p>
             <p className="card__section-title_slash"> / </p>
             <p className="card__section-title">You may want to wear:</p>
           </div>
         </div>
-        <ul className="card__items">
-          {defaultClothingItems
-            .filter((card) => card.weather === weatherType())
-            .map((filteredCard) => (
-              <ItemCard
-                key={filteredCard._id}
-                card={filteredCard}
-                onCardClick={onCardClick}
-              />
-            ))}
-        </ul>
+        <div className="card__items">
+          {filteredCards.map((item) => (
+            <ItemCard
+              item={item}
+              /*               key={filteredCard._id}
+              card={filteredCard} */
+              onCardClick={onCardClick}
+            />
+          ))}
+        </div>
       </section>
     </main>
   );

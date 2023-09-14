@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -9,47 +9,51 @@ import { location } from "../../utils/constants";
 import {
   getForecastWeather,
   filterDataFromWeatherApi,
+  parseWeatherData,
 } from "../../utils/weatherApi";
 import { defaultClothingItems } from "../../utils/clothingItems";
 
 import secretKey from "../../secret";
 
 const App = () => {
-  const [weatherData, setWeatherData] = React.useState({});
-  const [clothingItems, setClothingItems] = React.useState({});
-  const [activeModal, setActiveModal] = React.useState({});
-  const [selectedCard, setSelectedCard] = React.useState({});
+  const [weatherTemp, setWeatherTemp] = useState(0);
+  const [clothingItems, setClothingItems] = useState({});
+  const [activeModal, setActiveModal] = useState({});
+  const [selectedCard, setSelectedCard] = useState({});
 
   const handleCardClick = (card) => {
-    setSelectedCard(card);
     setActiveModal("preview");
+    setSelectedCard(card);
   };
-
-  const closeAllModals = () => {
-    setActiveModal();
+  const handleCreateModal = () => {
+    setActiveModal("create");
   };
+  const handleCloseModal = () => {
+    setActiveModal("");
+  };
+  /*   const handleSelectedCard = (card) => {
+    setSelectedCard(card);
+  }; */
 
-  React.useEffect(() => {
-    if (location.latitude && location.longitude) {
-      getForecastWeather(location, secretKey)
-        .then((data) => {
-          setWeatherData(filterDataFromWeatherApi(data));
-        })
-        .catch((err) => console.log(err));
-    }
+  useEffect(() => {
+    getForecastWeather().then((data) => {
+      const weatherTemp = parseWeatherData(data);
+      setWeatherTemp(weatherTemp);
+    });
   }, []);
 
   return (
     <div className="page">
       <div className="page_wrapper">
         <Header
-          weatherData={weatherData}
+          onCreateModal={handleCreateModal}
+          weatherTemp={weatherTemp}
           handleAddClick={() => setActiveModal("create")}
         />
         <Main
-          weatherData={weatherData}
+          weatherTemp={weatherTemp}
           cards={clothingItems}
-          onCardClick={handleCardClick}
+          onCardClick={handleCardClick} //handle selected card
         />
         <Footer />
       </div>
@@ -57,7 +61,7 @@ const App = () => {
         <ModalWithForm
           title="New Garment"
           name="new-card"
-          onClose={closeAllModals}
+          onClose={handleCloseModal}
         >
           <label className="modal__label">
             <input
@@ -122,7 +126,7 @@ const App = () => {
         </ModalWithForm>
       )}
       {activeModal === "preview" && (
-        <ItemModal card={selectedCard} onClose={closeAllModals} />
+        <ItemModal selectedCard={selectedCard} onClose={handleCloseModal} />
       )}
     </div>
   );
