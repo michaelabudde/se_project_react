@@ -4,7 +4,7 @@ import navigation from "./Navigation.css";
 import logo from "../../images/WTWRlogo.svg";
 import avatar from "../../images/avatar.svg";
 
-const Header = ({ weatherTemp, onCreateModal }) => {
+const Header = ({ weatherTemp, weatherLocation, onCreateModal }) => {
   if (!weatherTemp) return null;
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -12,6 +12,7 @@ const Header = ({ weatherTemp, onCreateModal }) => {
   });
   const username = "Terrence Tegegne";
   const avatar = "";
+  const isAvatarSet = Boolean(avatar); // Define isAvatarSet based on the presence of an avatar
 
   return (
     <header className="header">
@@ -22,7 +23,7 @@ const Header = ({ weatherTemp, onCreateModal }) => {
           className="header__logo"
         />
         <p className="header__date">
-          {currentDate}, {weatherTemp.city}
+          {currentDate}, {weatherLocation}
         </p>
       </div>
       <div className="header__nav">
@@ -37,11 +38,17 @@ const Header = ({ weatherTemp, onCreateModal }) => {
               <div className="navigation__link">
                 {username}
                 {avatar ? (
-                  <img
-                    className="navigation__user"
-                    src={require("../../images/avatar.svg").default}
-                    alt="user avatar"
-                  ></img>
+                  <span
+                    className={`navigation__user ${
+                      isAvatarSet ? "navigation__user_avatar" : ""
+                    }`}
+                  >
+                    <img
+                      className="navigation__user"
+                      src={require("../../images/avatar.svg").default}
+                      alt="user avatar"
+                    ></img>
+                  </span>
                 ) : (
                   <span className="navigation__user navigation__user_type_none">
                     {username?.toUpperCase().charAt(0) || ""}
