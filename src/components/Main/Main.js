@@ -14,7 +14,6 @@ function Main({ weatherTemp, onCardClick }) {
       return "cold";
     }
   }, [weatherTemp]);
-  console.log(weatherType);
   const filteredCards = defaultClothingItems.filter((item) => {
     return item.weather.toLowerCase() === weatherType;
   });
@@ -25,7 +24,7 @@ function Main({ weatherTemp, onCardClick }) {
         <div className="main__info">
           <div className="card__section">
             <p className="card__section-title">
-              Today is {weatherTemp}°F and it is {weatherType()}
+              Today is {weatherTemp}°F and it is {weatherType}
             </p>
             <p className="card__section-title_slash"> / </p>
             <p className="card__section-title">You may want to wear:</p>
@@ -35,8 +34,8 @@ function Main({ weatherTemp, onCardClick }) {
           {filteredCards.map((item) => (
             <ItemCard
               item={item}
-              /*               key={filteredCard._id}
-              card={filteredCard} */
+              key={item._id}
+              card={filteredCards}
               onCardClick={onCardClick}
             />
           ))}

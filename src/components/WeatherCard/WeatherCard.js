@@ -1,8 +1,7 @@
 import "./WeatherCard.css";
 import "../App/App";
 import { weatherOptions } from "../../utils/constants";
-/* import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
- */
+
 const WeatherCard = (day, type, weatherTemp = "") => {
   const weatherOption = weatherOptions.filter((i) => {
     return i.day === day && i.type === type;

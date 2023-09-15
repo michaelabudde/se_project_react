@@ -24,3 +24,7 @@ export const parseWeatherData = (data) => {
   };
   return weather;
 };
+export const parseLocationData = (data) => {
+  const locationName = data.name;
+  return locationName;
+};
