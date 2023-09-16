@@ -39,10 +39,8 @@
   gap: 20px;
 }
 .navigation__user {
-  padding-left: 12px;
   max-width: 40px;
   max-height: 40px;
-  background: silver;
 }
 .navigation__user_type_none {
   padding: 10px;

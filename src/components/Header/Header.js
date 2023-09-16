@@ -1,7 +1,6 @@
 import React from "react";
 import "./Header.css";
-import navigation from "./Navigation.css";
-import logo from "../../images/WTWRlogo.svg";
+import "./Navigation.css";
 import avatar from "../../images/avatar.svg";
 
 const Header = ({ weatherTemp, weatherLocation, onCreateModal }) => {
@@ -11,7 +10,6 @@ const Header = ({ weatherTemp, weatherLocation, onCreateModal }) => {
     day: "numeric",
   });
   const username = "Terrence Tegegne";
-  const avatar = "";
   const isAvatarSet = Boolean(avatar); // Define isAvatarSet based on the presence of an avatar
 
   return (

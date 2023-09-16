@@ -2,6 +2,8 @@ import "./Main.css";
 import ItemCard from "../ItemCard/ItemCard";
 import "../ItemCard/ItemCard.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
+import { weatherOptions, day } from "../../utils/constants";
+
 import { defaultClothingItems } from "../../utils/clothingItems";
 import { useMemo } from "react";
 function Main({ weatherTemp, onCardClick }) {
@@ -14,12 +16,23 @@ function Main({ weatherTemp, onCardClick }) {
       return "cold";
     }
   }, [weatherTemp]);
+
+  // Construct the image path based on weatherType
+  const weatherCardImage = weatherOptions.find(
+    (option) => option.weatherType === weatherType && option.day === day
+  )?.link;
+
   const filteredCards = defaultClothingItems.filter((item) => {
-    return item.weather.toLowerCase() === weatherType;
+    return item.weatherType.toLowerCase() === weatherType;
   });
+
   return (
     <main className="main">
-      <WeatherCard day={false} type="sunny" weatherTemp={weatherTemp} />
+      <WeatherCard
+        day={day}
+        weatherType={weatherType}
+        weatherTemp={weatherTemp}
+      />
       <section className="main__clothes">
         <div className="main__info">
           <div className="card__section">
@@ -44,4 +57,5 @@ function Main({ weatherTemp, onCardClick }) {
     </main>
   );
 }
+
 export default Main;

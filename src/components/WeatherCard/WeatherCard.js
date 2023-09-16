@@ -2,11 +2,11 @@ import "./WeatherCard.css";
 import "../App/App";
 import { weatherOptions } from "../../utils/constants";
 
-const WeatherCard = (day, type, weatherTemp = "") => {
-  const weatherOption = weatherOptions.filter((i) => {
-    return i.day === day && i.type === type;
+const WeatherCard = ({ day, weatherType, weatherTemp = "" }) => {
+  const weatherOption = weatherOptions.find((i) => {
+    return i.day === day && i.weatherType === weatherType;
   });
-  const weatherOptionUrl = weatherOption.url || "";
+  const weatherOptionUrl = weatherOption?.url || "";
   return (
     <section className="weather" id="weather">
       <div className="weather__info">{weatherTemp}</div>
