@@ -28,11 +28,7 @@ function Main({ weatherTemp, onCardClick }) {
 
   return (
     <main className="main">
-      <WeatherCard
-        day={day}
-        weatherType={weatherType}
-        weatherTemp={weatherTemp}
-      />
+      <WeatherCard day={day} type="cloudy" weatherTemp={weatherTemp} />
       <section className="main__clothes">
         <div className="main__info">
           <div className="card__section">
