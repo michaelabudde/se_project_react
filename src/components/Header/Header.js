@@ -2,6 +2,7 @@ import React from "react";
 import "./Header.css";
 import "./Navigation.css";
 import avatar from "../../images/avatar.svg";
+import WTWRlogo from "../../images/WTWRlogo.svg";
 
 const Header = ({ weatherTemp, weatherLocation, onCreateModal }) => {
   if (!weatherTemp) return null;
@@ -15,11 +16,7 @@ const Header = ({ weatherTemp, weatherLocation, onCreateModal }) => {
   return (
     <header className="header">
       <div className="header__container">
-        <img
-          src={require("../../images/WTWRlogo.svg").default}
-          alt="What to Wear logo"
-          className="header__logo"
-        />
+        <img src={WTWRlogo} alt="What to Wear logo" className="header__logo" />
         <p className="header__date">
           {currentDate}, {weatherLocation}
         </p>
@@ -43,7 +40,7 @@ const Header = ({ weatherTemp, weatherLocation, onCreateModal }) => {
                   >
                     <img
                       className="navigation__user"
-                      src={require("../../images/avatar.svg").default}
+                      src={avatar}
                       alt="user avatar"
                     ></img>
                   </span>

@@ -13,7 +13,7 @@ import {
 
 const App = () => {
   const [weatherTemp, setWeatherTemp] = useState(0);
-  const [activeModal, setActiveModal] = useState({});
+  const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [weatherLocation, setWeatherLocation] = useState("");
   const handleCardClick = (card) => {
@@ -34,7 +34,7 @@ const App = () => {
       setWeatherTemp(weatherNumber);
       const location = parseLocationData(data);
       setWeatherLocation(location);
-    });
+    }, []);
   }, []);
 
   useEffect(() => {
@@ -51,6 +51,8 @@ const App = () => {
       document.removeEventListener("keydown", handleEscClose);
     };
   }, [activeModal]); // watch activeModal here
+
+  const options = ["hot", "cold", "warm"];
 
   return (
     <div className="page">
@@ -72,6 +74,10 @@ const App = () => {
           title="New Garment"
           name="new-card"
           onClose={handleCloseModal}
+          sectionTitle="Name"
+          secondSectionTitle="Image"
+          thirdSectionTitle="Select the Weather Type:"
+          options={options}
         />
       )}
       {activeModal === "preview" && (

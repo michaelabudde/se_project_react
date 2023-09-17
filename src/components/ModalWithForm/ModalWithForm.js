@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import "./ModalWithForm.css";
 
 const ModalWithForm = ({
@@ -6,28 +6,35 @@ const ModalWithForm = ({
   title,
   onClose,
   modalName,
+  options,
+  sectionTitle,
+  secondSectionTitle,
+  thirdSectionTitle,
 }) => {
-  const [formData, setFormData] = useState({
+  /*   const [formData, setFormData] = useState({
     name: "",
     link: "",
     weatherType: "", // Default value for radio buttons
-  });
-  const [formTouched, setFormTouched] = useState({
+  }); */
+  //name
+  //link
+  //weatherType
+  /*   const [formTouched, setFormTouched] = useState({
     name: false,
     link: false,
     weatherType: false,
-  });
-  const [formErrors, setFormErrors] = useState({});
+  }); */
+  /*   const [formErrors, setFormErrors] = useState({});
 
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setFormTouched({ ...formTouched, [name]: true });
-  };
+  }; */
 
   // Validate the form inputs
-  const validateForm = useMemo(() => {
+  /*   const validateForm = useMemo(() => {
     const errors = {};
 
     if (formData.name.trim() === "" && formTouched.name) {
@@ -44,7 +51,7 @@ const ModalWithForm = ({
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
-  }, [formData, formTouched]);
+  }, [formData, formTouched]); */
 
   return (
     <div className={`modal modal-type-${modalName}`}>
@@ -57,7 +64,7 @@ const ModalWithForm = ({
           />
           <h3 className="modal__title">{title}</h3>
           <label className="modal__label">
-            Name
+            {sectionTitle}
             {formErrors.name && (
               <span className="modal__error">{formErrors.name}</span>
             )}
@@ -74,7 +81,7 @@ const ModalWithForm = ({
             maxLength="30"
           />
           <label className="modal__label">
-            Image
+            {secondSectionTitle}
             {formErrors.link && (
               <span className="modal__error">{formErrors.link}</span>
             )}
@@ -89,9 +96,25 @@ const ModalWithForm = ({
             required
           />
 
-          <label className="modal__label">Select the Weather Type:</label>
+          <label className="modal__label">{thirdSectionTitle}</label>
           <div className="modal__radio-inputs">
-            <div>
+            {options.map((option) => (
+              <div>
+                <input
+                  className="modal__input_type_radio"
+                  type="radio"
+                  id={choice.options}
+                  name="weatherType"
+                  value={option}
+                  checked={formData.weatherType === { option }}
+                  onChange={handleInputChange}
+                />
+                <label className="modal__label_radio" htmlFor={choice.options}>
+                  {option}
+                </label>
+              </div>
+            ))}
+{/*             <div>
               <input
                 className="modal__input_type_radio"
                 type="radio"
@@ -133,7 +156,7 @@ const ModalWithForm = ({
                 Cold
               </label>
             </div>
-          </div>
+          </div> */}
           <button
             type="submit"
             className="modal__submit-button"

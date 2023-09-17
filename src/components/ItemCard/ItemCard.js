@@ -7,7 +7,7 @@ const ItemCard = ({ item, onCardClick }) => {
         src={item.link}
         className="card__image"
         onClick={() => onCardClick(item)}
-        alt="card-image"
+        alt={item.name}
       />
       <h2 className="card__name"> {item.name}</h2>
     </div>
