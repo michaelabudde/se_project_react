@@ -114,7 +114,8 @@ const ModalWithForm = ({
                 </label>
               </div>
             ))}
-{/*             <div>
+          </div>
+          {/*             <div>
               <input
                 className="modal__input_type_radio"
                 type="radio"
