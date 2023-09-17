@@ -65,9 +65,9 @@ const ModalWithForm = ({
           <h3 className="modal__title">{title}</h3>
           <label className="modal__label">
             {sectionTitle}
-            {formErrors.name && (
+            {/* {formErrors.name && (
               <span className="modal__error">{formErrors.name}</span>
-            )}
+            )} */}
           </label>
           <input
             type="text"
@@ -82,9 +82,9 @@ const ModalWithForm = ({
           />
           <label className="modal__label">
             {secondSectionTitle}
-            {formErrors.link && (
+            {/* {formErrors.link && (
               <span className="modal__error">{formErrors.link}</span>
-            )}
+            )} */}
           </label>
           <input
             type="url"
