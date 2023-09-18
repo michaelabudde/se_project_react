@@ -52,8 +52,6 @@ const App = () => {
     };
   }, [activeModal]); // watch activeModal here
 
-  const options = ["hot", "cold", "warm"];
-
   return (
     <div className="page">
       <div className="page_wrapper">
@@ -74,11 +72,72 @@ const App = () => {
           title="New Garment"
           name="new-card"
           onClose={handleCloseModal}
-          sectionTitle="Name"
-          secondSectionTitle="Image"
-          thirdSectionTitle="Select the Weather Type:"
-          options={options}
-        />
+        >
+          <div>
+            <label className="modal__label">
+              Name
+              <input
+                type="text"
+                name="name"
+                className="modal__input modal__input_type_card-name"
+                placeholder="Name"
+                required
+                minLength="1"
+                maxLength="30"
+              />
+            </label>
+            <label className="modal__label">
+              Image
+              <input
+                type="url"
+                name="link"
+                className="modal__input modal__input_type_url"
+                placeholder="Image URL"
+                required
+              />
+            </label>
+
+            <label className="modal__label">Select the Weather Type:</label>
+            <div className="modal__radio-inputs">
+              <div>
+                <input
+                  className="modal__input_type_radio"
+                  type="radio"
+                  id="choiceHot"
+                  name="weatherType"
+                  value="hot"
+                />
+                <label className="modal__label_radio" htmlFor="choiceHot">
+                  Hot
+                </label>
+              </div>
+              <div>
+                <input
+                  className="modal__input_type_radio"
+                  type="radio"
+                  id="choiceWarm"
+                  name="weatherType"
+                  value="warm"
+                />
+                <label className="modal__label_radio" htmlFor="choiceWarm">
+                  Warm
+                </label>
+              </div>
+              <div>
+                <input
+                  className="modal__input_type_radio"
+                  type="radio"
+                  id="choiceCold"
+                  name="weatherType"
+                  value="cold"
+                />
+                <label className="modal__label_radio" htmlFor="choiceCold">
+                  Cold
+                </label>
+              </div>
+            </div>
+          </div>
+        </ModalWithForm>
       )}
       {activeModal === "preview" && (
         <ItemModal selectedCard={selectedCard} onClose={handleCloseModal} />
