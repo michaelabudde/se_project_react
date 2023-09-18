@@ -28,13 +28,15 @@ const App = () => {
   };
 
   useEffect(() => {
-    getForecastWeather().then((data) => {
-      const weatherTemp = parseWeatherData(data);
-      const weatherNumber = parseInt(weatherTemp.temperature.F, 10);
-      setWeatherTemp(weatherNumber);
-      const location = parseLocationData(data);
-      setWeatherLocation(location);
-    }, []);
+    getForecastWeather()
+      .then((data) => {
+        const weatherTemp = parseWeatherData(data);
+        const weatherNumber = parseInt(weatherTemp.temperature.F, 10);
+        setWeatherTemp(weatherNumber);
+        const location = parseLocationData(data);
+        setWeatherLocation(location);
+      })
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
