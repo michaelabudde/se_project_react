@@ -2,9 +2,12 @@ import React from "react";
 import "./ToggleSwitch.css";
 const ToggleSwitch = () => {
   console.log("Toggle");
+  const [currentTemperatureUnit, handleToggleSwitchChange] = useState("C");
   const handleChange = (e) => {
-    console.log(e);
+    if (currentTemperatureUnit === "C") handleToggleSwitchChange("F");
+    if (currentTemperatureUnit === "F") handleToggleSwitchChange("C");
   };
+  console.log(currentTemperatureUnit);
   return (
     <label className="switch">
       <input
@@ -12,9 +15,25 @@ const ToggleSwitch = () => {
         className="switch__box"
         onChange={handleChange}
       ></input>
-      <span></span>
-      <p>F</p>
-      <p>C</p>
+      <span
+        className={
+          currentTemperatureUnit === "F"
+            ? "switch__slider switch__slider-F"
+            : "switch__slider switch__slider-C"
+        }
+      ></span>
+      <p
+        className={`switch__slider-F ${currentTemperatureUnit === "F" &&
+          "switch__active"}`}
+      >
+        F
+      </p>
+      <p
+        className={`switch__slider-C ${currentTemperatureUnit === "C" &&
+          "switch__active"}`}
+      >
+        C
+      </p>
     </label>
   );
 };

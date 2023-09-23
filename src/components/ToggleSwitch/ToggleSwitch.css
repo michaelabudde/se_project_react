@@ -9,3 +9,19 @@
   height: 28px;
   appearance: none;
 }
+.switch__slider {
+  border-radius: 20px;
+  width: 56px;
+  width: 28px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+}
+.switch__slider-F {
+}
+.switch__slider-C {
+}
+.switch__active {
+}
