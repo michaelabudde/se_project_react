@@ -22,6 +22,7 @@ const Header = ({ weatherTemp, weatherLocation, onCreateModal }) => {
         </p>
       </div>
       <div className="header__nav">
+        <ToggleSwitch />
         <nav className="navigation">
           <ul className="navigation__container">
             <li>
