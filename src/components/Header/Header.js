@@ -3,6 +3,7 @@ import "./Header.css";
 import "./Navigation.css";
 import avatar from "../../images/avatar.svg";
 import WTWRlogo from "../../images/WTWRlogo.svg";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
 const Header = ({ weatherTemp, weatherLocation, onCreateModal }) => {
   if (!weatherTemp) return null;

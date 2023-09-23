@@ -5,7 +5,8 @@ import WeatherCard from "../WeatherCard/WeatherCard";
 import { weatherOptions, day } from "../../utils/constants";
 
 import { defaultClothingItems } from "../../utils/clothingItems";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
+
 function Main({ weatherTemp, onCardClick }) {
   const weatherType = useMemo(() => {
     if (weatherTemp >= 86) {
