@@ -21,6 +21,7 @@
   font-size: 20px;
   line-height: 1.2;
   flex-direction: row;
+  justify-content: flex-end;
 }
 .header__logo {
   display: flex;
