@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ToggleSwitch.css";
 const ToggleSwitch = () => {
   console.log("Toggle");
@@ -23,14 +23,16 @@ const ToggleSwitch = () => {
         }
       ></span>
       <p
-        className={`switch__slider-F ${currentTemperatureUnit === "F" &&
-          "switch__active"}`}
+        className={`switch__temp-F ${
+          currentTemperatureUnit === "F" && "switch__active"
+        }`}
       >
         F
       </p>
       <p
-        className={`switch__slider-C ${currentTemperatureUnit === "C" &&
-          "switch__active"}`}
+        className={`switch__temp-C ${
+          currentTemperatureUnit === "C" && "switch__active"
+        }`}
       >
         C
       </p>
