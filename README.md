@@ -13,4 +13,5 @@ Future improvements include adding more weather and clothing options. Users will
 
 ## Links and Videos
 
-Coming Soon
+Link to WTWR:
+https://michaelabudde.github.io/se_project_react/
