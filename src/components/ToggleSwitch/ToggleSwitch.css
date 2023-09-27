@@ -26,48 +26,46 @@
   position: relative;
   margin: 0px;
   padding: 0px;
+  z-index: 0;
 }
 .switch__slider-F {
   left: 1px;
-  top: 26px;
+  top: 30px;
   position: absolute;
   margin: 0px;
   padding: 0px;
   width: 28px;
   height: 28px;
-  color: white;
 }
 
 .switch__slider-C {
   /*   top: 3px; */
-  left: 0px;
+  left: 26px;
   position: absolute;
   margin: 0px;
   padding: 0px;
   width: 28px;
   height: 28px;
-  color: white;
 }
 
 .switch__temp-F {
   position: absolute;
-  top: 3px;
-  left: -26px;
+  top: 32px;
+  left: 10px;
   margin: 0px;
   padding: 0px;
   width: 28px;
   height: 28px;
-  color: black;
 }
 .switch__temp-C {
   position: absolute;
-  top: 3px;
-  left: 26px;
+
+  top: 32px;
+  left: 34px;
   margin: 0px;
   padding: 0px;
   width: 28px;
   height: 28px;
-  color: black;
 }
 .switch__active {
   color: white;

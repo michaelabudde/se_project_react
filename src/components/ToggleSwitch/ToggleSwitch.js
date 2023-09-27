@@ -20,22 +20,21 @@ const ToggleSwitch = () => {
             ? "switch__slider switch__slider-F"
             : "switch__slider switch__slider-C"
         }
+      ></span>
+      <p
+        className={`switch__temp-F ${
+          currentTemperatureUnit === "F" ? "switch__active" : "switch__none"
+        }`}
       >
-        <p
-          className={`switch__temp-F ${
-            currentTemperatureUnit === "F" ? "switch__active" : "switch__none"
-          }`}
-        >
-          F
-        </p>
-        <p
-          className={`switch__temp-C ${
-            currentTemperatureUnit === "C" ? "switch__active" : "switch__none"
-          }`}
-        >
-          C
-        </p>
-      </span>
+        F
+      </p>
+      <p
+        className={`switch__temp-C ${
+          currentTemperatureUnit === "C" ? "switch__active" : "switch__none"
+        }`}
+      >
+        C
+      </p>
     </label>
   );
 };
