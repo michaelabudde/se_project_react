@@ -7,7 +7,6 @@ const ToggleSwitch = () => {
     if (currentTemperatureUnit === "C") handleToggleSwitchChange("F");
     if (currentTemperatureUnit === "F") handleToggleSwitchChange("C");
   };
-  console.log(currentTemperatureUnit);
   return (
     <label className="switch">
       <input
@@ -24,14 +23,14 @@ const ToggleSwitch = () => {
       >
         <p
           className={`switch__temp-F ${
-            currentTemperatureUnit === "F" ? "switch__active" : "switch_none"
+            currentTemperatureUnit === "F" ? "switch__active" : "switch__none"
           }`}
         >
           F
         </p>
         <p
           className={`switch__temp-C ${
-            currentTemperatureUnit === "C" ? "switch__active" : "switch_none"
+            currentTemperatureUnit === "C" ? "switch__active" : "switch__none"
           }`}
         >
           C

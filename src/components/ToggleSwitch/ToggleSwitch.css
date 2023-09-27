@@ -13,16 +13,17 @@
   appearance: none;
   margin: 0px;
   padding: 0px;
+  position: relative;
 }
 .switch__slider {
   border-radius: 20px;
   width: 28px;
   height: 28px;
   background-color: black;
-  /*   color: white; */
+  color: white;
   text-align: center;
   cursor: pointer;
-  position: absolute;
+  position: relative;
   margin: 0px;
   padding: 0px;
 }
@@ -34,6 +35,7 @@
   padding: 0px;
   width: 28px;
   height: 28px;
+  color: white;
 }
 
 .switch__slider-C {
@@ -44,6 +46,7 @@
   padding: 0px;
   width: 28px;
   height: 28px;
+  color: white;
 }
 
 .switch__temp-F {
@@ -54,6 +57,7 @@
   padding: 0px;
   width: 28px;
   height: 28px;
+  color: black;
 }
 .switch__temp-C {
   position: absolute;
@@ -63,6 +67,7 @@
   padding: 0px;
   width: 28px;
   height: 28px;
+  color: black;
 }
 .switch__active {
   color: white;
@@ -72,6 +77,10 @@
   height: 28px;
 }
 
-.switch_none {
+.switch__none {
   color: black;
+  margin: 0px;
+  padding: 0px;
+  width: 28px;
+  height: 28px;
 }
