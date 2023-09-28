@@ -39,7 +39,7 @@ const App = () => {
     getForecastWeather()
       .then((data) => {
         const weatherTemp = parseWeatherData(data);
-        const weatherNumber = parseInt(weatherTemp.temperature.F, 10);
+        const weatherNumber = parseInt(weatherTemp.temperature, 10);
         setWeatherTemp(weatherNumber);
         const location = parseLocationData(data);
         setWeatherLocation(location);

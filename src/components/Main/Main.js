@@ -4,17 +4,21 @@ import ItemCard from "../ItemCard/ItemCard";
 import "../ItemCard/ItemCard.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
 import { weatherOptions, day } from "../../utils/constants";
-
 import { defaultClothingItems } from "../../utils/clothingItems";
-import React, { useMemo } from "react";
+import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
+import React, { useContext, useMemo } from "react";
 
 function Main({ weatherTemp, onCardClick }) {
+  const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
+  console.log(currentTemperatureUnit);
+  const temp = weatherTemp?.temperature?.[currentTemperatureUnit] || 999;
+
   const weatherType = useMemo(() => {
-    if (weatherTemp >= 86) {
+    if (temp >= 86) {
       return "hot";
-    } else if (weatherTemp >= 66 && weatherTemp <= 85) {
+    } else if (temp >= 66 && temp <= 85) {
       return "warm";
-    } else if (weatherTemp <= 65) {
+    } else if (temp <= 65) {
       return "cold";
     }
   }, [weatherTemp]);
@@ -30,12 +34,12 @@ function Main({ weatherTemp, onCardClick }) {
 
   return (
     <main className="main">
-      <WeatherCard day={day} type="cloudy" weatherTemp={weatherTemp} />
+      <WeatherCard day={day} type="cloudy" weatherTemp={temp} />
       <section className="main__clothes">
         <div className="main__info">
           <div className="card__section">
             <p className="card__section-title">
-              Today is {weatherTemp}°F and it is {weatherType}
+              Today is {temp}°F and it is {weatherType}
             </p>
             <p className="card__section-title_slash"> / </p>
             <p className="card__section-title">You may want to wear:</p>
