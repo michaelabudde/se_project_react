@@ -30,7 +30,7 @@
 }
 .switch__slider-F {
   left: 1px;
-  top: 30px;
+  top: 26px;
   position: absolute;
   margin: 0px;
   padding: 0px;
@@ -50,7 +50,7 @@
 
 .switch__temp-F {
   position: absolute;
-  top: 32px;
+  top: 28px;
   left: 10px;
   margin: 0px;
   padding: 0px;
@@ -60,7 +60,7 @@
 .switch__temp-C {
   position: absolute;
 
-  top: 32px;
+  top: 28px;
   left: 34px;
   margin: 0px;
   padding: 0px;

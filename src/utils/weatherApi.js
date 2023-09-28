@@ -19,10 +19,12 @@ export const parseWeatherData = (data) => {
   const temperature = main && main.temp;
   const weather = {
     temperature: {
-      F: `${Math.round(temperature)}`,
+      F: Math.round(temperature),
+      C: Math.round(((temperature - 32) * 5) / 9),
     },
   };
-  return weather;
+  console.log(weather);
+  return Math.ceil(temperature);
 };
 export const parseLocationData = (data) => {
   const locationName = data.name;
