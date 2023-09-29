@@ -1,0 +1,64 @@
+.profile {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 40px 0px 40px;
+}
+
+.profile__sidebar {
+  max-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-right: 116px;
+}
+
+.profile__heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.profile__image {
+  width: 56px;
+  height: 56px;
+  padding-right: 20px;
+}
+
+.profile__name {
+  font-family: "Cabinet Grotesk", Arial, sans-serif;
+  display: inline;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  flex-wrap: nowrap;
+}
+
+.profile__title {
+  margin: 0;
+  color: #000;
+  font-family: "Cabinet Grotesk", Arial, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.profile__add_button {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Cabinet Grotesk", Arial, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+  padding-left: 20px;
+}
+
+.profile__add_button:hover {
+  color: rgb(0, 0, 0, 0.5);
+}

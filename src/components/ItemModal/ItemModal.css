@@ -26,6 +26,14 @@
   border-top-right-radius: 20px;
   max-width: 498px;
 }
+.modal__footer {
+  font-family: "CabinetGrotesk", Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  margin-left: 6px;
+  font-size: 20px;
+}
 .modal__item-name {
   font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
   font-size: 20px;
@@ -44,4 +52,19 @@
   margin-left: 32px;
   margin-top: 12px;
   margin-bottom: 32px;
+  position: absolute;
+  margin-top: 60px;
+  font-weight: 700;
+}
+.modal__delete-button {
+  font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
+  color: red;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  max-height: 24px;
+  font-size: 20px;
+  margin-top: 20px;
+  margin-right: 32px;
 }

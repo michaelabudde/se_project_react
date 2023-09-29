@@ -1,0 +1,14 @@
+.clothing__section_cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.clothing__section {
+  font-family: "Cabinet Grotesk", Arial, sans-serif;
+  display: inline;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}

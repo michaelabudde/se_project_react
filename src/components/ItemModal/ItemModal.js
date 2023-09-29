@@ -2,7 +2,10 @@ import "./ItemModal.css";
 import "../ModalWithForm/ModalWithForm.css";
 import React from "react";
 
-const ItemModal = ({ selectedCard, onClose }) => {
+const ItemModal = ({ selectedCard, onClose, onDeleteItem }) => {
+  const handleCardDelete = () => {
+    onDeleteItem(selectedCard._id);
+  };
   return (
     <div className="modal">
       <div className="modal__container-image">
@@ -16,10 +19,20 @@ const ItemModal = ({ selectedCard, onClose }) => {
           className="modal__image-preview"
           alt={selectedCard.name}
         ></img>
-        <p className="modal__item-name">{selectedCard.name}</p>
-        <p className="modal__weather-type">
-          Weather Type: {selectedCard.weatherType}
-        </p>
+        <div className="modal__footer">
+          <p className="modal__item-name">{selectedCard.name}</p>
+          <div className="modal__weather-type">
+            Weather Type: {selectedCard.weatherType}
+          </div>
+
+          <button
+            type="button"
+            className="modal__delete-button"
+            onClick={handleCardDelete}
+          >
+            Delete Item
+          </button>
+        </div>
       </div>
     </div>
   );

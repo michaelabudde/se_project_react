@@ -39,7 +39,7 @@ function Main({ weatherTemp, onCardClick }) {
         <div className="main__info">
           <div className="card__section">
             <p className="card__section-title">
-              Today is {temp}°F and it is {weatherType}
+              Today is {temp}° {currentTemperatureUnit} and it is {weatherType}
             </p>
             <p className="card__section-title_slash"> / </p>
             <p className="card__section-title">You may want to wear:</p>

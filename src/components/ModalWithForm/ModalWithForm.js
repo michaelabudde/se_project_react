@@ -7,10 +7,12 @@ const ModalWithForm = ({
   children,
   onClose,
   modalName,
+  isOpen,
+  onSubmit,
 }) => {
   return (
     <div className={`modal modal-type-${modalName}`}>
-      <form>
+      <form onSubmit={onSubmit}>
         <div className="modal__container">
           <button
             type="button"

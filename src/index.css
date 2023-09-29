@@ -9,3 +9,7 @@
 @import url(../src/components/Main/Main.css);
 @import url(../src/components/ModalWithForm/ModalWithForm.css);
 @import url(../src/components/WeatherCard/WeatherCard.css);
+@import url(../src/components/ClothesSection/ClothesSection.css);
+@import url(../src/components/Profile/Profile.css);
+@import url(../src/components/SideBar/SideBar.css);
+@import url(../src//components/AddItemModal/AddItemModal.css);

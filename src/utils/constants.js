@@ -2,6 +2,11 @@ const location = { latitude: "", longitude: "" };
 export { location };
 export const link = URL;
 export const day = true;
+export const headers = {
+  authorization: "",
+  "Content-Type": "application/json",
+};
+export const baseUrl = "http://localhost:3001";
 export const weatherOptions = [
   {
     link: require("../images/day/day-sunny.svg").default,

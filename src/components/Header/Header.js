@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import "./Header.css";
 import "./Navigation.css";
 import avatar from "../../images/avatar.svg";
@@ -17,7 +18,13 @@ const Header = ({ weatherTemp, weatherLocation, onCreateModal }) => {
   return (
     <header className="header">
       <div className="header__container">
-        <img src={WTWRlogo} alt="What to Wear logo" className="header__logo" />
+        <Link to="/">
+          <img
+            src={WTWRlogo}
+            alt="What to Wear logo"
+            className="header__logo"
+          />
+        </Link>{" "}
         <p className="header__date">
           {currentDate}, {weatherLocation}
         </p>
@@ -33,7 +40,7 @@ const Header = ({ weatherTemp, weatherLocation, onCreateModal }) => {
             </li>
             <li>
               <div className="navigation__link">
-                {username}
+                <Link to="/profile">{username}</Link>
                 {avatar ? (
                   <span
                     className={`navigation__user ${
