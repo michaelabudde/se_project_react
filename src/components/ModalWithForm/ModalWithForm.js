@@ -1,6 +1,9 @@
 import React, { Children, useState } from "react";
 import "./ModalWithForm.css";
-
+setEventListeners() {
+  this._modalElement.addEventListener("mousedown", this._handleClickOutside);
+  this.close();
+}
 const ModalWithForm = ({
   buttonText = "Add Garment",
   title,

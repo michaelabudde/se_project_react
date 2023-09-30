@@ -6,6 +6,10 @@ const ItemModal = ({ selectedCard, onClose, onDeleteItem }) => {
   const handleCardDelete = () => {
     onDeleteItem(selectedCard._id);
   };
+  setEventListeners() {
+    this._modalElement.addEventListener("mousedown", this._handleClickOutside);
+    this.close();
+  }
   return (
     <div className="modal">
       <div className="modal__container-image">

@@ -72,6 +72,14 @@ const App = () => {
         console.log(err);
       });
   };
+  _handleClickOutside = (evt) => {
+    if (
+      evt.target.classList.contains("modal_opened") ||
+      evt.target.classList.contains("modal__close")
+    ) {
+      this.close();
+    }
+  };
   const onAddItem = (e) => {
     e.preventDefault();
   };
