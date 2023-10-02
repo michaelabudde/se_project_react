@@ -27,8 +27,8 @@ function Main({ weatherTemp, onCardClick, clothingArr, timeOfDay }) {
     (option) => option.weatherType === weatherType && option.day === day
   )?.link;
 
-  const filteredCards = clothingArr.filter((item) => {
-    return item.weatherType.toLowerCase() === weatherType;
+  const filteredCards = clothingArr.filter((item, weather) => {
+    return item.weather.toLowerCase() === weatherType;
   });
 
   return (
