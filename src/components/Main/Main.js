@@ -3,7 +3,7 @@ import "./Main.css";
 import ItemCard from "../ItemCard/ItemCard";
 import "../ItemCard/ItemCard.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
-import { weatherOptions, day } from "../../utils/constants";
+import { weatherOptions, weatherType, day } from "../../utils/constants";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import React, { useContext, useMemo } from "react";
 
@@ -27,7 +27,7 @@ function Main({ weatherTemp, onCardClick, clothingArr, timeOfDay }) {
     (option) => option.weatherType === weatherType && option.day === day
   )?.link;
 
-  const filteredCards = clothingArr.filter((item, weather) => {
+  const filteredCards = clothingArr.filter((item) => {
     return item.weather.toLowerCase() === weatherType;
   });
 
