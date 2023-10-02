@@ -57,6 +57,7 @@ const App = () => {
         console.log(err);
       });
   };
+
   const handleAddItemSubmit = (values) => {
     const newItem = {
       name: values.name,
@@ -72,17 +73,15 @@ const App = () => {
         console.log(err);
       });
   };
-  _handleClickOutside = (evt) => {
-    if (
-      evt.target.classList.contains("modal_opened") ||
-      evt.target.classList.contains("modal__close")
-    ) {
-      this.close();
-    }
-  };
-  const onAddItem = (e) => {
-    e.preventDefault();
-  };
+
+  useEffect(() => {
+    getClothingItems()
+      .then((data) => {
+        setClothingArray(data);
+      })
+      .catch(console.error);
+  }, []);
+
   useEffect(() => {
     getForecastWeather()
       .then((data) => {
@@ -95,13 +94,7 @@ const App = () => {
       })
       .catch(console.error);
   }, []);
-  useEffect(() => {
-    getClothingItems()
-      .then((data) => {
-        setClothingArray(data);
-      })
-      .catch(console.error);
-  }, []);
+
   useEffect(() => {
     if (!activeModal) return; // stop the effect not to add the listener if there is no active modal
     const handleEscClose = (e) => {
@@ -117,7 +110,17 @@ const App = () => {
     };
   }, [activeModal]); // watch activeModal here
   console.log(currentTemperatureUnit);
-
+  const handleClickOutside = (evt) => {
+    if (
+      evt.target.classList.contains("modal_opened") ||
+      evt.target.classList.contains("modal__close")
+    ) {
+      this.close();
+    }
+  };
+  const onAddItem = (e) => {
+    e.preventDefault();
+  };
   return (
     <div className="page">
       <CurrentTemperatureUnitContext.Provider
@@ -135,6 +138,8 @@ const App = () => {
               <Main
                 weatherTemp={weatherTemp}
                 onCardClick={handleCardClick} //handle selected card
+                clickOutside={handleClickOutside}
+                clothingArr={clothingArray}
               />
             </Route>
             <Route path="/profile">
@@ -152,6 +157,7 @@ const App = () => {
             handleCloseModal={handleCloseModal}
             isOpen={activeModal === "create"}
             onAddItem={handleAddItemSubmit}
+            clickOutside={handleClickOutside}
           />
         )}
         {activeModal === "preview" && (
@@ -159,6 +165,7 @@ const App = () => {
             selectedCard={selectedCard}
             onClose={handleCloseModal}
             onDeleteItem={handleCardDelete}
+            clickOutside={handleClickOutside}
           />
         )}
       </CurrentTemperatureUnitContext.Provider>

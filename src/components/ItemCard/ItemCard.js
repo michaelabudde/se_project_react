@@ -1,10 +1,10 @@
 import "./ItemCard.css";
 
 const ItemCard = ({ item, onCardClick }) => {
-  setEventListeners() {
+  /* const setEventListeners = () => {
     this._modalElement.addEventListener("mousedown", this._handleClickOutside);
     this.close();
-  }
+  }; */
   return (
     <div className="card__element">
       <img
