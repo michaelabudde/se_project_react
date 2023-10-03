@@ -8,6 +8,7 @@ const WeatherCard = ({ day, type, weatherTemp = "" }) => {
   const weatherOption = weatherOptions.find((i) => {
     return i.day === day && i.weatherType === type;
   });
+  console.log(weatherOptions);
   const weatherOptionUrl = weatherOption?.link || "";
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
   return (
