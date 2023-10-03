@@ -137,6 +137,7 @@ const App = () => {
             <Route exact path="/">
               <Main
                 weatherTemp={weatherTemp}
+                timeOfDay={true}
                 onCardClick={handleCardClick} //handle selected card
                 clickOutside={handleClickOutside}
                 clothingArr={clothingArray}

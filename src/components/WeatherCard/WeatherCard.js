@@ -5,8 +5,8 @@ import { weatherOptions } from "../../utils/constants";
 import { useContext } from "react";
 
 const WeatherCard = ({ day, type, weatherTemp = "" }) => {
-  const weatherOption = weatherOptions.find((i) => {
-    return i.day === day && i.weatherType === type;
+  const weatherOption = weatherOptions.find((item) => {
+    return item.day === day && item.weatherType === type;
   });
   console.log(weatherOptions);
   const weatherOptionUrl = weatherOption?.link || "";
