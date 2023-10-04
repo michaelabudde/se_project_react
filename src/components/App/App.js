@@ -6,7 +6,7 @@ import Main from "../Main/Main";
 import Profile from "../Profile/Profile";
 import Footer from "../Footer/Footer";
 import ItemModal from "../ItemModal/ItemModal";
-import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import { getForecast } from "../../utils/weatherApi";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import {
   getClothingItems,
@@ -25,7 +25,7 @@ const App = () => {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [clothingArray, setClothingArray] = useState([]);
-  const [weatherLocation, setWeatherLocation] = useState("");
+  const [weatherLocation, setLocation] = useState("");
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const handleCardClick = (card) => {
     setActiveModal("preview");
@@ -37,7 +37,16 @@ const App = () => {
   const handleCloseModal = () => {
     setActiveModal("");
   };
-
+  const timeOfDay = () => {
+    if (dateNow >= sunrise && dateNow < sunset) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const [sunrise, setSunrise] = useState(null);
+  const [sunset, setSunset] = useState(null);
+  const dateNow = Date.now() * 0.001;
   const handleToggleSwitchChange = () => {
     currentTemperatureUnit === "F"
       ? setCurrentTemperatureUnit("C")
@@ -82,19 +91,37 @@ const App = () => {
       .catch(console.error);
   }, []);
 
-  useEffect(() => {
+  /*  useEffect(() => {
     getForecastWeather()
       .then((data) => {
         const weatherTemp = parseWeatherData(data);
-        /*         const weatherNumber = parseInt(weatherTemp.temperature, 10);
-         */ console.log(weatherTemp);
         setWeatherTemp(weatherTemp);
         const location = parseLocationData(data);
         setWeatherLocation(location);
       })
       .catch(console.error);
+  }, []); */
+  useEffect(() => {
+    getForecast()
+      .then((data) => {
+        const weather = {
+          temperature: {
+            F: Math.round(data.main.temp),
+            C: Math.round(((data.main.temp - 32) * 5) / 9),
+          },
+        };
+        const locationName = data.name;
+        setLocation(locationName);
+        setWeatherTemp(weather);
+        const sunriseData = data.sys.sunrise;
+        setSunrise(sunriseData);
+        const sunsetData = data.sys.sunset;
+        setSunset(sunsetData);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
-
   useEffect(() => {
     if (!activeModal) return; // stop the effect not to add the listener if there is no active modal
     const handleEscClose = (e) => {
@@ -109,7 +136,6 @@ const App = () => {
       document.removeEventListener("keydown", handleEscClose);
     };
   }, [activeModal]); // watch activeModal here
-  console.log(currentTemperatureUnit);
   const handleClickOutside = (evt) => {
     if (
       evt.target.classList.contains("modal_opened") ||
@@ -137,7 +163,7 @@ const App = () => {
             <Route exact path="/">
               <Main
                 weatherTemp={weatherTemp}
-                timeOfDay={true}
+                timeOfDay={timeOfDay()}
                 onCardClick={handleCardClick} //handle selected card
                 clickOutside={handleClickOutside}
                 clothingArr={clothingArray}

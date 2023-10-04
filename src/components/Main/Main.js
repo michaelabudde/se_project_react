@@ -3,13 +3,12 @@ import "./Main.css";
 import ItemCard from "../ItemCard/ItemCard";
 import "../ItemCard/ItemCard.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
-import { weatherOptions, weatherType, day } from "../../utils/constants";
+import { weatherOptions, day } from "../../utils/constants";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import React, { useContext, useMemo } from "react";
 
 function Main({ weatherTemp, onCardClick, clothingArr, timeOfDay }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
-  console.log(currentTemperatureUnit);
   const temp = weatherTemp?.temperature?.[currentTemperatureUnit] || 999;
 
   const weatherType = useMemo(() => {
@@ -33,7 +32,12 @@ function Main({ weatherTemp, onCardClick, clothingArr, timeOfDay }) {
 
   return (
     <main className="main">
-      <WeatherCard day={timeOfDay} type="cloudy" weatherTemp={temp} />
+      <WeatherCard
+        day={timeOfDay}
+        type="cloudy"
+        weatherTemp={temp}
+        link={weatherCardImage}
+      />
       <section className="main__clothes">
         <div className="main__info">
           <div className="card__section">
