@@ -13,11 +13,6 @@ import {
   deleteClothingItems,
   addClothingItem,
 } from "../../utils/api";
-import {
-  getForecastWeather,
-  parseWeatherData,
-  parseLocationData,
-} from "../../utils/weatherApi";
 import AddItemModal from "../AddItemModal/AddItemModal";
 
 const App = () => {

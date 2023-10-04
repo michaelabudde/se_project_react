@@ -4,9 +4,9 @@ import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperature
 import { weatherOptions } from "../../utils/constants";
 import { useContext } from "react";
 
-const WeatherCard = (weatherOptions, weatherTemp = "") => {
+const WeatherCard = ({ day, weatherType, weatherTemp = "" }) => {
   const weatherOption = weatherOptions.find((item) => {
-    return item.day === day && item.weather === type;
+    return item.day === day && item.weather === weatherType;
   });
 
   const weatherOptionUrl = weatherOption?.link || "";
