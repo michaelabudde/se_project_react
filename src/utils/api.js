@@ -1,5 +1,4 @@
-import React from "react";
-import { headers, baseUrl } from "./constants";
+import { baseUrl } from "./constants";
 
 export const processServerResponse = (res) => {
   if (res.ok) {

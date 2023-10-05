@@ -13,7 +13,8 @@
   appearance: none;
   margin: 0px;
   padding: 0px;
-  position: relative;
+
+  display: inline-block;
 }
 .switch__slider {
   border-radius: 20px;
@@ -39,7 +40,6 @@
 }
 
 .switch__slider-C {
-  /*   top: 3px; */
   left: 26px;
   position: absolute;
   margin: 0px;

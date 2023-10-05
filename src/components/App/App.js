@@ -48,7 +48,6 @@ const App = () => {
       : setCurrentTemperatureUnit("F");
   };
   const handleCardDelete = (_id) => {
-    console.log(_id);
     deleteClothingItems(_id)
       .then((res) => {
         const updatedArray = clothingArray.filter((item) => {
@@ -86,16 +85,6 @@ const App = () => {
       .catch(console.error);
   }, []);
 
-  /*  useEffect(() => {
-    getForecastWeather()
-      .then((data) => {
-        const weatherTemp = parseWeatherData(data);
-        setWeatherTemp(weatherTemp);
-        const location = parseLocationData(data);
-        setWeatherLocation(location);
-      })
-      .catch(console.error);
-  }, []); */
   useEffect(() => {
     getForecast()
       .then((data) => {
