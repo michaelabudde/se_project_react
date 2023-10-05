@@ -1,14 +1,10 @@
 import "./ItemCard.css";
 
 const ItemCard = ({ item, onCardClick }) => {
-  /* const setEventListeners = () => {
-    this._modalElement.addEventListener("mousedown", this._handleClickOutside);
-    this.close();
-  }; */
   return (
     <div className="card__element">
       <img
-        src={item.link}
+        src={item.imageUrl}
         className="card__image"
         onClick={() => onCardClick(item)}
         alt={item.name}

@@ -3,14 +3,20 @@ import "./Main.css";
 import ItemCard from "../ItemCard/ItemCard";
 import "../ItemCard/ItemCard.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
-import { weatherOptions, day } from "../../utils/constants";
+import { weatherOptions } from "../../utils/constants";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import React, { useContext, useMemo } from "react";
 
-function Main({ weatherTemp, onCardClick, clothingArr, timeOfDay }) {
+function Main({
+  weatherTemp,
+  onCardClick,
+  clothingArr,
+  timeOfDay,
+  day = true,
+}) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
   const temp = weatherTemp?.temperature?.[currentTemperatureUnit] || 999;
-
+  console.log(temp);
   const weatherType = useMemo(() => {
     if (temp >= 86) {
       return "hot";
@@ -26,18 +32,12 @@ function Main({ weatherTemp, onCardClick, clothingArr, timeOfDay }) {
     (option) => option.weatherType === weatherType && option.day === day
   )?.link;
 
-  const filteredCards = clothingArr.filter((item, weatherType) => {
+  const filteredCards = clothingArr.filter((item) => {
     return item.weather.toLowerCase() === weatherType;
   });
-
   return (
     <main className="main">
-      <WeatherCard
-        day={timeOfDay}
-        type="cloudy"
-        weatherTemp={temp}
-        link={weatherCardImage}
-      />
+      <WeatherCard day={timeOfDay} type="cloudy" temp={temp} />
       <section className="main__clothes">
         <div className="main__info">
           <div className="card__section">
