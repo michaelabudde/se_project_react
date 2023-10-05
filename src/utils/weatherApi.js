@@ -1,3 +1,4 @@
+import { processServerResponse } from "../utils/api";
 const latitude = 19.436;
 const longitude = -99.073;
 const APIkey = `9ce8b49fe15f8d325d97fd1f76150e35`;

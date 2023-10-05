@@ -1,34 +1,29 @@
 import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-export function useForm(inputValues) {
-  const [values, setValues] = useState(inputValues);
 
-  const handleChange = (event) => {
-    const { value, name } = event.target;
-    setValues({ ...values, [name]: value });
-  };
-  return { values, handleChange, setValues };
-}
-const { values, handleChange, setValues } = useForm({});
-
-const AddItemModal = ({ handleCloseModal, onAddItem, isOpen }) => {
+const AddItemModal = ({ handleCloseModal, onAddItem, isOpen, useForm }) => {
   const [name, setName] = useState("");
-  const handleNameChange = (e) => {
+  /* const handleNameChange = (e) => {
     setName(e.target.value);
   };
 
-  const [link, setUrl] = useState("");
+
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
-  };
+  }; */
+  const [link, setUrl] = useState("");
   const [weather, setWeather] = useState("");
-  const handleWeatherChange = (e) => {
+  /*   const handleWeatherChange = (e) => {
     setWeather(e.target.value);
-  };
-
+  }; */
+  const { values, handleChange, setValues } = useForm({
+    name: "",
+    link: "",
+    weatherType: "",
+  });
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddItem({ name, weather, link });
+    onAddItem(values);
   };
   return (
     <ModalWithForm
@@ -49,8 +44,8 @@ const AddItemModal = ({ handleCloseModal, onAddItem, isOpen }) => {
             required
             minLength="1"
             maxLength="30"
-            value={name}
-            onChange={handleNameChange}
+            value={values.name}
+            onChange={handleChange}
           />
         </label>
         <label className="modal__label">
@@ -60,8 +55,8 @@ const AddItemModal = ({ handleCloseModal, onAddItem, isOpen }) => {
             name="link"
             className="modal__input modal__input_type_url"
             placeholder="Image URL"
-            value={link}
-            onChange={handleUrlChange}
+            value={values.link}
+            onChange={handleChange}
             required
           />
         </label>
@@ -75,7 +70,7 @@ const AddItemModal = ({ handleCloseModal, onAddItem, isOpen }) => {
               id="choiceHot"
               name="weatherType"
               value="hot"
-              onChange={handleWeatherChange}
+              onChange={handleChange}
             />
             <label className="modal__label_radio" htmlFor="choiceHot">
               Hot
@@ -88,7 +83,7 @@ const AddItemModal = ({ handleCloseModal, onAddItem, isOpen }) => {
               id="choiceWarm"
               name="weatherType"
               value="warm"
-              onChange={handleWeatherChange}
+              onChange={handleChange}
             />
             <label className="modal__label_radio" htmlFor="choiceWarm">
               Warm
@@ -101,7 +96,7 @@ const AddItemModal = ({ handleCloseModal, onAddItem, isOpen }) => {
               id="choiceCold"
               name="weatherType"
               value="cold"
-              onChange={handleWeatherChange}
+              onChange={handleChange}
             />
             <label className="modal__label_radio" htmlFor="choiceCold">
               Cold

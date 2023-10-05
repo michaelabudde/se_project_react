@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -39,6 +39,8 @@ const App = () => {
       return false;
     }
   };
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const [sunrise, setSunrise] = useState(null);
   const [sunset, setSunset] = useState(null);
   const dateNow = Date.now() * 0.001;
@@ -56,15 +58,34 @@ const App = () => {
         setClothingArray(updatedArray);
         handleCloseModal();
       })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
+      .catch(console.error);
+  };
+  function handleSubmit(request) {
+    // start loading
+    setIsLoading(true);
+    request()
+      // we need to close only in `then`
+      .then(closeAllPopups)
+      // we need to catch possible errors
+      // console.error is used to handle errors if you don’t have any other ways for that
+      .catch(console.error)
+      // and in finally we need to stop loading
+      .finally(() => setIsLoading(false));
+  }
+  function useForm(inputValues) {
+    const [values, setValues] = useState(inputValues);
+
+    const handleChange = (event) => {
+      const { value, name } = event.target;
+      setValues({ ...values, [name]: value });
+    };
+    return { values, handleChange, setValues };
+  }
   const handleAddItemSubmit = (values) => {
     const newItem = {
       name: values.name,
-      weather: values.weather,
+      weather: values.weatherType,
       imageUrl: values.link,
     };
     addClothingItem(newItem)
@@ -72,9 +93,7 @@ const App = () => {
         setClothingArray([res, ...clothingArray]);
         handleCloseModal();
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(console.error);
   };
 
   useEffect(() => {
@@ -102,9 +121,7 @@ const App = () => {
         const sunsetData = data.sys.sunset;
         setSunset(sunsetData);
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch(console.error);
   }, []);
   useEffect(() => {
     if (!activeModal) return; // stop the effect not to add the listener if there is no active modal
@@ -125,11 +142,8 @@ const App = () => {
       evt.target.classList.contains("modal_opened") ||
       evt.target.classList.contains("modal__close")
     ) {
-      this.close();
+      handleCloseModal();
     }
-  };
-  const onAddItem = (e) => {
-    e.preventDefault();
   };
 
   return (
@@ -152,6 +166,7 @@ const App = () => {
                 onCardClick={handleCardClick} //handle selected card
                 clickOutside={handleClickOutside}
                 clothingArr={clothingArray}
+                isLoading={isLoading}
               />
             </Route>
             <Route path="/profile">
@@ -170,6 +185,8 @@ const App = () => {
             isOpen={activeModal === "create"}
             onAddItem={handleAddItemSubmit}
             clickOutside={handleClickOutside}
+            isLoading={isLoading}
+            useForm={useForm}
           />
         )}
         {activeModal === "preview" && (
