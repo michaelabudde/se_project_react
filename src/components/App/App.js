@@ -131,6 +131,7 @@ const App = () => {
   const onAddItem = (e) => {
     e.preventDefault();
   };
+
   return (
     <div className="page">
       <CurrentTemperatureUnitContext.Provider
