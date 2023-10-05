@@ -2,8 +2,8 @@
   position: relative;
 }
 .card__image {
-  width: 328px;
-  height: 328px;
+  width: 323px;
+  height: 323px;
   border-radius: 30px;
   cursor: pointer;
 }

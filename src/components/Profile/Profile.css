@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-right: 116px;
+  margin-right: 95px;
 }
 
 .profile__heading {
@@ -17,6 +17,7 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 16px;
+  height: 56px;
 }
 
 .profile__image {
@@ -27,11 +28,12 @@
 
 .profile__name {
   font-family: "Cabinet Grotesk", Arial, sans-serif;
-  display: inline;
+  display: flex;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: 1.2;
+  width: 170px;
   text-align: center;
   flex-wrap: nowrap;
 }
