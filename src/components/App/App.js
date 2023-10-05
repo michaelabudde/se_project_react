@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { HashRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -187,6 +187,7 @@ const App = () => {
             clickOutside={handleClickOutside}
             isLoading={isLoading}
             useForm={useForm}
+            handleSubmit={handleSubmit}
           />
         )}
         {activeModal === "preview" && (
