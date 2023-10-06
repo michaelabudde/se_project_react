@@ -1,37 +1,30 @@
 import React, { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-const AddItemModal = ({ handleCloseModal, onAddItem, isOpen, useForm }) => {
-  const [name, setName] = useState("");
-  /* const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-
-  const handleUrlChange = (e) => {
-    setUrl(e.target.value);
-  }; */
-  const [link, setUrl] = useState("");
-  const [weather, setWeather] = useState("");
-  /*   const handleWeatherChange = (e) => {
-    setWeather(e.target.value);
-  }; */
+const AddItemModal = ({
+  handleCloseModal,
+  onAddItem,
+  isOpen,
+  useForm,
+  handleSubmit,
+}) => {
   const { values, handleChange, setValues } = useForm({
     name: "",
     link: "",
     weatherType: "",
   });
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onAddItem(values);
-  };
+
   return (
     <ModalWithForm
       title="New Garment"
-      name="new-card"
+      modalName="new-card"
       onClose={handleCloseModal}
-      onSubmit={handleSubmit}
+      onSubmit={() => {
+        handleSubmit(onAddItem(values));
+      }}
       isOpen={isOpen}
+      buttontext={"Add Garment"}
+      buttonIsDisabled={buttonIsDisabled}
     >
       <div>
         <label className="modal__label">

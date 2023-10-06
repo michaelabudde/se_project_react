@@ -2,7 +2,7 @@ import React, { Children, useState } from "react";
 import "./ModalWithForm.css";
 
 const ModalWithForm = ({
-  buttonText = "Add Garment",
+  buttontext,
   title,
   children,
   onClose,
@@ -24,9 +24,9 @@ const ModalWithForm = ({
           <button
             type="submit"
             className="modal__submit-button"
-            buttonText={isLoading ? "Saving..." : "Save"}
+            buttontext={isLoading ? "Saving..." : "Save"}
           >
-            {buttonText}
+            {buttontext}
           </button>
         </div>
       </form>

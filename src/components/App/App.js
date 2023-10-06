@@ -66,36 +66,38 @@ const App = () => {
     setIsLoading(true);
     request()
       // we need to close only in `then`
-      .then(closeAllPopups)
+      .then(handleCloseModal)
       // we need to catch possible errors
       // console.error is used to handle errors if you don’t have any other ways for that
       .catch(console.error)
       // and in finally we need to stop loading
       .finally(() => setIsLoading(false));
   }
-  function useForm(inputValues) {
-    const [values, setValues] = useState(inputValues);
-
-    const handleChange = (event) => {
-      const { value, name } = event.target;
-      setValues({ ...values, [name]: value });
-    };
-    return { values, handleChange, setValues };
-  }
+  
   const handleAddItemSubmit = (values) => {
     const newItem = {
       name: values.name,
       weather: values.weatherType,
       imageUrl: values.link,
-    };
-    addClothingItem(newItem)
-      .then((res) => {
-        setClothingArray([res, ...clothingArray]);
-        handleCloseModal();
-      })
-      .catch(console.error);
-  };
-
+   
+   function makeRequest(){
+    return api.handleAddItemSubmit(values).then(newItem);
+   } 
+  
+addClothingItem(newItem).then((res) => {
+      setClothingArray([res, ...clothingArray]);
+    });
+    handleSubmit(makeRequest)};
+    
+    function useForm(values) {
+      const [values, setValues] = useState(values);
+  
+      const handleChange = (event) => {
+        const { value, name } = event.target;
+        setValues({ ...values, [name]: value });
+      };
+      return { values, handleChange, setValues };
+    }
   useEffect(() => {
     getClothingItems()
       .then((data) => {
