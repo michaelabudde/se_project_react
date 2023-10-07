@@ -73,31 +73,32 @@ const App = () => {
       // and in finally we need to stop loading
       .finally(() => setIsLoading(false));
   }
-  
+
   const handleAddItemSubmit = (values) => {
     const newItem = {
       name: values.name,
       weather: values.weatherType,
       imageUrl: values.link,
-   
-   function makeRequest(){
-    return api.handleAddItemSubmit(values).then(newItem);
-   } 
-  
-addClothingItem(newItem).then((res) => {
-      setClothingArray([res, ...clothingArray]);
-    });
-    handleSubmit(makeRequest)};
-    
-    function useForm(values) {
-      const [values, setValues] = useState(values);
-  
-      const handleChange = (event) => {
-        const { value, name } = event.target;
-        setValues({ ...values, [name]: value });
-      };
-      return { values, handleChange, setValues };
+    };
+
+    function makeRequest() {
+      return api.addClothingItem(newItem).then((res) => {
+        setClothingArray([res, ...clothingArray]);
+      });
     }
+
+    handleSubmit(makeRequest);
+  };
+
+  function useForm() {
+    const [values, setValues] = useState(values);
+
+    const handleChange = (event) => {
+      const { value, name } = event.target;
+      setValues({ ...values, [name]: value });
+    };
+    return { values, handleChange, setValues };
+  }
   useEffect(() => {
     getClothingItems()
       .then((data) => {

@@ -24,7 +24,6 @@ const AddItemModal = ({
       }}
       isOpen={isOpen}
       buttontext={"Add Garment"}
-      buttonIsDisabled={buttonIsDisabled}
     >
       <div>
         <label className="modal__label">
