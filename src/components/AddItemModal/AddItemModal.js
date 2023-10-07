@@ -1,5 +1,6 @@
 import React from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
+import useForm from "../../hooks/useForm";
 
 const AddItemModal = ({ handleCloseModal, onAddItem, isOpen, useForm }) => {
   const { values, handleChange } = useForm({
@@ -13,7 +14,8 @@ const AddItemModal = ({ handleCloseModal, onAddItem, isOpen, useForm }) => {
       title="New Garment"
       modalName="new-card"
       onClose={handleCloseModal}
-      onSubmit={() => {
+      onSubmit={(evt) => {
+        evt.preventDefault();
         onAddItem(values);
       }}
       isOpen={isOpen}

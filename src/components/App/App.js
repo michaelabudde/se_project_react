@@ -90,15 +90,6 @@ const App = () => {
     handleSubmit(makeRequest);
   };
 
-  function useForm(inputValues) {
-    const [values, setValues] = useState(inputValues);
-
-    const handleChange = (event) => {
-      const { value, name } = event.target;
-      setValues({ ...values, [name]: value });
-    };
-    return { values, handleChange, setValues };
-  }
   useEffect(() => {
     getClothingItems()
       .then((data) => {
@@ -179,7 +170,6 @@ const App = () => {
             isOpen={activeModal === "create"}
             onAddItem={handleAddItemSubmit}
             isLoading={isLoading}
-            useForm={useForm}
             handleSubmit={handleSubmit}
           />
         )}
