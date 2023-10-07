@@ -82,7 +82,7 @@ const App = () => {
     };
 
     function makeRequest() {
-      return api.addClothingItem(newItem).then((res) => {
+      return addClothingItem(newItem).then((res) => {
         setClothingArray([res, ...clothingArray]);
       });
     }
@@ -90,8 +90,8 @@ const App = () => {
     handleSubmit(makeRequest);
   };
 
-  function useForm() {
-    const [values, setValues] = useState(values);
+  function useForm(inputValues) {
+    const [values, setValues] = useState(inputValues);
 
     const handleChange = (event) => {
       const { value, name } = event.target;
@@ -140,14 +140,6 @@ const App = () => {
       document.removeEventListener("keydown", handleEscClose);
     };
   }, [activeModal]); // watch activeModal here
-  const handleClickOutside = (evt) => {
-    if (
-      evt.target.classList.contains("modal_opened") ||
-      evt.target.classList.contains("modal__close")
-    ) {
-      handleCloseModal();
-    }
-  };
 
   return (
     <div className="page">
@@ -167,7 +159,6 @@ const App = () => {
                 weatherTemp={weatherTemp}
                 timeOfDay={timeOfDay()}
                 onCardClick={handleCardClick} //handle selected card
-                clickOutside={handleClickOutside}
                 clothingArr={clothingArray}
                 isLoading={isLoading}
               />
@@ -187,7 +178,6 @@ const App = () => {
             handleCloseModal={handleCloseModal}
             isOpen={activeModal === "create"}
             onAddItem={handleAddItemSubmit}
-            clickOutside={handleClickOutside}
             isLoading={isLoading}
             useForm={useForm}
             handleSubmit={handleSubmit}
@@ -198,7 +188,6 @@ const App = () => {
             selectedCard={selectedCard}
             onClose={handleCloseModal}
             onDeleteItem={handleCardDelete}
-            clickOutside={handleClickOutside}
           />
         )}
       </CurrentTemperatureUnitContext.Provider>

@@ -38,7 +38,12 @@ function Main({
   });
   return (
     <main className="main">
-      <WeatherCard day={timeOfDay} type="cloudy" temp={temp} />
+      <WeatherCard
+        weatherCard={weatherCardImage}
+        day={timeOfDay}
+        type="cloudy"
+        temp={temp}
+      />
       <section className="main__clothes">
         <div className="main__info">
           <div className="card__section">

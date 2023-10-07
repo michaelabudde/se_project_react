@@ -1,14 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-const AddItemModal = ({
-  handleCloseModal,
-  onAddItem,
-  isOpen,
-  useForm,
-  handleSubmit,
-}) => {
-  const { values, handleChange, setValues } = useForm({
+const AddItemModal = ({ handleCloseModal, onAddItem, isOpen, useForm }) => {
+  const { values, handleChange } = useForm({
     name: "",
     link: "",
     weatherType: "",
@@ -20,7 +14,7 @@ const AddItemModal = ({
       modalName="new-card"
       onClose={handleCloseModal}
       onSubmit={() => {
-        handleSubmit(onAddItem(values));
+        onAddItem(values);
       }}
       isOpen={isOpen}
       buttontext={"Add Garment"}
