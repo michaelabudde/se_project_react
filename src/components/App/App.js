@@ -8,12 +8,12 @@ import Footer from "../Footer/Footer";
 import ItemModal from "../ItemModal/ItemModal";
 import { getForecast } from "../../utils/weatherApi";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
+import AddItemModal from "../AddItemModal/AddItemModal";
 import {
   getClothingItems,
   deleteClothingItems,
   addClothingItem,
 } from "../../utils/api";
-import AddItemModal from "../AddItemModal/AddItemModal";
 
 const App = () => {
   const [weatherTemp, setWeatherTemp] = useState(0);
