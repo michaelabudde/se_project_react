@@ -20,5 +20,4 @@ The site will also be updated to be responsive to different screen sizes.
 
 ## Links and Videos
 
-Link to WTWR:
-https://michaelabudde.github.io/se_project_react/
+Coming soon!
