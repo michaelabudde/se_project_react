@@ -1,5 +1,7 @@
 import { baseUrl } from "./constants";
-
+export const api = async (method, path, authToken = null, data = null) => {
+  const baseUrl = "http://localhost:3001";
+};
 export const processServerResponse = (res) => {
   if (res.ok) {
     return res.json();
