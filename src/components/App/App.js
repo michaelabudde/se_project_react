@@ -16,6 +16,7 @@ import Main from "../Main/Main";
 import Profile from "../Profile/Profile";
 import Footer from "../Footer/Footer";
 import ItemModal from "../ItemModal/ItemModal";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
 // UTILS //
 import { api } from "../../utils/api.js";
@@ -53,7 +54,7 @@ function App() {
   const [weatherTemp, setWeatherTemp] = useState(0);
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
-  const [clothingArray, setClothingArray] = useState([]);
+  const [clothingArray, setClothingArray] = useState();
   const [weatherLocation, setLocation] = useState("");
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const handleCardClick = (card) => {
@@ -213,7 +214,9 @@ function App() {
   useEffect(() => {
     getClothingItems()
       .then((data) => {
-        setClothingArray(data);
+        if (data) {
+          setClothingArray(data.items);
+        }
       })
       .catch(console.error);
   }, []);
@@ -260,6 +263,10 @@ function App() {
         >
           <div className="page_wrapper">
             <Header
+              path="/"
+              handleClick={toggleModal}
+              ToggleSwitch={<ToggleSwitch />}
+              /* weatherData={weatherData} */
               onCreateModal={handleCreateModal}
               signUpModal={handleSignUpSubmit}
               logInModal={handleLogInSubmit}

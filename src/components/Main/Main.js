@@ -33,9 +33,13 @@ function Main({
     (option) => option.weatherType === weatherType && option.day === day
   )?.link;
 
-  const filteredCards = clothingArr.filter((item) => {
-    return item.weather.toLowerCase() === weatherType;
-  });
+  let filteredCards = [];
+
+  if (clothingArr) {
+    filteredCards = clothingArr.filter((item) => {
+      return item.weather.toLowerCase() === weatherType;
+    });
+  }
   return (
     <main className="main">
       <WeatherCard
@@ -58,7 +62,7 @@ function Main({
           {filteredCards.map((item) => (
             <ItemCard
               item={item}
-              key={item._id}
+              key={_id}
               card={filteredCards}
               onCardClick={onCardClick}
             />
