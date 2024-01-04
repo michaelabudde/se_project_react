@@ -100,7 +100,7 @@ const Header = ({
             alt="What to Wear logo"
             className="header__logo"
           />
-        </Link>{" "}
+        </Link>
         <p className="header__date">
           {currentDate}, {weatherLocation}
         </p>

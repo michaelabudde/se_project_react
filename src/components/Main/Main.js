@@ -10,6 +10,7 @@ import React, { useContext, useMemo } from "react";
 function Main({
   weatherTemp,
   onCardClick,
+  onCardLike,
   clothingArr,
   timeOfDay,
   day = true,
@@ -58,16 +59,19 @@ function Main({
             <p className="card__section-title">You may want to wear:</p>
           </div>
         </div>
-        <div className="card__items">
-          {filteredCards.map((item) => (
-            <ItemCard
-              item={item}
-              key={_id}
-              card={filteredCards}
-              onCardClick={onCardClick}
-            />
-          ))}
-        </div>
+        <ul className="card__items">
+          {filteredCards.map((item) => {
+            return (
+              <ItemCard
+                item={item}
+                key={item._id}
+                // card={filteredCards}
+                onCardClick={onCardClick(item)}
+                onCardLike={onCardLike}
+              />
+            );
+          })}
+        </ul>
       </section>
     </main>
   );

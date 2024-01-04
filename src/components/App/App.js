@@ -57,10 +57,7 @@ function App() {
   const [clothingArray, setClothingArray] = useState();
   const [weatherLocation, setLocation] = useState("");
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-  const handleCardClick = (card) => {
-    setActiveModal("preview");
-    setSelectedCard(card);
-  };
+
   const handleCreateModal = () => {
     setActiveModal("create");
   };
@@ -116,7 +113,12 @@ function App() {
     },
     [currentModal]
   );
-
+  const onCardClick = (item) => {
+    return () => {
+      setActiveModal("preview");
+      setSelectedCard(item);
+    };
+  };
   function handleSubmit(request) {
     // start loading
     setIsLoading(true);
@@ -278,7 +280,7 @@ function App() {
               <Main
                 weatherTemp={weatherTemp}
                 timeOfDay={timeOfDay()}
-                onCardClick={handleCardClick} //handle selected card
+                onCardClick={onCardClick} //handle selected card
                 clothesList={clothesList}
                 clothingArr={clothingArray}
                 isLoading={isLoading}
@@ -287,7 +289,7 @@ function App() {
             <ProtectedRoute path="/profile">
               <Profile
                 onCreateModal={handleCreateModal}
-                onCardClick={handleCardClick}
+                onCardClick={onCardClick}
                 clothingArr={clothingArray}
                 clothesList={clothesList}
               />
@@ -302,8 +304,6 @@ function App() {
                 handleClick={toggleModal}
               />
             )}
-
-            <Footer />
           </div>
           {activeModal === "create" && (
             <AddItemModal
@@ -339,6 +339,7 @@ function App() {
               handleSubmit={handleSubmit}
             />
           )}
+          <Footer />
         </CurrentTemperatureUnitContext.Provider>
       </AuthProvider>
     </div>
