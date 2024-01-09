@@ -135,6 +135,7 @@ function App() {
   const handleAddItemSubmit = (values) => {
     const newItem = {
       name: values.name,
+      /*   key: values._id, */
       weather: values.weatherType,
       imageUrl: values.link,
     };
