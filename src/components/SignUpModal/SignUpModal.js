@@ -12,7 +12,7 @@ const SignUpModal = ({ onClose, isOpen, handleSignup, handleClick }) => {
     buttonText: "Next",
   };
 
-  const loginButton = [
+  const extraButton = [
     {
       text: "or Log in",
       onClick: () => {
@@ -37,7 +37,8 @@ const SignUpModal = ({ onClose, isOpen, handleSignup, handleClick }) => {
       onClose={onClose}
       handleSubmit={handleSubmit}
       buttonState={isValid}
-      extraButtons={loginButton}
+      extraButton={extraButton}
+      modalName="sign-up"
     >
       <label className="form-modal__form-label" htmlFor="email">
         Email*

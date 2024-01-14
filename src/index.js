@@ -6,17 +6,20 @@ import "../src/index.css";
 import { HashRouter, Switch } from "react-router-dom/cjs/react-router-dom.min";
 import { CurrentUserProvider } from "./contexts/CurrentUserContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ResponseProvider } from "./contexts/ResponseContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <HashRouter basename={"/se_project_react"}>
       <Switch>
-        <AuthProvider>
-          <CurrentUserProvider>
-            <App />
-          </CurrentUserProvider>
-        </AuthProvider>
+        <ResponseProvider>
+          <AuthProvider>
+            <CurrentUserProvider>
+              <App />
+            </CurrentUserProvider>
+          </AuthProvider>
+        </ResponseProvider>
       </Switch>
     </HashRouter>
   </React.StrictMode>

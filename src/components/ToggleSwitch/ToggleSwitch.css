@@ -1,82 +1,66 @@
 .switch {
-  display: flex;
-  position: relative;
-  margin: 0px;
-  padding: 0px;
-  align-items: center;
+  height: 0;
+  width: 0;
+  display: none;
+  background-color: #000;
 }
+
 .switch__box {
-  border-radius: 25px;
-  border: 2px solid black;
+  border-radius: 28px;
+  border: solid 2px #7e7e7e;
   width: 56px;
   height: 28px;
-  appearance: none;
-  margin: 0px;
-  padding: 0px;
 
-  display: inline-block;
-}
-.switch__slider {
-  border-radius: 20px;
-  width: 28px;
-  height: 28px;
-  background-color: black;
-  color: white;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
+  background: rgb(255, 255, 255);
   position: relative;
-  margin: 0px;
-  padding: 0px;
-  z-index: 0;
+  transition: border 0.3s;
 }
-.switch__slider-F {
-  left: 1px;
-  top: 26px;
+.switch__box:hover {
+  border: solid 2px #000;
+}
+
+.switch__box .switch__slider {
   position: absolute;
-  margin: 0px;
-  padding: 0px;
+  top: 0;
+  left: 0;
   width: 28px;
   height: 28px;
+  border-radius: 28px;
+  transition: 0.2s;
+  background: #000;
+  box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
+}
+.switch:checked + .switch__box .switch__slider {
+  left: calc(100%);
+  transform: translateX(-100%);
+}
+.switch__text {
+  position: absolute;
+  font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 17.36px;
+  color: rgba(255, 255, 255, 0.8);
+  mix-blend-mode: difference;
+  z-index: 1;
+}
+
+.switch__temp-F {
+  padding-left: 10px;
+  top: 25%;
+}
+.switch__temp-C {
+  padding-right: 8px;
+  top: 25%;
+  right: 0;
 }
 
 .switch__slider-C {
   left: 26px;
   position: absolute;
-  margin: 0px;
-  padding: 0px;
-  width: 28px;
-  height: 28px;
-}
-
-.switch__temp-F {
-  position: absolute;
-  top: 28px;
-  left: 10px;
-  margin: 0px;
-  padding: 0px;
-  width: 28px;
-  height: 28px;
-}
-.switch__temp-C {
-  position: absolute;
-
-  top: 28px;
-  left: 34px;
-  margin: 0px;
-  padding: 0px;
-  width: 28px;
-  height: 28px;
-}
-.switch__active {
-  color: white;
-  margin: 0px;
-  padding: 0px;
-  width: 28px;
-  height: 28px;
-}
-
-.switch__none {
-  color: black;
   margin: 0px;
   padding: 0px;
   width: 28px;

@@ -42,7 +42,6 @@ import SignUpModal from "../SignUpModal/SignUpModal.js";
 import LogInModal from "../LogInModal/LogInModal.js";
 
 function App() {
-  const [currentModal, setCurrentModal] = useState(null);
   const [selectedItem, setSelectedItem] = useState({ src: "", name: "" });
   const [clothesList, setClothesList] = useState([]);
 
@@ -52,7 +51,7 @@ function App() {
 
   const [buttonDisplay, setButtonDisplay] = useState("");
   const [weatherTemp, setWeatherTemp] = useState(0);
-  const [activeModal, setActiveModal] = useState("");
+  const [activeModal, setActiveModal] = useState(null);
   const [selectedCard, setSelectedCard] = useState({});
   const [clothingArray, setClothingArray] = useState();
   const [weatherLocation, setLocation] = useState("");
@@ -103,15 +102,15 @@ function App() {
   const toggleModal = useCallback(
     (modalName, buttonDisplay = null, ...additionalTextOptions) => {
       const additionalText = [additionalTextOptions];
-      if (currentModal === modalName) {
-        setCurrentModal(null);
+      if (activeModal === modalName) {
+        setActiveModal(null);
       } else {
-        setCurrentModal(modalName);
+        setActiveModal(modalName);
         setButtonDisplay(buttonDisplay);
       }
       return additionalText;
     },
-    [currentModal]
+    [activeModal]
   );
   const onCardClick = (item) => {
     return () => {
@@ -159,14 +158,14 @@ function App() {
 
   /* AUTH HOOK */
 
-  async function handleLogin({ email, password }) {
+  async function handleLogIn({ email, password }) {
     console.log("logging you in!");
     try {
       const config = login(email, password);
       const res = await api("AUTH", "signin", "", config);
       if (res.token) {
         localStorage.setItem("jwt", res.token);
-        setCurrentModal(null);
+        setActiveModal(null);
         setLoggedIn(true);
         const userInfo = getUserInfo(res.token);
         setCurrentUser(userInfo);
@@ -180,7 +179,7 @@ function App() {
     try {
       const config = signup(name, avatar, email, password);
       await api("AUTH", "signup", "", config);
-      handleLogin({ email, password });
+      handleLogIn({ email, password });
       setClothesList();
     } catch (error) {
       console.error(error);
@@ -260,52 +259,61 @@ function App() {
 
   return (
     <div className="page">
-      <AuthProvider>
-        <CurrentTemperatureUnitContext.Provider
-          value={{ currentTemperatureUnit, handleToggleSwitchChange }}
-        >
-          <div className="page_wrapper">
-            <Header
-              path="/"
-              handleClick={toggleModal}
-              ToggleSwitch={<ToggleSwitch />}
-              /* weatherData={weatherData} */
-              onCreateModal={handleCreateModal}
-              signUpModal={handleSignUpSubmit}
-              logInModal={handleLogInSubmit}
+      <CurrentTemperatureUnitContext.Provider
+        value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+      >
+        <div className="page_wrapper">
+          <Header
+            path="/"
+            handleClick={toggleModal}
+            ToggleSwitch={<ToggleSwitch />}
+            /* weatherData={weatherData} */
+            onCreateModal={handleCreateModal}
+            signUpModal={handleSignUpSubmit}
+            logInModal={handleLogInSubmit}
+            weatherTemp={weatherTemp}
+            weatherLocation={weatherLocation}
+            handleAddClick={() => setActiveModal("create")}
+          />
+          <Route exact path="/">
+            <Main
               weatherTemp={weatherTemp}
-              weatherLocation={weatherLocation}
-              handleAddClick={() => setActiveModal("create")}
+              timeOfDay={timeOfDay()}
+              onCardClick={onCardClick} //handle selected card
+              clothesList={clothesList}
+              clothingArr={clothingArray}
+              isLoading={isLoading}
             />
-            <Route exact path="/">
-              <Main
-                weatherTemp={weatherTemp}
-                timeOfDay={timeOfDay()}
-                onCardClick={onCardClick} //handle selected card
-                clothesList={clothesList}
-                clothingArr={clothingArray}
-                isLoading={isLoading}
-              />
-            </Route>
-            <ProtectedRoute path="/profile">
-              <Profile
-                onCreateModal={handleCreateModal}
-                onCardClick={onCardClick}
-                clothingArr={clothingArray}
-                clothesList={clothesList}
-              />
-            </ProtectedRoute>
-            {/* MODALS */}
-            {currentModal === "signup" && (
-              <SignUpModal
-                onClose={() => toggleModal("signup")}
-                isOpen={currentModal === "signup"}
-                handleSignUp={handleSignUp}
-                buttonDisplay={buttonDisplay}
-                handleClick={toggleModal}
-              />
-            )}
-          </div>
+          </Route>
+          <ProtectedRoute path="/profile">
+            <Profile
+              onCreateModal={handleCreateModal}
+              onCardClick={onCardClick}
+              clothingArr={clothingArray}
+              clothesList={clothesList}
+            />
+          </ProtectedRoute>
+          {/* MODALS */}
+          {activeModal === "signup" && (
+            <SignUpModal
+              onClose={() => toggleModal("signup")}
+              isOpen={activeModal === "signup"}
+              handleSignUp={handleSignUp}
+              buttonDisplay={buttonDisplay}
+              handleClick={toggleModal}
+            />
+          )}
+          {activeModal === "login" && (
+            <LogInModal
+              handleCloseModal={handleCloseModal}
+              isOpen={activeModal === "login"}
+              onAddItem={handleAddItemSubmit}
+              isLoading={isLoading}
+              handleSubmit={handleSubmit}
+              onClose={() => toggleModal("login")}
+            />
+          )}
+
           {activeModal === "create" && (
             <AddItemModal
               handleCloseModal={handleCloseModal}
@@ -322,27 +330,9 @@ function App() {
               onDeleteItem={handleCardDelete}
             />
           )}
-          {activeModal === "signup" && (
-            <SignUpModal
-              handleCloseModal={handleCloseModal}
-              isOpen={activeModal === "signup"}
-              onAddItem={handleAddItemSubmit}
-              isLoading={isLoading}
-              handleSubmit={handleSubmit}
-            />
-          )}
-          {activeModal === "login" && (
-            <LogInModal
-              handleCloseModal={handleCloseModal}
-              isOpen={activeModal === "login"}
-              onAddItem={handleAddItemSubmit}
-              isLoading={isLoading}
-              handleSubmit={handleSubmit}
-            />
-          )}
-          <Footer />
-        </CurrentTemperatureUnitContext.Provider>
-      </AuthProvider>
+        </div>
+        <Footer />
+      </CurrentTemperatureUnitContext.Provider>
     </div>
   );
 }

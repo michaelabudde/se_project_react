@@ -36,9 +36,11 @@ const Header = ({
     };
     if (isLoggedIn) {
       fetchUser();
+    } else {
+      setLoading(false);
     }
   }, [isLoggedIn, setCurrentUser]);
-  if (!weatherTemp || loading) return null;
+  /*   if (!weatherTemp || loading) return null; */
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -83,11 +85,17 @@ const Header = ({
   );
   const loggedOutHeader = (
     <>
-      <button className="navigation__button" onClick={handleClick("signup")}>
-        SignUp
+      <button
+        className="navigation__button"
+        onClick={() => handleClick("signup")}
+      >
+        Sign Up
       </button>
-      <button className="navigation__button" onClick={handleClick("login")}>
-        Login
+      <button
+        className="navigation__button"
+        onClick={() => handleClick("login")}
+      >
+        Log In
       </button>
     </>
   );

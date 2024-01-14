@@ -8,27 +8,27 @@ const ItemModal = ({ selectedCard, onClose, onDeleteItem }) => {
   };
 
   return (
-    <div className="modal">
-      <div className="modal__container-image">
+    <div className="item-modal">
+      <div className="item-modal__container-image">
         <button
           type="button"
           onClick={onClose}
-          className="modal__close-button-white"
+          className="item-modal__close-button-white"
         ></button>
         <img
           src={selectedCard.imageUrl}
-          className="modal__image-preview"
+          className="item-modal__image-preview"
           alt={selectedCard.name}
         ></img>
-        <div className="modal__footer">
-          <p className="modal__item-name">{selectedCard.name}</p>
-          <div className="modal__weather-type">
+        <div className="item-modal__footer">
+          <p className="item-modal__item-name">{selectedCard.name}</p>
+          <div className="item-modal__weather-type">
             Weather Type: {selectedCard.weather}
           </div>
 
           <button
             type="button"
-            className="modal__delete-button"
+            className="item-modal__delete-button"
             onClick={handleCardDelete}
           >
             Delete Item

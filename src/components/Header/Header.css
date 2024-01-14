@@ -16,12 +16,8 @@
 
 .header__nav {
   display: flex;
-  align-content: center;
+  align-items: center;
   gap: 20px;
-  font-size: 20px;
-  line-height: 1.2;
-  flex-direction: row;
-  justify-content: flex-end;
 }
 .header__logo {
   display: flex;
@@ -39,4 +35,7 @@
   align-items: center;
   min-width: 160px;
   width: 300px;
+}
+.header__username {
+  text-decoration: none;
 }

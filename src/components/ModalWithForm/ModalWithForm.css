@@ -1,4 +1,4 @@
-.modal {
+.form-modal {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,7 +9,14 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
 }
-.modal__container {
+.form-modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.form-modal__container {
   position: relative;
   background-color: white;
   max-width: 440px;
@@ -20,7 +27,7 @@
   border: 1px solid rgba(0, 0, 0, 0.3);
   padding: 28px 28px;
 }
-.modal__close-button {
+.form-modal__close-button {
   position: absolute;
   top: 20px;
   right: 28px;
@@ -33,7 +40,7 @@
   border: none;
   cursor: pointer;
 }
-.modal__title {
+.form-modal__title {
   font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
@@ -43,16 +50,16 @@
   margin: 0px;
   padding-bottom: 20px;
 }
-.modal__form {
+.form-modal__form {
   margin: 0px;
   max-width: 440px;
 }
-.modal__text-inputs {
+.form-modal__text-inputs {
   display: flex;
   flex-direction: column;
   padding-top: 24px;
 }
-.modal__label {
+.form-modal__label {
   display: flex;
   align-items: flex-start;
   color: #000;
@@ -67,11 +74,11 @@
   align-content: flex-start;
   flex-wrap: wrap;
 }
-.modal__error {
+.form-modal__error {
   color: red;
   margin-left: 10px;
 }
-.modal__input {
+.form-modal__input {
   color: rgba(0, 0, 0, 0.5);
   font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
   font-size: 16px;
@@ -86,7 +93,7 @@
   width: 440px;
   margin-bottom: 5px;
 }
-.modal__select-weather {
+.form-modal__select-weather {
   font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
@@ -96,13 +103,13 @@
   margin-top: 0;
   margin-bottom: 17px;
 }
-.modal__radio-button {
+.form-modal__radio-button {
   height: 16px;
   width: 16px;
   color: rgba(0, 0, 0, 0.5);
   padding-bottom: 10px;
 }
-.modal__radio-inputs {
+.form-modal__radio-inputs {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -114,10 +121,10 @@
   color: rgba(0, 0, 0, 0.5);
   accent-color: #000;
 }
-.modal__label_radio {
+.form-modal__label_radio {
   padding-bottom: 10px;
 }
-.modal__submit-button {
+.form-modal__submit-button {
   margin-top: 34px;
   width: 124px;
   height: 36px;
@@ -134,10 +141,22 @@
   cursor: pointer;
   transition: opacity 0.5s ease-in-out;
 }
-.modal__submit-button:hover {
+.form-modal__submit-button:hover {
   opacity: 0.6;
 }
-.modal__submit-button:disabled {
+.form-modal__submit-button:disabled {
   background-color: rgba(0, 0, 0, 0.3);
   cursor: default;
+}
+.form-modal__extra-button {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+  font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  line-height: 20px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: auto;
+  height: auto;
 }

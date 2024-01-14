@@ -3,7 +3,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect } from "react";
 import { useForm } from "../../hooks/useForm";
 
-const LoginModal = ({ onClose, isOpen, handleLogin, handleClick }) => {
+const LogInModal = ({ onClose, isOpen, handleLogIn, handleClick }) => {
   const { values, handleChange, errors, isValid, resetForm } = useForm();
 
   const formInfo = {
@@ -12,7 +12,7 @@ const LoginModal = ({ onClose, isOpen, handleLogin, handleClick }) => {
     buttonText: "Log in",
   };
 
-  const loginButton = [
+  const extraButton = [
     {
       text: "or Sign up",
       onClick: () => {
@@ -25,7 +25,7 @@ const LoginModal = ({ onClose, isOpen, handleLogin, handleClick }) => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    handleLogin(values);
+    handleLogIn(values);
   }
 
   useEffect(() => {
@@ -38,7 +38,8 @@ const LoginModal = ({ onClose, isOpen, handleLogin, handleClick }) => {
       onClose={onClose}
       handleSubmit={handleSubmit}
       buttonState={isValid}
-      extraButtons={loginButton}
+      extraButton={extraButton}
+      modalName="login"
     >
       <label className="form-modal__form-label" htmlFor="email">
         Email
@@ -80,4 +81,4 @@ const LoginModal = ({ onClose, isOpen, handleLogin, handleClick }) => {
   );
 };
 
-export default LoginModal;
+export default LogInModal;

@@ -1,4 +1,4 @@
-.modal__container-image {
+.item-modal__container-image {
   max-width: 498px;
   max-height: 610px;
   width: 100%;
@@ -8,7 +8,7 @@
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
-.modal__close-button-white {
+.item-modal__close-button-white {
   background-image: url(../../images/Modal-Close-Button-white.svg);
   position: absolute;
   top: 20px;
@@ -21,12 +21,12 @@
   border: none;
   cursor: pointer;
 }
-.modal__image-preview {
+.item-modal__image-preview {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   max-width: 498px;
 }
-.modal__footer {
+.item-modal__footer {
   font-family: "CabinetGrotesk", Arial, sans-serif;
   display: flex;
   justify-content: space-between;
@@ -34,7 +34,7 @@
   margin-left: 6px;
   font-size: 20px;
 }
-.modal__item-name {
+.item-modal__item-name {
   font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
   font-size: 20px;
   font-style: normal;
@@ -43,7 +43,7 @@
   margin-top: 20px;
   margin-left: 32px;
 }
-.modal__weather-type {
+.item-modal__weather-type {
   font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
   font-size: 20px;
   font-style: normal;
@@ -56,7 +56,7 @@
   margin-top: 60px;
   font-weight: 700;
 }
-.modal__delete-button {
+.item-modal__delete-button {
   font-family: "CabinetGrotesk-Bold", Arial, sans-serif;
   color: red;
   padding: 0;
