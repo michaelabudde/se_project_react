@@ -40,11 +40,11 @@ const SignUpModal = ({ onClose, isOpen, handleSignup, handleClick }) => {
       extraButton={extraButton}
       modalName="sign-up"
     >
-      <label className="form-modal__form-label" htmlFor="email">
+      <label className="modal-form__label" htmlFor="email">
         Email*
       </label>
       <input
-        className="form-modal__form-input"
+        className="modal-form__input"
         type="email"
         id="email"
         name="email"
@@ -55,14 +55,14 @@ const SignUpModal = ({ onClose, isOpen, handleSignup, handleClick }) => {
         onChange={handleChange}
         value={values.email || ""}
       />
-      <span className="form-modal__error" id="name-error">
+      <span className="modal-form__error" id="name-error">
         {errors.email || ""}
       </span>
-      <label className="form-modal__form-label" htmlFor="password">
+      <label className="modal-form__label" htmlFor="password">
         Password*
       </label>
       <input
-        className="form-modal__form-input"
+        className="modal-form__input"
         type="text"
         id="password"
         name="password"
@@ -73,14 +73,14 @@ const SignUpModal = ({ onClose, isOpen, handleSignup, handleClick }) => {
         onChange={handleChange}
         value={values.password || ""}
       />
-      <span className="form-modal__error" id="name-error">
+      <span className="modal-form__error" id="name-error">
         {errors.password || ""}
       </span>
-      <label className="form-modal__form-label" htmlFor="name">
+      <label className="modal-form__label" htmlFor="name">
         Name*
       </label>
       <input
-        className="form-modal__form-input"
+        className="modal-form__input"
         type="text"
         id="name"
         name="name"
@@ -91,14 +91,14 @@ const SignUpModal = ({ onClose, isOpen, handleSignup, handleClick }) => {
         onChange={handleChange}
         value={values.name || ""}
       />
-      <span className="form-modal__error" id="name-error">
+      <span className="modal-form__error" id="name-error">
         {errors.name || ""}
       </span>
-      <label className="form-modal__form-label" htmlFor="link">
+      <label className="modal-form__label" htmlFor="link">
         Profile Picture URL
       </label>
       <input
-        className="form-modal__form-input"
+        className="modal-form__input"
         id="link"
         name="avatar"
         placeholder="Image Link"
@@ -106,7 +106,7 @@ const SignUpModal = ({ onClose, isOpen, handleSignup, handleClick }) => {
         onChange={handleChange}
         value={values.avatar || ""}
       />
-      <span className="form-modal__error" id="link-error">
+      <span className="modal-form__error" id="link-error">
         {errors.avatar || ""}
       </span>
     </ModalWithForm>

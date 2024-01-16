@@ -23,12 +23,12 @@ const AddItemModal = ({ handleCloseModal, onAddItem, isOpen }) => {
       buttontext={"Add Garment"}
     >
       <div>
-        <label className="form-modal__label">
+        <label className="modal-form__label">
           Name
           <input
             type="text"
             name="name"
-            className="form-modal__input modal__input_type_card-name"
+            className="modal-form__input modal__input_type_card-name"
             placeholder="Name"
             required
             minLength="1"
@@ -37,12 +37,12 @@ const AddItemModal = ({ handleCloseModal, onAddItem, isOpen }) => {
             onChange={handleChange}
           />
         </label>
-        <label className="form-modal__label">
+        <label className="modal-form__label">
           Image
           <input
             type="url"
             name="link"
-            className="form-modal__input modal__input_type_url"
+            className="modal-form__input modal__input_type_url"
             placeholder="Image URL"
             value={values.link}
             onChange={handleChange}
@@ -50,44 +50,44 @@ const AddItemModal = ({ handleCloseModal, onAddItem, isOpen }) => {
           />
         </label>
 
-        <label className="form-modal__label">Select the Weather Type:</label>
-        <div className="form-modal__radio-inputs">
+        <label className="modal-form__label">Select the Weather Type:</label>
+        <div className="modal-form__radio-inputs">
           <div>
             <input
-              className="form-modal__input_type_radio"
+              className="modal-form__input_type_radio"
               type="radio"
               id="choiceHot"
               name="weatherType"
               value="hot"
               onChange={handleChange}
             />
-            <label className="form-modal__label_radio" htmlFor="choiceHot">
+            <label className="modal-form__label_radio" htmlFor="choiceHot">
               Hot
             </label>
           </div>
           <div>
             <input
-              className="form-modal__input_type_radio"
+              className="modal-form__input_type_radio"
               type="radio"
               id="choiceWarm"
               name="weatherType"
               value="warm"
               onChange={handleChange}
             />
-            <label className="form-modal__label_radio" htmlFor="choiceWarm">
+            <label className="modal-form__label_radio" htmlFor="choiceWarm">
               Warm
             </label>
           </div>
           <div>
             <input
-              className="form-modal__input_type_radio"
+              className="modal-form__input_type_radio"
               type="radio"
               id="choiceCold"
               name="weatherType"
               value="cold"
               onChange={handleChange}
             />
-            <label className="form-modal__label_radio" htmlFor="choiceCold">
+            <label className="modal-form__label_radio" htmlFor="choiceCold">
               Cold
             </label>
           </div>

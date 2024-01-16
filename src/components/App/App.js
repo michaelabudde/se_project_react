@@ -1,13 +1,11 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, {
-  useEffect,
-  useState,
-  useCallback,
-  createContext,
-  useContext,
-} from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
+
+// Routes //
 import { Route } from "react-router-dom";
-import ProtectedRoute from "../ProtectedRoute.js";
+import ProtectedRoute from "../../contexts/ProtectedRoute.js";
+
+// STYLES //
 import "./App.css";
 
 // COMPONENTS //
@@ -15,48 +13,50 @@ import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Profile from "../Profile/Profile";
 import Footer from "../Footer/Footer";
-import ItemModal from "../ItemModal/ItemModal";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
+// MODALS //
+import AddItemModal from "../AddItemModal/AddItemModal";
+import SignUpModal from "../SignUpModal/SignUpModal.js";
+import LogInModal from "../LogInModal/LogInModal.js";
+import ItemModal from "../ItemModal/ItemModal";
+
 // UTILS //
-import { api } from "../../utils/api.js";
+import {
+  api,
+  addLike,
+  removeLike,
+  getClothingItems,
+  addClothingItem,
+  deleteClothingItems,
+} from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
 import { login, signup } from "../../utils/auth.js";
-import {
-  getClothingItems,
-  deleteClothingItems,
-  addClothingItem,
-} from "../../utils/api";
 
 // CONTEXTS //
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import {
   CurrentUserContext,
   useCurrentUser,
+  CurrentUserProvider,
 } from "../../contexts/CurrentUserContext.js";
 import { AuthContext, AuthProvider } from "../../contexts/AuthContext.js";
 
-// MODALS //
-import AddItemModal from "../AddItemModal/AddItemModal";
-import SignUpModal from "../SignUpModal/SignUpModal.js";
-import LogInModal from "../LogInModal/LogInModal.js";
-
 function App() {
-  const [selectedItem, setSelectedItem] = useState({ src: "", name: "" });
-  const [clothesList, setClothesList] = useState([]);
-
   const { setLoggedIn } = useContext(AuthContext);
   const { currentUser, setCurrentUser } = useCurrentUser();
   const [serverResponse, setServerResponse] = useState("");
-
   const [buttonDisplay, setButtonDisplay] = useState("");
   const [weatherTemp, setWeatherTemp] = useState(0);
   const [activeModal, setActiveModal] = useState(null);
-  const [selectedCard, setSelectedCard] = useState({});
-  const [clothingArray, setClothingArray] = useState();
+  const [selectedCard, setSelectedCard] = useState({ src: "", name: "" });
+  const [clothingArray, setClothingArray] = useState([]);
   const [weatherLocation, setLocation] = useState("");
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [sunrise, setSunrise] = useState(null);
+  const [sunset, setSunset] = useState(null);
+  // Handle Modals //
   const handleCreateModal = () => {
     setActiveModal("create");
   };
@@ -77,10 +77,7 @@ function App() {
       return false;
     }
   };
-  const [isLoading, setIsLoading] = React.useState(false);
 
-  const [sunrise, setSunrise] = useState(null);
-  const [sunset, setSunset] = useState(null);
   const dateNow = Date.now() * 0.001;
   const handleToggleSwitchChange = () => {
     currentTemperatureUnit === "F"
@@ -117,6 +114,22 @@ function App() {
       setActiveModal("preview");
       setSelectedCard(item);
     };
+  };
+  const handleLikeClick = async ({ cardId, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    try {
+      let updatedCard;
+      if (isLiked) {
+        updatedCard = await removeLike({ itemId: cardId }, token);
+      } else {
+        updatedCard = await addLike({ itemId: cardId }, token);
+      }
+      setClothingArray((cards) =>
+        cards.map((card) => (card._id === updatedCard._id ? updatedCard : card))
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
   function handleSubmit(request) {
     // start loading
@@ -155,7 +168,21 @@ function App() {
       console.error("Can't access user", error);
     }
   }
+  function getInitials(fullName) {
+    // Split the full name into an array of words
+    const nameParts = fullName.split(" ");
 
+    // Extract the first and last names
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts[nameParts.length - 1] || "";
+
+    // Get the initials of the first and last names
+    const firstInitial = firstName.charAt(0).toUpperCase();
+    const lastInitial = lastName.charAt(0).toUpperCase();
+
+    // Return the combined initials
+    return firstInitial + lastInitial;
+  }
   /* AUTH HOOK */
 
   async function handleLogIn({ email, password }) {
@@ -180,7 +207,7 @@ function App() {
       const config = signup(name, avatar, email, password);
       await api("AUTH", "signup", "", config);
       handleLogIn({ email, password });
-      setClothesList();
+      setClothingArray();
     } catch (error) {
       console.error(error);
     }
@@ -271,6 +298,7 @@ function App() {
             onCreateModal={handleCreateModal}
             signUpModal={handleSignUpSubmit}
             logInModal={handleLogInSubmit}
+            getInitials={getInitials}
             weatherTemp={weatherTemp}
             weatherLocation={weatherLocation}
             handleAddClick={() => setActiveModal("create")}
@@ -280,17 +308,20 @@ function App() {
               weatherTemp={weatherTemp}
               timeOfDay={timeOfDay()}
               onCardClick={onCardClick} //handle selected card
-              clothesList={clothesList}
+              clothingArray={clothingArray}
               clothingArr={clothingArray}
               isLoading={isLoading}
             />
           </Route>
           <ProtectedRoute path="/profile">
             <Profile
-              onCreateModal={handleCreateModal}
               onCardClick={onCardClick}
-              clothingArr={clothingArray}
-              clothesList={clothesList}
+              clothingArray={clothingArray}
+              handleAddClick={() => toggleModal("addItem")}
+              handleLogoutClick={() => toggleModal("logout", "Log Out")}
+              handleEditProfileClick={() => toggleModal("edit profile")}
+              onCardLike={handleLikeClick}
+              getInitials={getInitials}
             />
           </ProtectedRoute>
           {/* MODALS */}

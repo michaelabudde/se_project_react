@@ -4,14 +4,6 @@
   padding: 0px 40px 0px 40px;
 }
 
-.profile__sidebar {
-  max-height: 56px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-right: 95px;
-}
-
 .profile__heading {
   display: flex;
   align-items: center;
@@ -63,4 +55,78 @@
 
 .profile__add_button:hover {
   color: rgb(0, 0, 0, 0.5);
+}
+.profile__sidebar {
+  max-height: 56px;
+  gap: 16px;
+  margin-right: 95px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 24.8px;
+  color: black;
+  width: 325px;
+}
+
+.profile__sidebar::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.1)
+  );
+}
+
+.profile__sidebar-user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.profile__sidebar-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #5a6f8d;
+  color: white;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+.profile__sidebar-user-avatar {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.profile__sidebar-username {
+  margin: 0 12px 0 16px;
+}
+
+.profile__sidebar-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.profile__sidebar-button {
+  border: none;
+  background-color: transparent;
+  font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  margin-top: 8px;
+  cursor: pointer;
+  padding: 0;
 }

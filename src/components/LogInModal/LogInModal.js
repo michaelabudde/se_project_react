@@ -41,11 +41,11 @@ const LogInModal = ({ onClose, isOpen, handleLogIn, handleClick }) => {
       extraButton={extraButton}
       modalName="login"
     >
-      <label className="form-modal__form-label" htmlFor="email">
+      <label className="modal-form__label" htmlFor="email">
         Email
       </label>
       <input
-        className="form-modal__form-input"
+        className="modal-form__input"
         type="email"
         id="email"
         name="email"
@@ -56,14 +56,14 @@ const LogInModal = ({ onClose, isOpen, handleLogIn, handleClick }) => {
         onChange={handleChange}
         value={values.email || ""}
       />
-      <span className="form-modal__error" id="name-error">
+      <span className="modal-form__error" id="name-error">
         {errors.email || ""}
       </span>
-      <label className="form-modal__form-label" htmlFor="password">
+      <label className="modal-form__label" htmlFor="password">
         Password
       </label>
       <input
-        className="form-modal__form-input"
+        className="modal-form__input"
         type="text"
         id="password"
         name="password"
@@ -74,7 +74,7 @@ const LogInModal = ({ onClose, isOpen, handleLogIn, handleClick }) => {
         onChange={handleChange}
         value={values.password || ""}
       />
-      <span className="form-modal__error" id="name-error">
+      <span className="modal-form__error" id="name-error">
         {errors.password || ""}
       </span>
     </ModalWithForm>

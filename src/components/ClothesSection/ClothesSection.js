@@ -1,26 +1,41 @@
-import React from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import React, { useContext } from "react";
 import ItemCard from "../ItemCard/ItemCard";
 import "./ClothesSection.css";
-const ClothesSection = ({ onCreateModal, onCardClick, clothingArr }) => {
+const ClothesSection = ({
+  onCardClick,
+  clothingArray,
+  handleAddClick,
+  onCardLike,
+}) => {
+  const { currentUser } = useContext(CurrentUserContext);
+  const userclothingArray = clothingArray.filter(
+    (item) => item.owner === currentUser._id
+  );
   return (
     <div className="clothing__section">
-      <div className="profile__heading">
-        <h3 className="profile__title">Your Items</h3>
+      <div className="clothes-section__header-wrapper">
+        <h2 className="clothes-section__title">Your items</h2>
         <button
           type="button"
-          className="profile__add_button"
-          onClick={onCreateModal}
+          className="clothes-section__add-clothes"
+          onClick={handleAddClick}
         >
           + Add New
         </button>
       </div>
-      <div className="clothing__section_cards">
-        {clothingArr.map((item) => {
+      <ul className="clothes-section__cards-list">
+        {userclothingArray.map((item) => {
           return (
-            <ItemCard key={item._id} item={item} onCardClick={onCardClick} />
+            <ItemCard
+              key={item._id}
+              handleClick={onCardClick(item)}
+              clothingItem={item}
+              onCardLike={onCardLike}
+            />
           );
         })}
-      </div>
+      </ul>
     </div>
   );
 };

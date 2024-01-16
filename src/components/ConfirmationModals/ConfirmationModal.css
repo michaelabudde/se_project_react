@@ -1,0 +1,53 @@
+.confirmation-modal__container {
+  width: 670px;
+  max-width: 90vw;
+  height: 280px;
+  position: relative;
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  margin: auto;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.confirmation-modal__query {
+  margin: 60px 0 0;
+  font-family: "Cabinet Grotesk Medium", Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.confirmation-modal__warning {
+  font-family: "Cabinet Grotesk Medium", Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  margin: 0;
+}
+
+.confirmation-modal__delete {
+  margin-top: 40px;
+  font-family: "Cabinet Grotesk Medium", Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  color: #ff4d00;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: auto;
+  padding: 0;
+}
+
+.confirmation-modal__cancel {
+  margin-top: 24px;
+  font-family: "Cabinet Grotesk Medium", Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 24px;
+  color: black;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: auto;
+  padding: 0;
+}
