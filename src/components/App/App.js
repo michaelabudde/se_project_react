@@ -20,7 +20,8 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import SignUpModal from "../SignUpModal/SignUpModal.js";
 import LogInModal from "../LogInModal/LogInModal.js";
 import ItemModal from "../ItemModal/ItemModal";
-
+import EditProfileModal from "../EditProfile/EditProfileModal.js";
+import ConfirmLogoutModal from "../ConfirmationModals/ConfirmLogoutModal.js";
 // UTILS //
 import {
   api,
@@ -43,94 +44,14 @@ import {
 import { AuthContext, AuthProvider } from "../../contexts/AuthContext.js";
 
 function App() {
+  // Contexts //
   const { setLoggedIn } = useContext(AuthContext);
   const { currentUser, setCurrentUser } = useCurrentUser();
-  const [serverResponse, setServerResponse] = useState("");
+
+  // General Actions //
   const [buttonDisplay, setButtonDisplay] = useState("");
-  const [weatherTemp, setWeatherTemp] = useState(0);
-  const [activeModal, setActiveModal] = useState(null);
-  const [selectedCard, setSelectedCard] = useState({ src: "", name: "" });
-  const [clothingArray, setClothingArray] = useState([]);
-  const [weatherLocation, setLocation] = useState("");
-  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [isLoading, setIsLoading] = React.useState(false);
-  const [sunrise, setSunrise] = useState(null);
-  const [sunset, setSunset] = useState(null);
-  // Handle Modals //
-  const handleCreateModal = () => {
-    setActiveModal("create");
-  };
-  const handleCloseModal = () => {
-    setActiveModal("");
-  };
-  const handleSignUpSubmit = () => {
-    setActiveModal("signup");
-  };
-  const handleLogInSubmit = () => {
-    setActiveModal("login");
-  };
 
-  const timeOfDay = () => {
-    if (dateNow >= sunrise && dateNow < sunset) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const dateNow = Date.now() * 0.001;
-  const handleToggleSwitchChange = () => {
-    currentTemperatureUnit === "F"
-      ? setCurrentTemperatureUnit("C")
-      : setCurrentTemperatureUnit("F");
-  };
-  const handleCardDelete = (_id) => {
-    deleteClothingItems(_id)
-      .then((res) => {
-        const updatedArray = clothingArray.filter((item) => {
-          return item._id !== _id;
-        });
-        setClothingArray(updatedArray);
-        handleCloseModal();
-      })
-
-      .catch(console.error);
-  };
-  const toggleModal = useCallback(
-    (modalName, buttonDisplay = null, ...additionalTextOptions) => {
-      const additionalText = [additionalTextOptions];
-      if (activeModal === modalName) {
-        setActiveModal(null);
-      } else {
-        setActiveModal(modalName);
-        setButtonDisplay(buttonDisplay);
-      }
-      return additionalText;
-    },
-    [activeModal]
-  );
-  const onCardClick = (item) => {
-    return () => {
-      setActiveModal("preview");
-      setSelectedCard(item);
-    };
-  };
-  const handleLikeClick = async ({ cardId, isLiked }) => {
-    const token = localStorage.getItem("jwt");
-    try {
-      let updatedCard;
-      if (isLiked) {
-        updatedCard = await removeLike({ itemId: cardId }, token);
-      } else {
-        updatedCard = await addLike({ itemId: cardId }, token);
-      }
-      setClothingArray((cards) =>
-        cards.map((card) => (card._id === updatedCard._id ? updatedCard : card))
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
   function handleSubmit(request) {
     // start loading
     setIsLoading(true);
@@ -144,112 +65,64 @@ function App() {
       .finally(() => setIsLoading(false));
   }
 
-  const handleAddItemSubmit = (values) => {
-    const newItem = {
-      name: values.name,
-      /*   key: values._id, */
-      weather: values.weatherType,
-      imageUrl: values.link,
+  // Handle Modals //
+  const [activeModal, setActiveModal] = useState(null);
+
+  const handleCreateModal = () => {
+    setActiveModal("create");
+  };
+  const handleCloseModal = () => {
+    setActiveModal("");
+  };
+
+  useEffect(() => {
+    if (!activeModal) return; // stop the effect not to add the listener if there is no active modal
+    const handleEscClose = (e) => {
+      // define the function inside useEffect not to lose the reference on rerendering
+      if (e.key === "Escape") {
+        handleCloseModal();
+      }
     };
+    document.addEventListener("keydown", handleEscClose);
+    return () => {
+      // don't forget to add a clean up function for removing the listener
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, [activeModal]); // watch activeModal here
 
-    function makeRequest() {
-      return addClothingItem(newItem).then((res) => {
-        setClothingArray([res, ...clothingArray]);
-      });
-    }
-
-    handleSubmit(makeRequest);
-  };
-  async function getUserInfo(authToken) {
-    try {
-      const userInfo = await api("GET", "user/me", authToken);
-      return userInfo;
-    } catch (error) {
-      console.error("Can't access user", error);
-    }
-  }
-  function getInitials(fullName) {
-    // Split the full name into an array of words
-    const nameParts = fullName.split(" ");
-
-    // Extract the first and last names
-    const firstName = nameParts[0] || "";
-    const lastName = nameParts[nameParts.length - 1] || "";
-
-    // Get the initials of the first and last names
-    const firstInitial = firstName.charAt(0).toUpperCase();
-    const lastInitial = lastName.charAt(0).toUpperCase();
-
-    // Return the combined initials
-    return firstInitial + lastInitial;
-  }
-  /* AUTH HOOK */
-
-  async function handleLogIn({ email, password }) {
-    console.log("logging you in!");
-    try {
-      const config = login(email, password);
-      const res = await api("AUTH", "signin", "", config);
-      if (res.token) {
-        localStorage.setItem("jwt", res.token);
+  const toggleModal = useCallback(
+    (modalName, buttonDisplay = null, ...additionalTextOptions) => {
+      const additionalText = [additionalTextOptions];
+      if (activeModal === modalName) {
         setActiveModal(null);
-        setLoggedIn(true);
-        const userInfo = getUserInfo(res.token);
-        setCurrentUser(userInfo);
+      } else {
+        setActiveModal(modalName);
+        setButtonDisplay(buttonDisplay);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  async function handleSignUp({ name, avatar, email, password }) {
-    console.log("creating your account!");
-    try {
-      const config = signup(name, avatar, email, password);
-      await api("AUTH", "signup", "", config);
-      handleLogIn({ email, password });
-      setClothingArray();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  const handleLogout = () => {
-    localStorage.removeItem("jwt");
-    setLoggedIn(false);
-    setCurrentUser(null);
-    setCurrentUser({ avatar: "P R" });
-    toggleModal("logout");
-  };
-
-  const fetchUserInfo = useCallback(
-    async (token) => {
-      try {
-        const userInfo = await api("GET", "users/me", token);
-        setCurrentUser(userInfo);
-      } catch (error) {
-        console.error("Can't access user", error);
-      }
+      return additionalText;
     },
-    [setCurrentUser]
+    [activeModal]
   );
 
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      setLoggedIn(true);
-      fetchUserInfo(token);
+  // Handle Weather & Time //
+  const [weatherTemp, setWeatherTemp] = useState(0);
+  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const [weatherLocation, setLocation] = useState("");
+  const [sunrise, setSunrise] = useState(null);
+  const [sunset, setSunset] = useState(null);
+  const timeOfDay = () => {
+    if (dateNow >= sunrise && dateNow < sunset) {
+      return true;
+    } else {
+      return false;
     }
-  }, [fetchUserInfo, setLoggedIn]);
-
-  useEffect(() => {
-    getClothingItems()
-      .then((data) => {
-        if (data) {
-          setClothingArray(data.items);
-        }
-      })
-      .catch(console.error);
-  }, []);
-
+  };
+  const dateNow = Date.now() * 0.001;
+  const handleToggleSwitchChange = () => {
+    currentTemperatureUnit === "F"
+      ? setCurrentTemperatureUnit("C")
+      : setCurrentTemperatureUnit("F");
+  };
   useEffect(() => {
     getForecast()
       .then((data) => {
@@ -269,20 +142,210 @@ function App() {
       })
       .catch(console.error);
   }, []);
+
+  // Handle Card Actions //
+  const [selectedCard, setSelectedCard] = useState({ src: "", name: "" });
+  const [clothingArray, setClothingArray] = useState([]);
+
   useEffect(() => {
-    if (!activeModal) return; // stop the effect not to add the listener if there is no active modal
-    const handleEscClose = (e) => {
-      // define the function inside useEffect not to lose the reference on rerendering
-      if (e.key === "Escape") {
+    getClothingItems()
+      .then((data) => {
+        if (data) {
+          setClothingArray(data.items);
+        }
+      })
+      .catch(console.error);
+  }, []);
+
+  const handleCardDelete = (_id) => {
+    deleteClothingItems(_id)
+      .then((res) => {
+        const updatedArray = clothingArray.filter((item) => {
+          return item._id !== _id;
+        });
+        setClothingArray(updatedArray);
         handleCloseModal();
+      })
+
+      .catch(console.error);
+  };
+
+  const onCardClick = (item) => {
+    return () => {
+      setActiveModal("preview");
+      setSelectedCard(item);
+    };
+  };
+  const handleLikeClick = async ({ cardId, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    let updatedCard;
+    if (isLiked) {
+      const response = await removeLike({ itemId: cardId }, token);
+      if (response.ok) {
+        updatedCard = await response.json();
+      } else {
+        console.error("Error removing like:", response.status);
+        return;
+      }
+    } else {
+      const response = await addLike({ itemId: cardId }, token);
+      if (response.ok) {
+        updatedCard = await response.json();
+      } else {
+        console.error("Error adding like:", response.status);
+        return;
+      }
+    }
+    setClothingArray((cards) =>
+      cards.map((card) => (card._id === updatedCard._id ? updatedCard : card))
+    );
+  };
+
+  async function handleAddItemSubmit(newItem) {
+    const token = localStorage.getItem("jwt");
+    setButtonDisplay("Saving...");
+    const response = await api("POST", "items", token, newItem);
+    if (response.ok) {
+      toggleModal("addItem");
+      const updatedClothingArrayResponse = await api("GET", "items", token);
+      if (updatedClothingArrayResponse.ok) {
+        const updatedClothingArray = await updatedClothingArrayResponse.json();
+        setClothingArray(updatedClothingArray);
+      } else {
+        setButtonDisplay("Server error, try again");
+        console.error(
+          "Couldn't get updated clothes list:",
+          updatedClothingArrayResponse.status
+        );
+      }
+    } else {
+      setButtonDisplay("Server error, try again");
+      console.error("Couldn't add the item:", response.status);
+    }
+  }
+
+  // Handle User Actions //
+  const handleSignUpSubmit = () => {
+    setActiveModal("signup");
+  };
+  const handleLogInSubmit = () => {
+    setActiveModal("login");
+  };
+
+  async function getUserInfo(authToken) {
+    const response = await api("GET", "/musere", authToken);
+    if (response.ok) {
+      const userInfo = await response.json();
+      return userInfo;
+    } else {
+      console.error("Can't access user:", response.status);
+      // Handle error cases if needed
+      return null; // You might want to return some default value or handle the error differently
+    }
+  }
+
+  async function handleLogIn({ email, password }) {
+    console.log("logging you in!");
+    const config = login(email, password);
+    api("AUTH", "signin", "", config)
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem("jwt", res.token);
+          setActiveModal(null);
+          setLoggedIn(true);
+          return getUserInfo(res.token);
+        } else {
+          return Promise.reject("Invalid response from server");
+        }
+      })
+      .then((userInfo) => {
+        setCurrentUser(userInfo);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  async function handleSignUp({ name, avatar, email, password }) {
+    console.log("creating your account!");
+    const config = signup(name, avatar, email, password);
+    api("AUTH", "signup", "", config)
+      .then(() => handleLogIn({ email, password })) // Log in after signing up
+      .then(() => setClothingArray()) // Set clothing array after logging in
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  const handleLogout = () => {
+    localStorage.removeItem("jwt");
+    setLoggedIn(false);
+    setCurrentUser(null);
+    setCurrentUser({ avatar: "P R" });
+    toggleModal("logout");
+  };
+
+  const fetchUserInfo = useCallback(
+    async (token) => {
+      const response = await api("GET", "users/me", token);
+      if (response.ok) {
+        const userInfo = await response.json();
+        setCurrentUser(userInfo);
+      } else {
+        console.error(`Can't access user. Error: ${response.status}`);
+      }
+    },
+    [setCurrentUser]
+  );
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      setLoggedIn(true);
+      fetchUserInfo(token);
+    }
+  }, [fetchUserInfo, setLoggedIn]);
+
+  useEffect(() => {
+    const fetchUserClothes = async () => {
+      const token = localStorage.getItem("jwt");
+      const response = await api("GET", "items", token);
+      if (response.ok) {
+        const ClothingArray = await response.json();
+        setClothingArray(ClothingArray);
+      } else {
+        console.error(`Error fetching user clothes: ${response.status}`);
       }
     };
-    document.addEventListener("keydown", handleEscClose);
-    return () => {
-      // don't forget to add a clean up function for removing the listener
-      document.removeEventListener("keydown", handleEscClose);
-    };
-  }, [activeModal]); // watch activeModal here
+    if (currentUser) {
+      fetchUserClothes();
+    }
+  }, [currentUser]);
+
+  async function handleProfileUpdate({ name, avatar, email }) {
+    const token = localStorage.getItem("jwt");
+    const data = { name, avatar, email };
+    const response = await api("PATCH", "users/me", token, data);
+    if (response.ok) {
+      const updatedInfo = await response.json();
+      setActiveModal(null);
+      setCurrentUser(updatedInfo);
+    } else {
+      console.error(`Couldn't update profile: ${response.status}`);
+    }
+  }
+
+  function getInitials(fullName) {
+    // Split the full name into an array of words
+    const nameParts = fullName.split(" ");
+    // Extract the first and last names
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts[nameParts.length - 1] || "";
+    // Get the initials of the first and last names
+    const firstInitial = firstName.charAt(0).toUpperCase();
+    const lastInitial = lastName.charAt(0).toUpperCase();
+    // Return the combined initials
+    return firstInitial + lastInitial;
+  }
 
   return (
     <div className="page">
@@ -324,7 +387,6 @@ function App() {
               getInitials={getInitials}
             />
           </ProtectedRoute>
-          {/* MODALS */}
           {activeModal === "signup" && (
             <SignUpModal
               onClose={() => toggleModal("signup")}
@@ -344,7 +406,6 @@ function App() {
               onClose={() => toggleModal("login")}
             />
           )}
-
           {activeModal === "create" && (
             <AddItemModal
               handleCloseModal={handleCloseModal}
@@ -359,6 +420,20 @@ function App() {
               selectedCard={selectedCard}
               onClose={handleCloseModal}
               onDeleteItem={handleCardDelete}
+            />
+          )}
+          {activeModal === "edit profile" && (
+            <EditProfileModal
+              onClose={() => toggleModal("edit profile")}
+              isOpen={activeModal === "edit profile"}
+              handleProfileUpdate={handleProfileUpdate}
+            />
+          )}
+          {activeModal === "logout" && (
+            <ConfirmLogoutModal
+              onClose={toggleModal}
+              handleLogout={handleLogout}
+              buttonDisplay={buttonDisplay}
             />
           )}
         </div>

@@ -1,58 +1,21 @@
 import { baseUrl } from "./constants";
-export const api = async (method, path, authToken = null, data = null) => {
-  const baseUrl = "http://localhost:3001";
-  let options;
 
-  switch (method) {
-    case "POST":
-    case "PATCH":
-    case "PUT":
-      const body = data ? JSON.stringify(data) : null;
-      options = {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${authToken}`,
-        },
-        body,
-      };
-      break;
-    case "DELETE":
-      options = {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      };
-      break;
-    case "GET":
-      options = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      };
-      break;
-    case "AUTH":
-      options = data;
-      break;
-    default:
-      throw new Error(`Method not supported: ${method}`);
-  }
+export const api = async (method, endpoint, token = "", body = null) => {
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: token ? `Bearer ${token}` : "",
+  };
 
-  try {
-    const res = await fetch(`${baseUrl}/${path}`, options);
+  const requestOptions = {
+    method: method,
+    headers: headers,
+    body: body ? JSON.stringify(body) : null,
+  };
 
-    if (!res.ok) {
-      throw new Error(`Oops there's an error!: ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+  const res = await fetch(`${baseUrl}/${endpoint}`, requestOptions);
+  return processServerResponse(res);
 };
+
 export const processServerResponse = (res) => {
   if (res.ok) {
     return res.json();
