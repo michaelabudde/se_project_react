@@ -11,7 +11,7 @@ function Main({
   weatherTemp,
   onCardClick,
   onCardLike,
-  clothingArr,
+  clothingArray,
   timeOfDay,
   day = true,
 }) {
@@ -36,8 +36,8 @@ function Main({
 
   let filteredCards = [];
 
-  if (clothingArr) {
-    filteredCards = clothingArr.filter((item) => {
+  if (clothingArray) {
+    filteredCards = clothingArray.filter((item) => {
       return item.weather.toLowerCase() === weatherType;
     });
   }

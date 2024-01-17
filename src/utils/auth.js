@@ -12,3 +12,12 @@ export const login = (email, password) => ({
   },
   body: JSON.stringify({ email, password }),
 });
+
+/* export const validateToken = (token) => ({
+  method: "GET",
+  headers: {
+    "Content-Type": "application/json",
+    authorization: `Bearer ${token}`,
+  },
+}); */
+// wrote this code but never used it //

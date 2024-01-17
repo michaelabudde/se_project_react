@@ -3,7 +3,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect } from "react";
 import { useForm } from "../../hooks/useForm";
 
-const SignUpModal = ({ onClose, isOpen, handleSignup, handleClick }) => {
+const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
   const { values, handleChange, errors, isValid, resetForm } = useForm();
 
   const formInfo = {
@@ -24,7 +24,7 @@ const SignUpModal = ({ onClose, isOpen, handleSignup, handleClick }) => {
   ];
   function handleSubmit(e) {
     e.preventDefault();
-    handleSignup(values);
+    handleSignUp(values);
   }
 
   useEffect(() => {

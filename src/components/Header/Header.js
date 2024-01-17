@@ -9,12 +9,7 @@ import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { AuthContext } from "../../contexts/AuthContext.js";
 import { processServerResponse } from "../../utils/api";
-const Header = ({
-  weatherTemp,
-  weatherLocation,
-  handleClick,
-  onCreateModal,
-}) => {
+const Header = ({ weatherLocation, handleClick, onCreateModal }) => {
   const { isLoggedIn } = useContext(AuthContext);
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [loading, setLoading] = useState(true);

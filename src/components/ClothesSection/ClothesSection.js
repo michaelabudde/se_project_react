@@ -4,12 +4,13 @@ import ItemCard from "../ItemCard/ItemCard";
 import "./ClothesSection.css";
 const ClothesSection = ({
   onCardClick,
-  clothingArray,
+  allClothingArray,
   handleAddClick,
   onCardLike,
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
-  const userclothingArray = clothingArray.filter(
+  console.log("Fetched user clothes:", allClothingArray);
+  const userclothingArray = allClothingArray.filter(
     (item) => item.owner === currentUser._id
   );
   return (

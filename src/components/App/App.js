@@ -28,7 +28,6 @@ import {
   addLike,
   removeLike,
   getClothingItems,
-  addClothingItem,
   deleteClothingItems,
 } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
@@ -39,14 +38,13 @@ import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperature
 import {
   CurrentUserContext,
   useCurrentUser,
-  CurrentUserProvider,
 } from "../../contexts/CurrentUserContext.js";
 import { AuthContext, AuthProvider } from "../../contexts/AuthContext.js";
 
 function App() {
   // Contexts //
   const { setLoggedIn } = useContext(AuthContext);
-  const { currentUser, setCurrentUser } = useCurrentUser();
+  const { currentUser, setCurrentUser } = useCurrentUser(CurrentUserContext);
 
   // General Actions //
   const [buttonDisplay, setButtonDisplay] = useState("");
@@ -71,9 +69,9 @@ function App() {
   const handleCreateModal = () => {
     setActiveModal("create");
   };
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setActiveModal("");
-  };
+  });
 
   useEffect(() => {
     if (!activeModal) return; // stop the effect not to add the listener if there is no active modal
@@ -88,11 +86,11 @@ function App() {
       // don't forget to add a clean up function for removing the listener
       document.removeEventListener("keydown", handleEscClose);
     };
-  }, [activeModal]); // watch activeModal here
+  }, [activeModal, handleCloseModal]); // watch activeModal here
 
   const toggleModal = useCallback(
     (modalName, buttonDisplay = null, ...additionalTextOptions) => {
-      const additionalText = [additionalTextOptions];
+      const additionalText = additionalTextOptions;
       if (activeModal === modalName) {
         setActiveModal(null);
       } else {
@@ -145,30 +143,53 @@ function App() {
 
   // Handle Card Actions //
   const [selectedCard, setSelectedCard] = useState({ src: "", name: "" });
-  const [clothingArray, setClothingArray] = useState([]);
+  const [allClothingArray, setAllClothingArray] = useState([]);
 
   useEffect(() => {
     getClothingItems()
       .then((data) => {
         if (data) {
-          setClothingArray(data.items);
+          setAllClothingArray(data.items);
         }
       })
       .catch(console.error);
   }, []);
 
-  const handleCardDelete = (_id) => {
-    deleteClothingItems(_id)
-      .then((res) => {
-        const updatedArray = clothingArray.filter((item) => {
-          return item._id !== _id;
-        });
-        setClothingArray(updatedArray);
-        handleCloseModal();
-      })
-
-      .catch(console.error);
+  const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const handleCardDelete = (item) => {
+    setItemToDelete(item._id);
+    // Open the confirmation modal
+    toggleModal("confirm", "Are you sure you want to delete this item?", () => {
+      // This function will be called when the user clicks "Yes" in the confirmation modal
+      setIsDeleteConfirmed(true);
+    });
   };
+
+  useEffect(() => {
+    // Check if the user has confirmed deletion
+    if (isDeleteConfirmed) {
+      const deleteItem = async (item) => {
+        const token = localStorage.getItem("jwt");
+        try {
+          setButtonDisplay("Deleting...");
+          await api("DELETE", `items/${item._id}`, token, item);
+          const updatedClothesList = await api("GET", "items", token);
+          setAllClothingArray(updatedClothesList);
+          handleCloseModal(); // Close the confirmation modal
+        } catch (error) {
+          setButtonDisplay("Server error, try again");
+          console.error("Couldn't delete item:", error);
+        }
+      };
+
+      // Call the deleteItem function
+      deleteItem(itemToDelete);
+
+      // Reset the delete confirmation state
+      setIsDeleteConfirmed(false);
+    }
+  }, [isDeleteConfirmed, itemToDelete, setAllClothingArray, handleCloseModal]);
 
   const onCardClick = (item) => {
     return () => {
@@ -196,7 +217,7 @@ function App() {
         return;
       }
     }
-    setClothingArray((cards) =>
+    setAllClothingArray((cards) =>
       cards.map((card) => (card._id === updatedCard._id ? updatedCard : card))
     );
   };
@@ -210,7 +231,7 @@ function App() {
       const updatedClothingArrayResponse = await api("GET", "items", token);
       if (updatedClothingArrayResponse.ok) {
         const updatedClothingArray = await updatedClothingArrayResponse.json();
-        setClothingArray(updatedClothingArray);
+        setAllClothingArray(updatedClothingArray);
       } else {
         setButtonDisplay("Server error, try again");
         console.error(
@@ -232,22 +253,10 @@ function App() {
     setActiveModal("login");
   };
 
-  async function getUserInfo(authToken) {
-    const response = await api("GET", "/musere", authToken);
-    if (response.ok) {
-      const userInfo = await response.json();
-      return userInfo;
-    } else {
-      console.error("Can't access user:", response.status);
-      // Handle error cases if needed
-      return null; // You might want to return some default value or handle the error differently
-    }
-  }
-
   async function handleLogIn({ email, password }) {
     console.log("logging you in!");
     const config = login(email, password);
-    api("AUTH", "signin", "", config)
+    api("POST", "signin", "", config)
       .then((res) => {
         if (res.token) {
           localStorage.setItem("jwt", res.token);
@@ -269,9 +278,9 @@ function App() {
   async function handleSignUp({ name, avatar, email, password }) {
     console.log("creating your account!");
     const config = signup(name, avatar, email, password);
-    api("AUTH", "signup", "", config)
+    api("POST", "signup", "", config)
       .then(() => handleLogIn({ email, password })) // Log in after signing up
-      .then(() => setClothingArray()) // Set clothing array after logging in
+      .then(() => setAllClothingArray()) // Set clothing array after logging in
       .catch((error) => {
         console.error(error);
       });
@@ -280,9 +289,21 @@ function App() {
     localStorage.removeItem("jwt");
     setLoggedIn(false);
     setCurrentUser(null);
-    setCurrentUser({ avatar: "P R" });
+    setCurrentUser({ avatar: "T T" });
     toggleModal("logout");
   };
+
+  async function getUserInfo(authToken) {
+    const response = await api("GET", "/user/me", authToken);
+    if (response.ok) {
+      const userInfo = await response.json();
+      return userInfo;
+    } else {
+      console.error("Can't access user:", response.status);
+      // Handle error cases if needed
+      return null; // You might want to return some default value or handle the error differently
+    } // to fetch user information at different points in your application but don't necessarily need to update the current user state, you might prefer using getUserInfo
+  }
 
   const fetchUserInfo = useCallback(
     async (token) => {
@@ -294,7 +315,7 @@ function App() {
         console.error(`Can't access user. Error: ${response.status}`);
       }
     },
-    [setCurrentUser]
+    [setCurrentUser] // to update the current user state in a React context, use fetchUserInfo
   );
 
   useEffect(() => {
@@ -310,8 +331,9 @@ function App() {
       const token = localStorage.getItem("jwt");
       const response = await api("GET", "items", token);
       if (response.ok) {
-        const ClothingArray = await response.json();
-        setClothingArray(ClothingArray);
+        const clothingArray = await response.json();
+        console.log("Fetched user clothes:", clothingArray);
+        setAllClothingArray(clothingArray);
       } else {
         console.error(`Error fetching user clothes: ${response.status}`);
       }
@@ -333,6 +355,22 @@ function App() {
       console.error(`Couldn't update profile: ${response.status}`);
     }
   }
+  // checks for jwt token and validates with server
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      getUserInfo(token)
+        .then((userData) => {
+          userData.avatar = null ? userData.name[0] : userData.avatar;
+          setCurrentUser(userData);
+          setLoggedIn(true);
+        })
+        .catch((error) => {
+          console.error("Token validation failed:", error);
+          localStorage.removeItem("jwt");
+        });
+    }
+  }, [setCurrentUser, setLoggedIn]);
 
   function getInitials(fullName) {
     // Split the full name into an array of words
@@ -371,15 +409,14 @@ function App() {
               weatherTemp={weatherTemp}
               timeOfDay={timeOfDay()}
               onCardClick={onCardClick} //handle selected card
-              clothingArray={clothingArray}
-              clothingArr={clothingArray}
+              clothingArray={allClothingArray}
               isLoading={isLoading}
             />
           </Route>
           <ProtectedRoute path="/profile">
             <Profile
               onCardClick={onCardClick}
-              clothingArray={clothingArray}
+              clothingArray={allClothingArray}
               handleAddClick={() => toggleModal("addItem")}
               handleLogoutClick={() => toggleModal("logout", "Log Out")}
               handleEditProfileClick={() => toggleModal("edit profile")}

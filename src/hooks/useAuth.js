@@ -10,30 +10,33 @@ const useAuth = (toggleModal) => {
   const [response, setResponse] = useState("");
 
   const handleLogIn = async ({ email, password }) => {
-    try {
-      const config = loginConfig(email, password);
-      const res = await api("AUTH", "signin", "", config);
-      if (res.token) {
-        localStorage.setItem("jwt", res.token);
-        setIsLoggedIn(true);
-        fetchUserInfo(res.token);
-        toggleModal("login");
-      }
-    } catch (error) {
-      console.error(error);
-      setResponse(error.message);
+    const config = loginConfig(email, password);
+    const res = await api("POST", "signin", "", config);
+
+    // Check if the response contains a token
+    if (res.token) {
+      localStorage.setItem("jwt", res.token);
+      setIsLoggedIn(true);
+      fetchUserInfo(res.token);
+      toggleModal("login");
+    } else {
+      console.error(res.message);
+      setResponse(res.message || "Log in failed");
     }
   };
 
-  const handleSignup = async ({ name, avatar, email, password }) => {
-    try {
-      const config = signupConfig(name, avatar, email, password);
-      await api("AUTH", "signup", "", config);
+  const handleSignUp = async ({ name, avatar, email, password }) => {
+    const config = signupConfig(name, avatar, email, password);
+    const res = await api("POST", "signup", "", config);
+
+    // Check if the response is successful
+    if (res.data) {
+      // SignUp successful, proceed to login
       await handleLogIn({ email, password });
       toggleModal("signup");
-    } catch (error) {
-      console.error(error);
-      setResponse(error.message);
+    } else {
+      console.error(res.message);
+      setResponse(res.message || "Sign up failed");
     }
   };
 
@@ -41,17 +44,19 @@ const useAuth = (toggleModal) => {
     localStorage.removeItem("jwt");
     setIsLoggedIn(false);
     setCurrentUser(null);
-    setCurrentUser({ avatar: "P R" });
+    setCurrentUser({ avatar: "T T" });
     toggleModal("logout");
   };
 
   const fetchUserInfo = useCallback(
     async (token) => {
-      try {
-        const userInfo = await api("GET", "users/me", token);
-        setCurrentUser(userInfo);
-      } catch (error) {
-        console.error("Can't access user", error);
+      const res = await api("GET", "users/me", token);
+
+      // Check if the response is successful
+      if (res.data) {
+        setCurrentUser(res.data);
+      } else {
+        console.error(res.message);
       }
     },
     [setCurrentUser]
@@ -65,7 +70,6 @@ const useAuth = (toggleModal) => {
     }
   }, [fetchUserInfo, setIsLoggedIn]);
 
-  return { handleLogIn, handleSignup, handleLogout, response };
+  return { handleLogIn, handleSignUp, handleLogout, response };
 };
-
 export default useAuth;
