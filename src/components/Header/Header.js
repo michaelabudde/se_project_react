@@ -9,7 +9,12 @@ import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { AuthContext } from "../../contexts/AuthContext.js";
 import { processServerResponse } from "../../utils/api";
-const Header = ({ weatherLocation, handleClick, onCreateModal }) => {
+const Header = ({
+  weatherLocation,
+  handleClick,
+  onCreateModal,
+  getInitials,
+}) => {
   const { isLoggedIn } = useContext(AuthContext);
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [loading, setLoading] = useState(true);
@@ -17,7 +22,7 @@ const Header = ({ weatherLocation, handleClick, onCreateModal }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${baseUrl}/me`, {
+        const response = await fetch(`${baseUrl}/user/me`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         }).then(processServerResponse);
@@ -69,9 +74,7 @@ const Header = ({ weatherLocation, handleClick, onCreateModal }) => {
                 ></img>
               </span>
             ) : (
-              <span className="navigation__user navigation__user_type_none">
-                {username?.toUpperCase().charAt(0) || ""}
-              </span>
+              getInitials(username)
             )}
           </div>
         </li>

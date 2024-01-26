@@ -1,5 +1,12 @@
 import { baseUrl } from "./constants";
 
+export const processServerResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Error: ${res.status}`);
+};
+
 export const api = async (method, endpoint, token = "", body = null) => {
   const headers = {
     "Content-Type": "application/json",
@@ -14,13 +21,6 @@ export const api = async (method, endpoint, token = "", body = null) => {
 
   const res = await fetch(`${baseUrl}/${endpoint}`, requestOptions);
   return processServerResponse(res);
-};
-
-export const processServerResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Error: ${res.status}`);
 };
 
 export const getClothingItems = async () => {

@@ -23,7 +23,7 @@ const LogInModal = ({ onClose, isOpen, handleLogIn, handleClick }) => {
     },
   ];
 
-  function handleSubmit(e) {
+  function onSubmit(e) {
     e.preventDefault();
     handleLogIn(values);
   }
@@ -36,7 +36,7 @@ const LogInModal = ({ onClose, isOpen, handleLogIn, handleClick }) => {
     <ModalWithForm
       formInfo={formInfo}
       onClose={onClose}
-      handleSubmit={handleSubmit}
+      onSubmit={onSubmit}
       buttonState={isValid}
       extraButton={extraButton}
       modalName="login"

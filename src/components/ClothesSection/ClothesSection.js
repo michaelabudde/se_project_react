@@ -4,13 +4,13 @@ import ItemCard from "../ItemCard/ItemCard";
 import "./ClothesSection.css";
 const ClothesSection = ({
   onCardClick,
-  allClothingArray,
+  clothingArray,
   handleAddClick,
   onCardLike,
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
-  console.log("Fetched user clothes:", allClothingArray);
-  const userclothingArray = allClothingArray.filter(
+  console.log("Fetched user clothes:", clothingArray);
+  const userClothingArray = clothingArray.filter(
     (item) => item.owner === currentUser._id
   );
   return (
@@ -26,7 +26,7 @@ const ClothesSection = ({
         </button>
       </div>
       <ul className="clothes-section__cards-list">
-        {userclothingArray.map((item) => {
+        {userClothingArray.map((item) => {
           return (
             <ItemCard
               key={item._id}

@@ -50,7 +50,7 @@ const useAuth = (toggleModal) => {
 
   const fetchUserInfo = useCallback(
     async (token) => {
-      const res = await api("GET", "users/me", token);
+      const res = await api("GET", "user/me", token);
 
       // Check if the response is successful
       if (res.data) {

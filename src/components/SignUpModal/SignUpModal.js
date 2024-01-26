@@ -22,7 +22,7 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
       disabled: false,
     },
   ];
-  function handleSubmit(e) {
+  function onSubmit(e) {
     e.preventDefault();
     handleSignUp(values);
   }
@@ -35,7 +35,7 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
     <ModalWithForm
       formInfo={formInfo}
       onClose={onClose}
-      handleSubmit={handleSubmit}
+      onSubmit={onSubmit}
       buttonState={isValid}
       extraButton={extraButton}
       modalName="sign-up"

@@ -50,7 +50,7 @@ function App() {
   const [buttonDisplay, setButtonDisplay] = useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
-  function handleSubmit(request) {
+  function onSubmit(request) {
     // start loading
     setIsLoading(true);
     request()
@@ -282,7 +282,7 @@ function App() {
       .then(() => handleLogIn({ email, password })) // Log in after signing up
       .then(() => setAllClothingArray()) // Set clothing array after logging in
       .catch((error) => {
-        console.error(error);
+        console.error("Error during sign up:", error);
       });
   }
   const handleLogout = () => {
@@ -307,7 +307,7 @@ function App() {
 
   const fetchUserInfo = useCallback(
     async (token) => {
-      const response = await api("GET", "users/me", token);
+      const response = await api("GET", "user/me", token);
       if (response.ok) {
         const userInfo = await response.json();
         setCurrentUser(userInfo);
@@ -330,13 +330,9 @@ function App() {
     const fetchUserClothes = async () => {
       const token = localStorage.getItem("jwt");
       const response = await api("GET", "items", token);
-      if (response.ok) {
-        const clothingArray = await response.json();
-        console.log("Fetched user clothes:", clothingArray);
-        setAllClothingArray(clothingArray);
-      } else {
-        console.error(`Error fetching user clothes: ${response.status}`);
-      }
+      const clothingArray = response.items;
+      console.log("Fetched user clothes:", clothingArray);
+      setAllClothingArray(clothingArray);
     };
     if (currentUser) {
       fetchUserClothes();
@@ -346,7 +342,7 @@ function App() {
   async function handleProfileUpdate({ name, avatar, email }) {
     const token = localStorage.getItem("jwt");
     const data = { name, avatar, email };
-    const response = await api("PATCH", "users/me", token, data);
+    const response = await api("PATCH", "user/me", token, data);
     if (response.ok) {
       const updatedInfo = await response.json();
       setActiveModal(null);
@@ -439,7 +435,7 @@ function App() {
               isOpen={activeModal === "login"}
               onAddItem={handleAddItemSubmit}
               isLoading={isLoading}
-              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
               onClose={() => toggleModal("login")}
             />
           )}
@@ -449,7 +445,7 @@ function App() {
               isOpen={activeModal === "create"}
               onAddItem={handleAddItemSubmit}
               isLoading={isLoading}
-              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
             />
           )}
           {activeModal === "preview" && (

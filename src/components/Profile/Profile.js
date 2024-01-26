@@ -4,7 +4,7 @@ import "./Profile.css";
 import ClothesSection from "../ClothesSection/ClothesSection";
 
 const Profile = ({
-  allClothingArray,
+  clothingArray,
   handleAddClick,
   handleLogoutClick,
   handleEditProfileClick,
@@ -50,7 +50,7 @@ const Profile = ({
         </div>
       </div>
       <ClothesSection
-        allClothingArray={allClothingArray}
+        clothingArray={clothingArray}
         handleAddClick={handleAddClick}
         onCardLike={onCardLike}
         onCardClick={onCardClick}

@@ -24,7 +24,7 @@ const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
     },
   ];
 
-  function handleSubmit(e) {
+  function onSubmit(e) {
     e.preventDefault();
     handleProfileUpdate(values);
   }
@@ -47,7 +47,7 @@ const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
     <ModalWithForm
       formInfo={formInfo}
       onClose={onClose}
-      handleSubmit={handleSubmit}
+      onSubmit={onSubmit}
       buttonState={isValid}
       extraButton={extraButton}
     >
