@@ -16,7 +16,7 @@ export const useCurrentUser = () => {
 export function CurrentUserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState({
     name: "Current User",
-    avatar: null,
+    avatar: {},
   });
 
   return (

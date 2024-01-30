@@ -380,6 +380,7 @@ function App() {
               onSubmit={onSubmit}
               handleLogIn={handleLogIn}
               onClose={() => toggleModal("login")}
+              handleClick={toggleModal}
             />
           )}
           {activeModal === "create" && (
