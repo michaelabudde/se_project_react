@@ -29,9 +29,9 @@ const ClothesSection = ({
         {userClothingArray.map((item) => {
           return (
             <ItemCard
+              item={item}
               key={item._id}
-              handleClick={onCardClick(item)}
-              clothingItem={item}
+              onCardClick={onCardClick}
               onCardLike={onCardLike}
             />
           );

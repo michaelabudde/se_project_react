@@ -24,7 +24,7 @@ const Header = ({
       try {
         const response = await fetch(`${baseUrl}/user/me`, {
           method: "GET",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" }, // changed to /user/me ?
         }).then(processServerResponse);
         const userData = await response.json();
         setCurrentUser(userData);

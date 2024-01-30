@@ -52,9 +52,9 @@ export const deleteClothingItems = async (_id) => {
   return processServerResponse(res);
 };
 export const addLike = (data, token) => {
-  return api("PUT", `items/${data.itemId}/likes`, token);
-};
+  return api("PUT", `items/${data._id}/likes`, token);
+}; // itemId or _id ?
 
 export const removeLike = (data, token) => {
-  return api("DELETE", `items/${data.itemId}/likes`, token);
+  return api("DELETE", `items/${data._id}/likes`, token);
 };

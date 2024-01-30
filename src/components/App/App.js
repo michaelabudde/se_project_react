@@ -32,6 +32,8 @@ import {
 } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
 import { login, signup } from "../../utils/auth.js";
+// Hooks //
+import useAuth from "../../hooks/useAuth.js";
 
 // CONTEXTS //
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
@@ -43,7 +45,7 @@ import { AuthContext, AuthProvider } from "../../contexts/AuthContext.js";
 
 function App() {
   // Contexts //
-  const { setLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn } = useContext(AuthContext);
   const { currentUser, setCurrentUser } = useCurrentUser(CurrentUserContext);
 
   // General Actions //
@@ -64,6 +66,7 @@ function App() {
   }
 
   // Handle Modals //
+
   const [activeModal, setActiveModal] = useState(null);
 
   const handleCreateModal = () => {
@@ -101,7 +104,7 @@ function App() {
     },
     [activeModal]
   );
-
+  const { handleLogIn, handleSignUp, handleLogout } = useAuth(toggleModal);
   // Handle Weather & Time //
   const [weatherTemp, setWeatherTemp] = useState(0);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
@@ -197,7 +200,7 @@ function App() {
       setSelectedCard(item);
     };
   };
-  const handleLikeClick = async ({ cardId, isLiked }) => {
+  const onCardLike = async ({ cardId, isLiked }) => {
     const token = localStorage.getItem("jwt");
     let updatedCard;
     if (isLiked) {
@@ -217,9 +220,9 @@ function App() {
         return;
       }
     }
-    setAllClothingArray((cards) =>
-      cards.map((card) => (card._id === updatedCard._id ? updatedCard : card))
-    );
+    setAllClothingArray((items) =>
+      items.map((item) => (item._id === updatedCard._id ? updatedCard : item))
+    ); // changed from cards, card to item ?
   };
 
   async function handleAddItemSubmit(newItem) {
@@ -253,46 +256,6 @@ function App() {
     setActiveModal("login");
   };
 
-  async function handleLogIn({ email, password }) {
-    console.log("logging you in!");
-    const config = login(email, password);
-    api("POST", "signin", "", config)
-      .then((res) => {
-        if (res.token) {
-          localStorage.setItem("jwt", res.token);
-          setActiveModal(null);
-          setLoggedIn(true);
-          return getUserInfo(res.token);
-        } else {
-          return Promise.reject("Invalid response from server");
-        }
-      })
-      .then((userInfo) => {
-        setCurrentUser(userInfo);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  async function handleSignUp({ name, avatar, email, password }) {
-    console.log("creating your account!");
-    const config = signup(name, avatar, email, password);
-    api("POST", "signup", "", config)
-      .then(() => handleLogIn({ email, password })) // Log in after signing up
-      .then(() => setAllClothingArray()) // Set clothing array after logging in
-      .catch((error) => {
-        console.error("Error during sign up:", error);
-      });
-  }
-  const handleLogout = () => {
-    localStorage.removeItem("jwt");
-    setLoggedIn(false);
-    setCurrentUser(null);
-    setCurrentUser({ avatar: "T T" });
-    toggleModal("logout");
-  };
-
   async function getUserInfo(authToken) {
     const response = await api("GET", "/user/me", authToken);
     if (response.ok) {
@@ -304,27 +267,6 @@ function App() {
       return null; // You might want to return some default value or handle the error differently
     } // to fetch user information at different points in your application but don't necessarily need to update the current user state, you might prefer using getUserInfo
   }
-
-  const fetchUserInfo = useCallback(
-    async (token) => {
-      const response = await api("GET", "user/me", token);
-      if (response.ok) {
-        const userInfo = await response.json();
-        setCurrentUser(userInfo);
-      } else {
-        console.error(`Can't access user. Error: ${response.status}`);
-      }
-    },
-    [setCurrentUser] // to update the current user state in a React context, use fetchUserInfo
-  );
-
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      setLoggedIn(true);
-      fetchUserInfo(token);
-    }
-  }, [fetchUserInfo, setLoggedIn]);
 
   useEffect(() => {
     const fetchUserClothes = async () => {
@@ -342,7 +284,7 @@ function App() {
   async function handleProfileUpdate({ name, avatar, email }) {
     const token = localStorage.getItem("jwt");
     const data = { name, avatar, email };
-    const response = await api("PATCH", "user/me", token, data);
+    const response = await api("PATCH", "/user/me", token, data);
     if (response.ok) {
       const updatedInfo = await response.json();
       setActiveModal(null);
@@ -359,14 +301,14 @@ function App() {
         .then((userData) => {
           userData.avatar = null ? userData.name[0] : userData.avatar;
           setCurrentUser(userData);
-          setLoggedIn(true);
+          setIsLoggedIn(true);
         })
         .catch((error) => {
           console.error("Token validation failed:", error);
           localStorage.removeItem("jwt");
         });
     }
-  }, [setCurrentUser, setLoggedIn]);
+  }, [setCurrentUser, setIsLoggedIn]);
 
   function getInitials(fullName) {
     // Split the full name into an array of words
@@ -416,7 +358,7 @@ function App() {
               handleAddClick={() => toggleModal("addItem")}
               handleLogoutClick={() => toggleModal("logout", "Log Out")}
               handleEditProfileClick={() => toggleModal("edit profile")}
-              onCardLike={handleLikeClick}
+              onCardLike={onCardLike}
               getInitials={getInitials}
             />
           </ProtectedRoute>
@@ -436,6 +378,7 @@ function App() {
               onAddItem={handleAddItemSubmit}
               isLoading={isLoading}
               onSubmit={onSubmit}
+              handleLogIn={handleLogIn}
               onClose={() => toggleModal("login")}
             />
           )}
@@ -450,6 +393,7 @@ function App() {
           )}
           {activeModal === "preview" && (
             <ItemModal
+              /* key={item._id} */
               selectedCard={selectedCard}
               onClose={handleCloseModal}
               onDeleteItem={handleCardDelete}

@@ -19,11 +19,8 @@ export function CurrentUserProvider({ children }) {
     avatar: null,
   });
 
-  // Provide the value of the context
-  const contextValue = { currentUser, setCurrentUser };
-
   return (
-    <CurrentUserContext.Provider value={contextValue}>
+    <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
       {children}
     </CurrentUserContext.Provider>
   );
