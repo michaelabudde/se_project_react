@@ -19,7 +19,7 @@ export const api = async (method, endpoint, token = "", body = null) => {
     body: body ? JSON.stringify(body) : null,
   };
 
-  const res = await fetch(`${baseUrl}/${endpoint}`, requestOptions);
+  const res = await fetch(`${baseUrl}${endpoint}`, requestOptions);
   return processServerResponse(res);
 };
 

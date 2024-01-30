@@ -271,7 +271,7 @@ function App() {
   useEffect(() => {
     const fetchUserClothes = async () => {
       const token = localStorage.getItem("jwt");
-      const response = await api("GET", "items", token);
+      const response = await api("GET", "/items", token);
       const clothingArray = response.items;
       console.log("Fetched user clothes:", clothingArray);
       setAllClothingArray(clothingArray);
