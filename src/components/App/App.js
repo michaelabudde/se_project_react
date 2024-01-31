@@ -37,16 +37,13 @@ import useAuth from "../../hooks/useAuth.js";
 
 // CONTEXTS //
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
-import {
-  CurrentUserContext,
-  useCurrentUser,
-} from "../../contexts/CurrentUserContext.js";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import { AuthContext, AuthProvider } from "../../contexts/AuthContext.js";
 
 function App() {
   // Contexts //
   const { setIsLoggedIn } = useContext(AuthContext);
-  const { currentUser, setCurrentUser } = useCurrentUser(CurrentUserContext);
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   // General Actions //
   const [buttonDisplay, setButtonDisplay] = useState("");
@@ -176,8 +173,8 @@ function App() {
         const token = localStorage.getItem("jwt");
         try {
           setButtonDisplay("Deleting...");
-          await api("DELETE", `items/${item._id}`, token, item);
-          const updatedClothesList = await api("GET", "items", token);
+          await api("DELETE", `/items/${item._id}`, token, item);
+          const updatedClothesList = await api("GET", "/items", token);
           setAllClothingArray(updatedClothesList);
           handleCloseModal(); // Close the confirmation modal
         } catch (error) {
@@ -228,10 +225,10 @@ function App() {
   async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
     setButtonDisplay("Saving...");
-    const response = await api("POST", "items", token, newItem);
+    const response = await api("POST", "/items", token, newItem);
     if (response.ok) {
       toggleModal("addItem");
-      const updatedClothingArrayResponse = await api("GET", "items", token);
+      const updatedClothingArrayResponse = await api("GET", "/items", token);
       if (updatedClothingArrayResponse.ok) {
         const updatedClothingArray = await updatedClothingArrayResponse.json();
         setAllClothingArray(updatedClothingArray);
@@ -250,10 +247,10 @@ function App() {
 
   // Handle User Actions //
   const handleSignUpSubmit = () => {
-    setActiveModal("signup");
+    setActiveModal("/signup");
   };
   const handleLogInSubmit = () => {
-    setActiveModal("login");
+    setActiveModal("/login");
   };
 
   async function getUserInfo(authToken) {
@@ -298,9 +295,9 @@ function App() {
     const token = localStorage.getItem("jwt");
     if (token) {
       getUserInfo(token)
-        .then((userData) => {
-          userData.avatar = null ? userData.name[0] : userData.avatar;
-          setCurrentUser(userData);
+        .then((userInfo) => {
+          userInfo.avatar = null ? userInfo.name[0] : userInfo.avatar;
+          setCurrentUser(userInfo);
           setIsLoggedIn(true);
         })
         .catch((error) => {

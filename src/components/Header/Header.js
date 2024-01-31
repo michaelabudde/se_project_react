@@ -26,8 +26,8 @@ const Header = ({
           method: "GET",
           headers: { "Content-Type": "application/json" }, // changed to /user/me ?
         }).then(processServerResponse);
-        const userData = await response.json();
-        setCurrentUser(userData);
+        const userInfo = await response.json();
+        setCurrentUser(userInfo);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);

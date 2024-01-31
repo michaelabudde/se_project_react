@@ -12,7 +12,7 @@ const useAuth = (toggleModal) => {
   const handleLogIn = async ({ email, password }) => {
     const config = loginConfig(email, password);
     try {
-      const res = await api("POST", "login", "", config);
+      const res = await api("POST", "/login", "", config);
 
       // Check if the response contains a token
       if (res.token) {
@@ -36,7 +36,7 @@ const useAuth = (toggleModal) => {
   const handleSignUp = async ({ name, avatar, email, password }) => {
     const config = signupConfig(name, avatar, email, password);
     try {
-      const res = await api("POST", "signup", "", config);
+      const res = await api("POST", "/signup", "", config);
 
       // Check if the response is successful
       if (res.data) {
@@ -63,7 +63,7 @@ const useAuth = (toggleModal) => {
   const fetchUserInfo = useCallback(
     async (token) => {
       try {
-        const response = await api("GET", "/user/me", token); // changed to /user/me ?
+        const response = await api("GET", "/me", token); // changed to /user/me ?
         if (response.ok) {
           const userInfo = await response.json();
           console.log("User Info:", userInfo);

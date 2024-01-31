@@ -10,7 +10,7 @@ import { ResponseProvider } from "./contexts/ResponseContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <>
     <HashRouter basename={"/se_project_react"}>
       <Switch>
         <ResponseProvider>
@@ -22,7 +22,7 @@ root.render(
         </ResponseProvider>
       </Switch>
     </HashRouter>
-  </React.StrictMode>
+  </>
 );
 
 reportWebVitals();
