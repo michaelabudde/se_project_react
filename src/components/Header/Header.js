@@ -11,13 +11,14 @@ import { AuthContext } from "../../contexts/AuthContext.js";
 import { processServerResponse } from "../../utils/api";
 const Header = ({
   fetchUserInfo,
-  isLoggedIn,
+  /*   isLoggedIn, */ // not defined in app ?
   weatherLocation,
   handleClick,
-  onCreateModal,
+  handleAddClick,
   getInitials,
 }) => {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { isLoggedIn } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ const Header = ({
     <nav className="navigation">
       <ul className="navigation__container">
         <li>
-          <button onClick={onCreateModal} className="navigation__button">
+          <button onClick={handleAddClick} className="navigation__button">
             + Add Clothes
           </button>
         </li>

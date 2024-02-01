@@ -65,9 +65,9 @@ function App() {
 
   const [activeModal, setActiveModal] = useState(null);
 
-  const handleCreateModal = () => {
+  /*   const handleCreateModal = () => {
     setActiveModal("create");
-  };
+  }; */
   const handleCloseModal = useCallback(() => {
     setActiveModal("");
   });
@@ -244,15 +244,16 @@ function App() {
   }
 
   // Handle User Actions //
-  const handleSignUpSubmit = () => {
+  /*   const handleSignUpSubmit = () => {
     setActiveModal("/signup");
   };
   const handleLogInSubmit = () => {
     setActiveModal("/login");
   };
-
-  async function getUserInfo(authToken) {
+ */
+  /*   async function getUserInfo(authToken) {
     const response = await api("GET", "/users/me", authToken);
+    console.log("API Response:", response);
     if (response.ok) {
       const userInfo = await response.json();
       return userInfo;
@@ -261,12 +262,13 @@ function App() {
       // Handle error cases if needed
       return null; // You might want to return some default value or handle the error differently
     } // to fetch user information at different points in your application but don't necessarily need to update the current user state, you might prefer using getUserInfo
-  }
+  } */
 
   const fetchUserInfo = useCallback(
     async (authToken) => {
       try {
         const response = await api("GET", "/users/me", authToken);
+        console.log("API Response:", response);
         if (response.ok) {
           const userInfo = await response.json();
           console.log("User Info:", userInfo);
@@ -283,7 +285,7 @@ function App() {
     },
     [setCurrentUser]
   );
-
+  /* 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
@@ -291,11 +293,29 @@ function App() {
       fetchUserInfo(token);
     }
   }, [fetchUserInfo, setIsLoggedIn]);
+  */
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      fetchUserInfo(token)
+        .then((userInfo) => {
+          userInfo.avatar = null ? userInfo.name[0] : userInfo.avatar;
+          setCurrentUser(userInfo);
+          setIsLoggedIn(true);
+        })
+        .catch((error) => {
+          console.error("Token validation failed:", error);
+          localStorage.removeItem("jwt");
+        });
+    }
+  }, [fetchUserInfo, setCurrentUser, setIsLoggedIn]);
+
   const { handleLogIn, handleSignUp, handleLogout, response } = useAuth(
     // Pass the correct fetchUserInfo function
     () => toggleModal(""),
     fetchUserInfo
-  ); // Handle Weather & Time //
+  );
+
   useEffect(() => {
     const fetchUserClothes = async () => {
       const token = localStorage.getItem("jwt");
@@ -312,7 +332,7 @@ function App() {
   async function handleProfileUpdate({ name, avatar, email }) {
     const token = localStorage.getItem("jwt");
     const data = { name, avatar, email };
-    const response = await api("PATCH", "/me", token, data);
+    const response = await api("PATCH", "/users/me", token, data);
     if (response.ok) {
       const updatedInfo = await response.json();
       setActiveModal(null);
@@ -322,21 +342,6 @@ function App() {
     }
   }
   // checks for jwt token and validates with server
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      getUserInfo(token)
-        .then((userInfo) => {
-          userInfo.avatar = null ? userInfo.name[0] : userInfo.avatar;
-          setCurrentUser(userInfo);
-          setIsLoggedIn(true);
-        })
-        .catch((error) => {
-          console.error("Token validation failed:", error);
-          localStorage.removeItem("jwt");
-        });
-    }
-  }, [setCurrentUser, setIsLoggedIn]);
 
   function getInitials(fullName) {
     // Split the full name into an array of words
@@ -357,20 +362,21 @@ function App() {
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}
       >
         <div className="page_wrapper">
-          <Header
-            path="/"
-            handleClick={toggleModal}
-            ToggleSwitch={<ToggleSwitch />}
-            /* weatherData={weatherData} */
-            onCreateModal={handleCreateModal}
-            signUpModal={handleSignUpSubmit}
-            logInModal={handleLogInSubmit}
-            getInitials={getInitials}
-            weatherTemp={weatherTemp}
-            weatherLocation={weatherLocation}
-            fetchUserInfo={fetchUserInfo}
-            handleAddClick={() => setActiveModal("create")}
-          />
+          <Route exact path="/">
+            <Header
+              fetchUserInfo={fetchUserInfo}
+              handleClick={toggleModal}
+              weatherLocation={weatherLocation}
+              handleAddClick={() => toggleModal("create")}
+              getInitials={getInitials}
+              /*   onCreateModal={handleCreateModal}
+              ToggleSwitch={<ToggleSwitch />} */
+              /* weatherData={weatherData} */
+              /*   signUpModal={handleSignUpSubmit}
+            logInModal={handleLogInSubmit} */
+              /* weatherTemp={weatherTemp} */
+            />
+          </Route>
           <Route exact path="/">
             <Main
               weatherTemp={weatherTemp}
@@ -384,7 +390,7 @@ function App() {
             <Profile
               onCardClick={onCardClick}
               clothingArray={allClothingArray}
-              handleAddClick={() => toggleModal("addItem")}
+              handleAddClick={() => toggleModal("create")} // changed from "addItem"
               handleLogoutClick={() => toggleModal("logout", "Log Out")}
               handleEditProfileClick={() => toggleModal("edit profile")}
               onCardLike={onCardLike}
