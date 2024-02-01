@@ -65,9 +65,6 @@ function App() {
 
   const [activeModal, setActiveModal] = useState(null);
 
-  /*   const handleCreateModal = () => {
-    setActiveModal("create");
-  }; */
   const handleCloseModal = useCallback(() => {
     setActiveModal("");
   });
@@ -244,38 +241,17 @@ function App() {
   }
 
   // Handle User Actions //
-  /*   const handleSignUpSubmit = () => {
-    setActiveModal("/signup");
-  };
-  const handleLogInSubmit = () => {
-    setActiveModal("/login");
-  };
- */
-  /*   async function getUserInfo(authToken) {
-    const response = await api("GET", "/users/me", authToken);
-    console.log("API Response:", response);
-    if (response.ok) {
-      const userInfo = await response.json();
-      return userInfo;
-    } else {
-      console.error("Can't access user:", response.status);
-      // Handle error cases if needed
-      return null; // You might want to return some default value or handle the error differently
-    } // to fetch user information at different points in your application but don't necessarily need to update the current user state, you might prefer using getUserInfo
-  } */
 
   const fetchUserInfo = useCallback(
     async (authToken) => {
       try {
-        const response = await api("GET", "/users/me", authToken);
-        console.log("API Response:", response);
-        if (response.ok) {
-          const userInfo = await response.json();
-          console.log("User Info:", userInfo);
+        const userInfo = await api("GET", "/users/me", authToken);
+        console.log("User Info:", userInfo);
+        if (userInfo) {
           setCurrentUser(userInfo);
           return userInfo;
         } else {
-          console.error(`Can't access user. Error: ${response.status}`);
+          console.error("Can't access user");
           return null;
         }
       } catch (error) {
@@ -285,15 +261,7 @@ function App() {
     },
     [setCurrentUser]
   );
-  /* 
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      setIsLoggedIn(true);
-      fetchUserInfo(token);
-    }
-  }, [fetchUserInfo, setIsLoggedIn]);
-  */
+
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
@@ -319,6 +287,7 @@ function App() {
   useEffect(() => {
     const fetchUserClothes = async () => {
       const token = localStorage.getItem("jwt");
+      console.log("JWT Token:", token);
       const response = await api("GET", "/items", token);
       const clothingArray = response.items;
       console.log("Fetched user clothes:", clothingArray);
@@ -369,12 +338,6 @@ function App() {
               weatherLocation={weatherLocation}
               handleAddClick={() => toggleModal("create")}
               getInitials={getInitials}
-              /*   onCreateModal={handleCreateModal}
-              ToggleSwitch={<ToggleSwitch />} */
-              /* weatherData={weatherData} */
-              /*   signUpModal={handleSignUpSubmit}
-            logInModal={handleLogInSubmit} */
-              /* weatherTemp={weatherTemp} */
             />
           </Route>
           <Route exact path="/">
