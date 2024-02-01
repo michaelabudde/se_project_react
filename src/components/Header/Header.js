@@ -10,37 +10,36 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { AuthContext } from "../../contexts/AuthContext.js";
 import { processServerResponse } from "../../utils/api";
 const Header = ({
+  fetchUserInfo,
+  isLoggedIn,
   weatherLocation,
   handleClick,
   onCreateModal,
   getInitials,
 }) => {
-  const { isLoggedIn } = useContext(AuthContext);
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${baseUrl}/me`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" }, // changed to /user/me ?
-        }).then(processServerResponse);
-        const userInfo = await response.json();
-        setCurrentUser(userInfo);
-        setLoading(false);
+        const token = localStorage.getItem("jwt");
+        if (token && isLoggedIn) {
+          const userInfo = await fetchUserInfo(token);
+          setCurrentUser(userInfo);
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
         setLoading(false);
       }
     };
-    if (isLoggedIn) {
-      fetchUser();
-    } else {
-      setLoading(false);
-    }
-  }, [isLoggedIn, setCurrentUser]);
-  /*   if (!weatherTemp || loading) return null; */
+
+    fetchUser();
+  }, [fetchUserInfo, setCurrentUser, isLoggedIn]);
+
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",

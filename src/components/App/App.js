@@ -34,7 +34,6 @@ import { getForecast } from "../../utils/weatherApi";
 import { login, signup } from "../../utils/auth.js";
 // Hooks //
 import useAuth from "../../hooks/useAuth.js";
-
 // CONTEXTS //
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
@@ -101,8 +100,7 @@ function App() {
     },
     [activeModal]
   );
-  const { handleLogIn, handleSignUp, handleLogout } = useAuth(toggleModal);
-  // Handle Weather & Time //
+
   const [weatherTemp, setWeatherTemp] = useState(0);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [weatherLocation, setLocation] = useState("");
@@ -293,7 +291,11 @@ function App() {
       fetchUserInfo(token);
     }
   }, [fetchUserInfo, setIsLoggedIn]);
-
+  const { handleLogIn, handleSignUp, handleLogout, response } = useAuth(
+    // Pass the correct fetchUserInfo function
+    () => toggleModal(""),
+    fetchUserInfo
+  ); // Handle Weather & Time //
   useEffect(() => {
     const fetchUserClothes = async () => {
       const token = localStorage.getItem("jwt");
@@ -310,7 +312,7 @@ function App() {
   async function handleProfileUpdate({ name, avatar, email }) {
     const token = localStorage.getItem("jwt");
     const data = { name, avatar, email };
-    const response = await api("PATCH", "/user/me", token, data);
+    const response = await api("PATCH", "/me", token, data);
     if (response.ok) {
       const updatedInfo = await response.json();
       setActiveModal(null);
@@ -366,6 +368,7 @@ function App() {
             getInitials={getInitials}
             weatherTemp={weatherTemp}
             weatherLocation={weatherLocation}
+            fetchUserInfo={fetchUserInfo}
             handleAddClick={() => setActiveModal("create")}
           />
           <Route exact path="/">
