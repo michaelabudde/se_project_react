@@ -254,7 +254,7 @@ function App() {
   };
 
   async function getUserInfo(authToken) {
-    const response = await api("GET", "/user/me", authToken);
+    const response = await api("GET", "/me", authToken);
     if (response.ok) {
       const userInfo = await response.json();
       return userInfo;
@@ -264,6 +264,35 @@ function App() {
       return null; // You might want to return some default value or handle the error differently
     } // to fetch user information at different points in your application but don't necessarily need to update the current user state, you might prefer using getUserInfo
   }
+
+  const fetchUserInfo = useCallback(
+    async (authToken) => {
+      try {
+        const response = await api("GET", "/me", authToken);
+        if (response.ok) {
+          const userInfo = await response.json();
+          console.log("User Info:", userInfo);
+          setCurrentUser(userInfo);
+          return userInfo;
+        } else {
+          console.error(`Can't access user. Error: ${response.status}`);
+          return null;
+        }
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+        return null;
+      }
+    },
+    [setCurrentUser]
+  );
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      setIsLoggedIn(true);
+      fetchUserInfo(token);
+    }
+  }, [fetchUserInfo, setIsLoggedIn]);
 
   useEffect(() => {
     const fetchUserClothes = async () => {

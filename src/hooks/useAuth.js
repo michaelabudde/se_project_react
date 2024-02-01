@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { api } from "../utils/api";
 import { login as loginConfig, signup as signupConfig } from "../utils/auth";
 
-const useAuth = (toggleModal) => {
+const useAuth = (toggleModal, fetchUserInfo) => {
   const { setIsLoggedIn } = useContext(AuthContext);
   const { setCurrentUser } = useContext(CurrentUserContext);
   const [response, setResponse] = useState("");
@@ -59,36 +59,6 @@ const useAuth = (toggleModal) => {
     setCurrentUser({ avatar: "T T" });
     toggleModal("logout");
   };
-
-  const fetchUserInfo = useCallback(
-    async (token) => {
-      try {
-        const response = await api("GET", "/me", token); // changed to /user/me ?
-        if (response.ok) {
-          const userInfo = await response.json();
-          console.log("User Info:", userInfo);
-          setCurrentUser(userInfo);
-          return userInfo;
-        } else {
-          console.error(`Can't access user. Error: ${response.status}`);
-          return null;
-        }
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-        return null;
-      }
-    },
-    [setCurrentUser]
-  );
-
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      setIsLoggedIn(true);
-      fetchUserInfo(token);
-    }
-  }, [fetchUserInfo, setIsLoggedIn]);
-
   return { handleLogIn, handleSignUp, handleLogout, response };
 };
 

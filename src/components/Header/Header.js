@@ -22,7 +22,7 @@ const Header = ({
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${baseUrl}/user/me`, {
+        const response = await fetch(`${baseUrl}/me`, {
           method: "GET",
           headers: { "Content-Type": "application/json" }, // changed to /user/me ?
         }).then(processServerResponse);
