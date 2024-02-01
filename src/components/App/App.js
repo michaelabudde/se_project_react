@@ -252,7 +252,7 @@ function App() {
   };
 
   async function getUserInfo(authToken) {
-    const response = await api("GET", "/me", authToken);
+    const response = await api("GET", "/users/me", authToken);
     if (response.ok) {
       const userInfo = await response.json();
       return userInfo;
@@ -266,7 +266,7 @@ function App() {
   const fetchUserInfo = useCallback(
     async (authToken) => {
       try {
-        const response = await api("GET", "/me", authToken);
+        const response = await api("GET", "/users/me", authToken);
         if (response.ok) {
           const userInfo = await response.json();
           console.log("User Info:", userInfo);
