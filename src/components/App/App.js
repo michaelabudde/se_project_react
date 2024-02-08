@@ -31,7 +31,8 @@ import {
   deleteClothingItems,
 } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
-import { login, signup } from "../../utils/auth.js";
+/* import { login, signup } from "../../utils/auth.js"; */
+
 // Hooks //
 import useAuth from "../../hooks/useAuth.js";
 // CONTEXTS //
@@ -48,6 +49,13 @@ function App() {
   const [buttonDisplay, setButtonDisplay] = useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
+  // Handle Modals //
+
+  const [activeModal, setActiveModal] = useState(null);
+
+  const handleCloseModal = useCallback(() => {
+    setActiveModal("");
+  });
   function onSubmit(request) {
     // start loading
     setIsLoading(true);
@@ -60,15 +68,6 @@ function App() {
       // and in finally we need to stop loading
       .finally(() => setIsLoading(false));
   }
-
-  // Handle Modals //
-
-  const [activeModal, setActiveModal] = useState(null);
-
-  const handleCloseModal = useCallback(() => {
-    setActiveModal("");
-  });
-
   useEffect(() => {
     if (!activeModal) return; // stop the effect not to add the listener if there is no active modal
     const handleEscClose = (e) => {
@@ -312,7 +311,7 @@ function App() {
   }
   // checks for jwt token and validates with server
 
-  function getInitials(fullName) {
+  /*   function getInitials(fullName) {
     // Split the full name into an array of words
     const nameParts = fullName.split(" ");
     // Extract the first and last names
@@ -324,7 +323,7 @@ function App() {
     // Return the combined initials
     return firstInitial + lastInitial;
   }
-
+ */
   return (
     <div className="page">
       <CurrentTemperatureUnitContext.Provider
@@ -337,7 +336,7 @@ function App() {
               handleClick={toggleModal}
               weatherLocation={weatherLocation}
               handleAddClick={() => toggleModal("create")}
-              getInitials={getInitials}
+              /*  getInitials={getInitials} */
             />
           </Route>
           <Route exact path="/">
@@ -357,12 +356,12 @@ function App() {
               handleLogoutClick={() => toggleModal("logout", "Log Out")}
               handleEditProfileClick={() => toggleModal("edit profile")}
               onCardLike={onCardLike}
-              getInitials={getInitials}
+              /* getInitials={getInitials} */
             />
           </ProtectedRoute>
           {activeModal === "signup" && (
             <SignUpModal
-              onClose={() => toggleModal("signup")}
+              onClose={handleCloseModal}
               isOpen={activeModal === "signup"}
               handleSignUp={handleSignUp}
               buttonDisplay={buttonDisplay}
@@ -371,19 +370,17 @@ function App() {
           )}
           {activeModal === "login" && (
             <LogInModal
-              handleCloseModal={handleCloseModal}
+              onClose={handleCloseModal}
               isOpen={activeModal === "login"}
-              onAddItem={handleAddItemSubmit}
               isLoading={isLoading}
               onSubmit={onSubmit}
               handleLogIn={handleLogIn}
-              onClose={() => toggleModal("login")}
               handleClick={toggleModal}
             />
           )}
           {activeModal === "create" && (
             <AddItemModal
-              handleCloseModal={handleCloseModal}
+              onClose={handleCloseModal}
               isOpen={activeModal === "create"}
               onAddItem={handleAddItemSubmit}
               isLoading={isLoading}
@@ -400,14 +397,14 @@ function App() {
           )}
           {activeModal === "edit profile" && (
             <EditProfileModal
-              onClose={() => toggleModal("edit profile")}
+              onClose={handleCloseModal}
               isOpen={activeModal === "edit profile"}
               handleProfileUpdate={handleProfileUpdate}
             />
           )}
           {activeModal === "logout" && (
             <ConfirmLogoutModal
-              onClose={toggleModal}
+              onClose={handleCloseModal}
               handleLogout={handleLogout}
               buttonDisplay={buttonDisplay}
             />

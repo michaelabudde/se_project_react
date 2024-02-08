@@ -15,7 +15,7 @@ const Header = ({
   weatherLocation,
   handleClick,
   handleAddClick,
-  getInitials,
+  /*   getInitials, */
 }) => {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { isLoggedIn } = useContext(AuthContext);
@@ -60,22 +60,23 @@ const Header = ({
           <div className="navigation__link">
             <Link className="header__username" to="/profile">
               {username}
+
+              {avatar ? (
+                <span
+                  className={`navigation__user ${
+                    isAvatarSet ? "navigation__user_avatar" : ""
+                  }`}
+                >
+                  <img
+                    className="navigation__user"
+                    src={avatar}
+                    alt="user avatar"
+                  ></img>
+                </span>
+              ) : (
+                username?.toUpperCase().charAt(0) || ""
+              )}
             </Link>
-            {avatar ? (
-              <span
-                className={`navigation__user ${
-                  isAvatarSet ? "navigation__user_avatar" : ""
-                }`}
-              >
-                <img
-                  className="navigation__user"
-                  src={avatar}
-                  alt="user avatar"
-                ></img>
-              </span>
-            ) : (
-              getInitials(username)
-            )}
           </div>
         </li>
       </ul>

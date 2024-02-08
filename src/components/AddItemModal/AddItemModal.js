@@ -3,24 +3,26 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "../ModalWithForm/ModalWithForm.css";
 import { useForm } from "../../hooks/useForm";
 
-const AddItemModal = ({ handleCloseModal, onAddItem, isOpen }) => {
+const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
   const { values, handleChange } = useForm({
     name: "",
     link: "",
     weatherType: "",
   });
-
+  const formInfo = {
+    title: "New Garment",
+    name: "create",
+    buttonText: "Add garment",
+  };
   return (
     <ModalWithForm
-      title="New Garment"
-      modalName="new-card"
-      onClose={handleCloseModal}
+      onClose={onClose}
       onSubmit={(evt) => {
         evt.preventDefault();
         onAddItem(values);
       }}
       isOpen={isOpen}
-      buttontext={"Add Garment"}
+      formInfo={formInfo}
     >
       <div>
         <label className="modal-form__label">

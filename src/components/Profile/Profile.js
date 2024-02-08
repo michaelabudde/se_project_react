@@ -10,7 +10,7 @@ const Profile = ({
   handleEditProfileClick,
   onCardClick,
   onCardLike,
-  getInitials,
+  /*   getInitials, */
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
   return (
@@ -25,7 +25,7 @@ const Profile = ({
                 className="profile__sidebar-user-avatar"
               ></img>
             ) : (
-              getInitials(currentUser.name)
+              currentUser.name?.toUpperCase().charAt(0) || ""
             )}
           </div>
           <h3 className="profile__sidebar-username">
