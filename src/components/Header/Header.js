@@ -60,7 +60,8 @@ const Header = ({
           <div className="navigation__link">
             <Link className="header__username" to="/profile">
               {username}
-
+            </Link>
+            <Link className="header__avatar" to="/profile">
               {avatar ? (
                 <span
                   className={`navigation__user ${

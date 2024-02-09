@@ -298,17 +298,23 @@ function App() {
   }, [currentUser]);
 
   async function handleProfileUpdate({ name, avatar, email }) {
-    const token = localStorage.getItem("jwt");
-    const data = { name, avatar, email };
-    const response = await api("PATCH", "/users/me", token, data);
-    if (response.ok) {
-      const updatedInfo = await response.json();
-      setActiveModal(null);
-      setCurrentUser(updatedInfo);
-    } else {
-      console.error(`Couldn't update profile: ${response.status}`);
+    try {
+      const token = localStorage.getItem("jwt");
+      const data = { name, avatar, email };
+      const updatedInfo = await api("PATCH", "/users/me", token, data);
+
+      // processServerResponse already handles the ok check
+      if (updatedInfo) {
+        setActiveModal(null);
+        setCurrentUser(updatedInfo);
+      } else {
+        console.error("Couldn't update profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
     }
   }
+
   // checks for jwt token and validates with server
 
   /*   function getInitials(fullName) {
@@ -330,15 +336,14 @@ function App() {
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}
       >
         <div className="page_wrapper">
-          <Route exact path="/">
-            <Header
-              fetchUserInfo={fetchUserInfo}
-              handleClick={toggleModal}
-              weatherLocation={weatherLocation}
-              handleAddClick={() => toggleModal("create")}
-              /*  getInitials={getInitials} */
-            />
-          </Route>
+          <Header
+            fetchUserInfo={fetchUserInfo}
+            handleClick={toggleModal}
+            weatherLocation={weatherLocation}
+            handleAddClick={() => toggleModal("create")}
+            /*  getInitials={getInitials} */
+          />
+
           <Route exact path="/">
             <Main
               weatherTemp={weatherTemp}
