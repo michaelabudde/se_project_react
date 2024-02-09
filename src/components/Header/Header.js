@@ -46,6 +46,9 @@ const Header = ({
     day: "numeric",
   });
   const username = currentUser ? currentUser.name : "Terrence Tegegne";
+  console.log("Current User:", currentUser);
+  console.log("Username:", username);
+
   const isAvatarSet = Boolean(avatar); // Define isAvatarSet based on the presence of an avatar
 
   const loggedInHeader = (
