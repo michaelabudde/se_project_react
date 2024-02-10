@@ -241,27 +241,45 @@ function App() {
 
   // Handle User Actions //
 
-  const fetchUserInfo = useCallback(
-    async (authToken) => {
-      try {
-        const userInfo = await api("GET", "/users/me", authToken);
-        console.log("User Info:", userInfo);
-        if (userInfo) {
-          setCurrentUser(userInfo);
-          return userInfo;
-        } else {
-          console.error("Can't access user");
-          return null;
-        }
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-        return null;
-      }
-    },
-    [setCurrentUser]
-  );
+  const fetchUserInfo = useCallback(async (authToken) => {
+    // try {
+    const currentUser = await api("GET", "/users/me", authToken);
+    console.log("User Info:", currentUser);
+    if (currentUser) {
+      /* setCurrentUser(currentUser.data);
+          debugger; */
+      return currentUser.data;
+    } else {
+      console.error("Can't access user");
+      throw Error("Error");
+    }
+    // } catch (error) {
+    //   console.error("Error fetching user info:", error);
+    //   return null;
+    // }
+  }, []);
+  async function handleProfileUpdate({ name, avatar, email }) {
+    try {
+      const token = localStorage.getItem("jwt");
+      const data = { name, avatar, email };
+      const updatedInfo = await api("PATCH", "/users/me", token, data);
 
-  useEffect(() => {
+      // processServerResponse already handles the ok check
+      if (updatedInfo) {
+        // Fetch the updated user information
+        const userInfo = await fetchUserInfo(token);
+
+        setActiveModal(null);
+        setCurrentUser(userInfo); // Update the current user with the fetched info
+      } else {
+        console.error("Couldn't update profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  }
+
+  /*   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
       fetchUserInfo(token)
@@ -275,7 +293,7 @@ function App() {
           localStorage.removeItem("jwt");
         });
     }
-  }, [fetchUserInfo, setCurrentUser, setIsLoggedIn]);
+  }, [fetchUserInfo, setCurrentUser, setIsLoggedIn]); */
 
   const { handleLogIn, handleSignUp, handleLogout, response } = useAuth(
     // Pass the correct fetchUserInfo function
@@ -296,24 +314,6 @@ function App() {
       fetchUserClothes();
     }
   }, [currentUser]);
-
-  async function handleProfileUpdate({ name, avatar, email }) {
-    try {
-      const token = localStorage.getItem("jwt");
-      const data = { name, avatar, email };
-      const updatedInfo = await api("PATCH", "/users/me", token, data);
-
-      // processServerResponse already handles the ok check
-      if (updatedInfo) {
-        setActiveModal(null);
-        setCurrentUser(updatedInfo);
-      } else {
-        console.error("Couldn't update profile");
-      }
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    }
-  }
 
   // checks for jwt token and validates with server
 

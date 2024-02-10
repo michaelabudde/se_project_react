@@ -3,7 +3,6 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import "./Header.css";
 import "./Navigation.css";
 import { baseUrl } from "../../utils/constants.js";
-import avatar from "../../images/avatar.svg";
 import WTWRlogo from "../../images/WTWRlogo.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
@@ -17,11 +16,11 @@ const Header = ({
   handleAddClick,
   /*   getInitials, */
 }) => {
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
   const { isLoggedIn } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("jwt");
@@ -39,18 +38,17 @@ const Header = ({
     };
 
     fetchUser();
-  }, [fetchUserInfo, setCurrentUser, isLoggedIn]);
+  }, [fetchUserInfo, setCurrentUser, isLoggedIn]); */
 
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
   });
-  const username = currentUser ? currentUser.name : "Terrence Tegegne";
+  const username = currentUser ? currentUser.name : "Terrence Tegegne"; // changedd from currentUser.name ?
   console.log("Current User:", currentUser);
   console.log("Username:", username);
 
-  const isAvatarSet = Boolean(avatar); // Define isAvatarSet based on the presence of an avatar
-
+  const isAvatarSet = Boolean(currentUser.avatar);
   const loggedInHeader = (
     <nav className="navigation">
       <ul className="navigation__container">
@@ -61,11 +59,11 @@ const Header = ({
         </li>
         <li>
           <div className="navigation__link">
-            <Link className="header__username" to="/profile">
+            <Link className="navigation__username" to="/profile">
               {username}
             </Link>
-            <Link className="header__avatar" to="/profile">
-              {avatar ? (
+            <Link to="/profile">
+              {currentUser.avatar ? (
                 <span
                   className={`navigation__user ${
                     isAvatarSet ? "navigation__user_avatar" : ""
@@ -73,12 +71,18 @@ const Header = ({
                 >
                   <img
                     className="navigation__user"
-                    src={avatar}
+                    src={currentUser.avatar}
                     alt="user avatar"
-                  ></img>
+                  />
                 </span>
               ) : (
-                username?.toUpperCase().charAt(0) || ""
+                // ) : (
+                //   <span className={`navigation__user ${isAvatarSet ? "navigation__user_avatar" : ""}`}>
+                //     <img className="navigation__user" src={defaultAvatar} alt="default avatar" />
+                //   </span>
+                <span className="navigation__user_type_none">
+                  {username?.toUpperCase().charAt(0) || ""}
+                </span>
               )}
             </Link>
           </div>

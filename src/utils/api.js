@@ -20,6 +20,7 @@ export const api = async (method, endpoint, token = "", body = null) => {
   };
 
   const res = await fetch(`${baseUrl}${endpoint}`, requestOptions);
+  console.log(res);
   return processServerResponse(res);
 };
 
