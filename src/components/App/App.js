@@ -36,7 +36,10 @@ import { getForecast } from "../../utils/weatherApi";
 // Hooks //
 import useAuth from "../../hooks/useAuth.js";
 // CONTEXTS //
-import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
+import {
+  CurrentTemperatureUnitContext,
+  CurrentTemperatureUnitProvider,
+} from "../../contexts/CurrentTemperatureUnitContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import { AuthContext, AuthProvider } from "../../contexts/AuthContext.js";
 
@@ -98,7 +101,15 @@ function App() {
   );
 
   const [weatherTemp, setWeatherTemp] = useState(0);
-  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(
+    CurrentTemperatureUnitContext
+  );
+
+  /*   const handleToggleSwitchChange = () => {
+    currentTemperatureUnit === "F"
+      ? currentTemperatureUnit("C")
+      : currentTemperatureUnit("F");
+  }; */
   const [weatherLocation, setLocation] = useState("");
   const [sunrise, setSunrise] = useState(null);
   const [sunset, setSunset] = useState(null);
@@ -110,11 +121,6 @@ function App() {
     }
   };
   const dateNow = Date.now() * 0.001;
-  const handleToggleSwitchChange = () => {
-    currentTemperatureUnit === "F"
-      ? setCurrentTemperatureUnit("C")
-      : setCurrentTemperatureUnit("F");
-  };
   useEffect(() => {
     getForecast()
       .then((data) => {
@@ -332,7 +338,7 @@ function App() {
  */
   return (
     <div className="page">
-      <CurrentTemperatureUnitContext.Provider
+      <CurrentTemperatureUnitProvider
         value={{ currentTemperatureUnit, handleToggleSwitchChange }}
       >
         <div className="page_wrapper">
@@ -416,7 +422,7 @@ function App() {
           )}
         </div>
         <Footer />
-      </CurrentTemperatureUnitContext.Provider>
+      </CurrentTemperatureUnitProvider>
     </div>
   );
 }

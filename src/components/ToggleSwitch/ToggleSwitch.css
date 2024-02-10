@@ -1,16 +1,18 @@
 .switch {
-  height: 0;
-  width: 0;
-  display: none;
-  background-color: #000;
+  display: flex;
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  align-items: center;
 }
-
 .switch__box {
   border-radius: 28px;
   border: solid 2px #7e7e7e;
   width: 56px;
   height: 28px;
-
+  appearance: none;
+  margin: 0px;
+  padding: 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -22,47 +24,85 @@
 .switch__box:hover {
   border: solid 2px #000;
 }
-
-.switch__box .switch__slider {
-  position: absolute;
-  top: 0;
-  left: 0;
+.switch__slider {
+  border-radius: 28px;
   width: 28px;
   height: 28px;
-  border-radius: 28px;
-  transition: 0.2s;
-  background: #000;
-  box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
-}
-.switch:checked + .switch__box .switch__slider {
-  left: calc(100%);
-  transform: translateX(-100%);
-}
-.switch__text {
+  background-color: black;
+  /* color: white; */
+  /* text-align: center; */
+  cursor: pointer;
   position: absolute;
-  font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  line-height: 17.36px;
-  color: rgba(255, 255, 255, 0.8);
-  mix-blend-mode: difference;
-  z-index: 1;
+  margin: 0px;
+  padding: 0px;
+  /* top: 0;
+  left: 0; */
+  z-index: 0;
+  transition: 0.2s;
 }
-
-.switch__temp-F {
-  padding-left: 10px;
-  top: 25%;
-}
-.switch__temp-C {
-  padding-right: 8px;
-  top: 25%;
-  right: 0;
+.switch__slider-F {
+  left: 0px;
+  position: absolute;
+  /* margin: 0px;
+  padding: 0px;
+  width: 28px;
+  height: 28px; */
+  cursor: pointer;
 }
 
 .switch__slider-C {
+  /*   top: 3px; */
   left: 26px;
   position: absolute;
+  /* margin: 0px;
+  padding: 0px;
+  width: 28px;
+  height: 28px; */
+  cursor: pointer;
+}
+
+.switch__temp-F {
+  position: absolute;
+  top: 7px;
+  left: 10px;
   margin: 0px;
   padding: 0px;
   width: 28px;
   height: 28px;
+  cursor: pointer;
+}
+.switch__temp-C {
+  position: absolute;
+  top: 7px;
+  left: 34px;
+  margin: 0px;
+  padding: 0px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+.switch__active {
+  color: white;
+  /* position: absolute; */
+  font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  z-index: 1;
+  /* margin: 0px;
+  padding: 0px;
+  width: 28px;
+  height: 28px; */
+}
+
+.switch__none {
+  color: black;
+  /* position: absolute; */
+  font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  z-index: 1;
+  /* margin: 0px;
+  padding: 0px;
+  width: 28px;
+  height: 28px; */
 }

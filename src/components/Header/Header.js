@@ -49,6 +49,7 @@ const Header = ({
   console.log("Username:", username);
 
   const isAvatarSet = Boolean(currentUser.avatar);
+
   const loggedInHeader = (
     <nav className="navigation">
       <ul className="navigation__container">
@@ -80,7 +81,7 @@ const Header = ({
                 //   <span className={`navigation__user ${isAvatarSet ? "navigation__user_avatar" : ""}`}>
                 //     <img className="navigation__user" src={defaultAvatar} alt="default avatar" />
                 //   </span>
-                <span className="navigation__user_type_none">
+                <span className="navigation__user_initial">
                   {username?.toUpperCase().charAt(0) || ""}
                 </span>
               )}
