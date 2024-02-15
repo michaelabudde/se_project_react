@@ -6,7 +6,7 @@ import { useForm } from "../../hooks/useForm";
 const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
   const { values, handleChange } = useForm({
     name: "",
-    link: "",
+    imageUrl: "",
     weatherType: "",
   });
   const formInfo = {
@@ -46,7 +46,7 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
             name="link"
             className="modal-form__input modal__input_type_url"
             placeholder="Image URL"
-            value={values.link}
+            value={values.imageUrl}
             onChange={handleChange}
             required
           />

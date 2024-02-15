@@ -28,6 +28,7 @@ import {
   addLike,
   removeLike,
   getClothingItems,
+  addClothingItem,
   deleteClothingItems,
 } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
@@ -173,7 +174,12 @@ function App() {
         const token = localStorage.getItem("jwt");
         try {
           setButtonDisplay("Deleting...");
-          await api("DELETE", `/items/${item._id}`, token, item);
+          await deleteClothingItems(
+            "DELETE",
+            `/items/${item._id}`,
+            token,
+            item
+          ); // changed from api to deleteClothingItems
           const updatedClothesList = await api("GET", "/items", token);
           setAllClothingArray(updatedClothesList);
           handleCloseModal(); // Close the confirmation modal
@@ -225,7 +231,7 @@ function App() {
   async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
     setButtonDisplay("Saving...");
-    const response = await api("POST", "/items", token, newItem);
+    const response = await addClothingItem("POST", "/items", token, newItem); // changed from api to addCLothingItem
     if (response.ok) {
       toggleModal("addItem");
       const updatedClothingArrayResponse = await api("GET", "/items", token);

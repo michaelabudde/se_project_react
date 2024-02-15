@@ -36,7 +36,7 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
       formInfo={formInfo}
       onClose={onClose}
       onSubmit={onSubmit}
-      buttonState={isValid}
+      // buttonState={isValid}
       extraButton={extraButton}
       modalName="sign-up"
     >

@@ -4,24 +4,11 @@ import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperature
 const ToggleSwitch = () => {
   const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(
     CurrentTemperatureUnitContext
-  ); // const handleChange = (e) => {
-  //   if (currentTemperatureUnit === "C") {
-  //     handleToggleSwitchChange("F");
-  //   } else if (currentTemperatureUnit === "F") {
-  //     handleToggleSwitchChange("C");
-  //   }
-  // };
-  // const handleChange = () => {
-  //   handleToggleSwitchChange((prevUnit) => (prevUnit === "F" ? "C" : "F"));
-  // };
+  );
   const handleChange = handleToggleSwitchChange;
   return (
-    <div className="switch">
-      <input
-        type="checkbox"
-        className="switch__box"
-        onChange={handleChange}
-      ></input>
+    <div className="switch" onClick={handleChange}>
+      <input type="checkbox" className="switch__box"></input>
       <span
         className={
           currentTemperatureUnit === "F"

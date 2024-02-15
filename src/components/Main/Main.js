@@ -65,7 +65,7 @@ function Main({
             return (
               <ItemCard
                 item={item}
-                key={item._id}
+                // key={item._id}
                 onCardClick={onCardClick(item)}
                 onCardLike={onCardLike}
               />

@@ -9,7 +9,7 @@ const ModalWithForm = ({
   onSubmit,
   isLoading,
   formInfo,
-  buttonState,
+  // buttonState,
   extraButton,
 }) => {
   useEsc(onClose);
@@ -41,7 +41,7 @@ const ModalWithForm = ({
               type="submit"
               className="modal-form__submit-button"
               buttontext={isLoading ? "Saving..." : "Save"}
-              disabled={!buttonState}
+              // disabled={!buttonState}
             >
               {formInfo.buttonText}
             </button>
@@ -52,7 +52,7 @@ const ModalWithForm = ({
                   className={btn.className || "modal-form__extra-button"}
                   type={btn.type || "button"}
                   onClick={btn.onClick}
-                  disabled={btn.disabled}
+                  // disabled={btn.disabled}
                 >
                   {btn.text}
                 </button>
