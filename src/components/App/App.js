@@ -231,10 +231,12 @@ function App() {
   async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
     setButtonDisplay("Saving...");
-    const response = await addClothingItem("POST", "/items", token, newItem); // changed from api to addCLothingItem
+    const response = await api("POST", "/items", token); // changed to api
+
     if (response.ok) {
       toggleModal("addItem");
       const updatedClothingArrayResponse = await api("GET", "/items", token);
+
       if (updatedClothingArrayResponse.ok) {
         const updatedClothingArray = await updatedClothingArrayResponse.json();
         setAllClothingArray(updatedClothingArray);
