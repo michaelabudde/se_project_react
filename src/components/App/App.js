@@ -227,33 +227,42 @@ function App() {
       items.map((item) => (item._id === updatedCard._id ? updatedCard : item))
     ); // changed from cards, card to item ?
   };
+
   async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
-    setButtonDisplay("Saving...");
 
-    // Use addClothingItem directly
-    const response = await addClothingItem(newItem, token);
-
-    if (response.ok) {
+    // Use addClothingItem directly ?
+    // const response = await addClothingItem(newItem, token);
+    try {
       toggleModal("addItem");
-
-      // Use api if you need to make another request
-      const updatedClothingArrayResponse = await api("GET", "/items", token);
-
-      if (updatedClothingArrayResponse.ok) {
-        const updatedClothingArray = await updatedClothingArrayResponse.json();
-        setAllClothingArray(updatedClothingArray);
-      } else {
-        setButtonDisplay("Server error, try again");
-        console.error(
-          "Couldn't get updated clothes list:",
-          updatedClothingArrayResponse.status
-        );
-      }
-    } else {
-      setButtonDisplay("Server error, try again");
+      const response = await api("POST", "/items", token, newItem);
+      // add new item to array
+      setAllClothingArray([...allClothingArray, response.data]);
+      handleCloseModal(); // Close the addItem modal
+    } catch (err) {
+      // log error to console
       console.error("Couldn't add the item:", response.status);
     }
+    // if (response.ok) {
+    //   toggleModal("addItem");
+
+    //   // Use api if you need to make another request
+    //   const updatedClothingArrayResponse = await api("GET", "/items", token);
+
+    //   if (updatedClothingArrayResponse.ok) {
+    //     const updatedClothingArray = await updatedClothingArrayResponse.json();
+    //     setAllClothingArray(updatedClothingArray);
+    //   } else {
+    //     setButtonDisplay("Server error, try again");
+    //     console.error(
+    //       "Couldn't get updated clothes list:",
+    //       updatedClothingArrayResponse.status
+    //     );
+    //   }
+    // } else {
+    //   setButtonDisplay("Server error, try again");
+    //   console.error("Couldn't add the item:", response.status);
+    // }
   }
 
   // Handle User Actions //

@@ -44,9 +44,11 @@
   color: inherit;
 }
 .navigation__user {
-  max-width: 40px;
-  max-height: 40px;
+  width: 40px;
+  height: 40px;
   text-decoration: none;
+  object-fit: cover;
+  border-radius: 50%;
 }
 .navigation__username {
   text-decoration: none;
