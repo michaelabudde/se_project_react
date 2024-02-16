@@ -227,20 +227,18 @@ function App() {
       items.map((item) => (item._id === updatedCard._id ? updatedCard : item))
     ); // changed from cards, card to item ?
   };
-
-  async function handleAddItemSubmit(body) {
+  async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
     setButtonDisplay("Saving...");
-    const response = await api("POST", "/items", token, body); // changed to api
+
+    // Use addClothingItem directly
+    const response = await addClothingItem(newItem, token);
 
     if (response.ok) {
       toggleModal("addItem");
-      const updatedClothingArrayResponse = await api(
-        "GET",
-        "/items",
-        token,
-        body
-      );
+
+      // Use api if you need to make another request
+      const updatedClothingArrayResponse = await api("GET", "/items", token);
 
       if (updatedClothingArrayResponse.ok) {
         const updatedClothingArray = await updatedClothingArrayResponse.json();

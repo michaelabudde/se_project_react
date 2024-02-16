@@ -24,23 +24,25 @@ export const api = async (method, endpoint, token = "", body = null) => {
   return processServerResponse(res);
 };
 
-export const getClothingItems = async () => {
-  const res = await fetch(`${baseUrl}/items`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  return processServerResponse(res);
-};
-
-export const addClothingItem = async (newItem) => {
+export const addClothingItem = async (newItem, token = "") => {
   const res = await fetch(`${baseUrl}/items`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : "",
+    },
     body: JSON.stringify({
       name: newItem.name,
       weather: newItem.weather,
       imageUrl: newItem.imageUrl,
     }),
+  });
+  return processServerResponse(res);
+};
+export const getClothingItems = async () => {
+  const res = await fetch(`${baseUrl}/items`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
   });
   return processServerResponse(res);
 };

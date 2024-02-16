@@ -7,20 +7,21 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
   const { values, handleChange } = useForm({
     name: "",
     imageUrl: "",
-    weatherType: "",
+    weather: "",
   });
   const formInfo = {
     title: "New Garment",
     name: "create",
     buttonText: "Add garment",
   };
+  function onSubmit(e) {
+    e.preventDefault();
+    onAddItem(values);
+  }
   return (
     <ModalWithForm
       onClose={onClose}
-      onSubmit={(evt) => {
-        evt.preventDefault();
-        onAddItem(values);
-      }}
+      onSubmit={onSubmit}
       isOpen={isOpen}
       formInfo={formInfo}
     >
@@ -43,7 +44,7 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
           Image
           <input
             type="url"
-            name="link"
+            name="imageUrl"
             className="modal-form__input modal__input_type_url"
             placeholder="Image URL"
             value={values.imageUrl}
@@ -59,7 +60,7 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
               className="modal-form__input_type_radio"
               type="radio"
               id="choiceHot"
-              name="weatherType"
+              name="weather"
               value="hot"
               onChange={handleChange}
             />
@@ -72,7 +73,7 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
               className="modal-form__input_type_radio"
               type="radio"
               id="choiceWarm"
-              name="weatherType"
+              name="weather"
               value="warm"
               onChange={handleChange}
             />
@@ -85,7 +86,7 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
               className="modal-form__input_type_radio"
               type="radio"
               id="choiceCold"
-              name="weatherType"
+              name="weather"
               value="cold"
               onChange={handleChange}
             />

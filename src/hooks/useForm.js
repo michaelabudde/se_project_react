@@ -1,6 +1,12 @@
 import { useState, useCallback } from "react";
 export function useForm() {
-  const [values, setValues] = useState({ name: "", email: "", avatar: "" });
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    avatar: "",
+    imageUrl: "",
+    password: "",
+  });
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(true);
 
@@ -22,10 +28,9 @@ export function useForm() {
 
   return {
     values,
-    handleChange,
     errors,
     isValid,
+    handleChange,
     resetForm,
-    setIsValid,
   };
 }
