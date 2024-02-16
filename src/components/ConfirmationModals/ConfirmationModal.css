@@ -1,7 +1,7 @@
 .confirmation-modal__container {
   width: 670px;
   max-width: 90vw;
-  height: 280px;
+  max-height: fit-content;
   position: relative;
   background: rgb(255, 255, 255);
   border-radius: 20px;
@@ -10,6 +10,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  padding-bottom: 4em;
 }
 
 .confirmation-modal__query {

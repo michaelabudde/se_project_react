@@ -2,7 +2,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect, useContext } from "react";
 import { useForm } from "../../hooks/useForm";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-
+import "../ModalWithForm/ModalWithForm.css";
 const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
   const { values, handleChange, errors, isValid, resetForm } = useForm();
   const { currentUser } = useContext(CurrentUserContext);
@@ -51,11 +51,11 @@ const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
       // buttonState={isValid}
       extraButton={extraButton}
     >
-      <label className="modal-form__form-label" htmlFor="name">
+      <label className="modal-form__label" htmlFor="name">
         Name
       </label>
       <input
-        className="modal-form__form-input"
+        className="modal-form__input"
         type="text"
         id="name"
         name="name"
@@ -68,11 +68,11 @@ const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
       <span className="modal-form__error" id="name-error">
         {errors.name || ""}
       </span>
-      <label className="modal-form__form-label" htmlFor="email">
+      <label className="modal-form__label" htmlFor="email">
         Email
       </label>
       <input
-        className="modal-form__form-input"
+        className="modal-form__input"
         type="email"
         id="email"
         name="email"
@@ -85,11 +85,11 @@ const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
       <span className="modal-form__error" id="name-error">
         {errors.email || ""}
       </span>
-      <label className="modal-form__form-label" htmlFor="link">
+      <label className="modal-form__label" htmlFor="link">
         Profile Picture URL
       </label>
       <input
-        className="modal-form__form-input"
+        className="modal-form__input"
         id="link"
         name="avatar"
         placeholder={"Image Link"}

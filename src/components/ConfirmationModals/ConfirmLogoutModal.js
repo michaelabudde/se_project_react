@@ -1,5 +1,7 @@
 import React from "react";
 import useEsc from "../../hooks/useEsc";
+import "../ConfirmationModals/ConfirmationModal.css";
+import "../ModalWithForm/ModalWithForm.css";
 
 const ConfirmDelete = ({ onClose, handleLogout, buttonDisplay }) => {
   useEsc(onClose);
@@ -17,7 +19,7 @@ const ConfirmDelete = ({ onClose, handleLogout, buttonDisplay }) => {
             handleLogout();
           }}
         >
-          {buttonDisplay}
+          Log Out
         </button>
         <button
           type="button"
@@ -27,7 +29,7 @@ const ConfirmDelete = ({ onClose, handleLogout, buttonDisplay }) => {
           Cancel
         </button>
         <button
-          className="modal__close-button"
+          className="modal-form__close-button"
           type="button"
           onClick={onClose}
         ></button>

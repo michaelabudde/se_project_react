@@ -14,9 +14,9 @@ const ConfirmDeleteModal = ({
     <div className="modal-form ">
       <div className="modal__overlay" onClick={onClose}></div>
       <div className="confirmation-modal__container">
-        <h2 className="confirmation-modal__query">
+        <h1 className="confirmation-modal__query">
           Are you sure you want to delete this item?
-        </h2>
+        </h1>
         <h2 className="confirmation-modal__warning">
           This action is irreversible.
         </h2>

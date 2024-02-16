@@ -384,7 +384,7 @@ function App() {
               onCardClick={onCardClick}
               clothingArray={allClothingArray}
               handleAddClick={() => toggleModal("create")} // changed from "addItem"
-              handleLogoutClick={() => toggleModal("logout", "Log Out")}
+              handleLogoutClick={() => toggleModal("logout")}
               handleEditProfileClick={() => toggleModal("edit profile")}
               onCardLike={onCardLike}
               /* getInitials={getInitials} */
@@ -437,7 +437,7 @@ function App() {
             <ConfirmLogoutModal
               onClose={handleCloseModal}
               handleLogout={handleLogout}
-              buttonDisplay={buttonDisplay}
+              // buttonDisplay={buttonDisplay}
             />
           )}
         </div>
