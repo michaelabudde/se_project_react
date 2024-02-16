@@ -12,7 +12,7 @@ export const api = async (method, endpoint, token = "", body = null) => {
     "Content-Type": "application/json",
     Authorization: token ? `Bearer ${token}` : "",
   };
-
+  console.log(body);
   const requestOptions = {
     method: method,
     headers: headers,
