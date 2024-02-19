@@ -22,6 +22,8 @@ import LogInModal from "../LogInModal/LogInModal.js";
 import ItemModal from "../ItemModal/ItemModal";
 import EditProfileModal from "../EditProfile/EditProfileModal.js";
 import ConfirmLogoutModal from "../ConfirmationModals/ConfirmLogoutModal.js";
+import ConfirmDeleteModal from "../ConfirmationModals/ConfirmDeleteModal.js";
+
 // UTILS //
 import {
   api,
@@ -161,7 +163,7 @@ function App() {
   const handleCardDelete = (item) => {
     setItemToDelete(item._id);
     // Open the confirmation modal
-    toggleModal("confirm", "Are you sure you want to delete this item?", () => {
+    toggleModal("confirm", () => {
       // This function will be called when the user clicks "Yes" in the confirmation modal
       setIsDeleteConfirmed(true);
     });
@@ -188,10 +190,8 @@ function App() {
           console.error("Couldn't delete item:", error);
         }
       };
-
       // Call the deleteItem function
       deleteItem(itemToDelete);
-
       // Reset the delete confirmation state
       setIsDeleteConfirmed(false);
     }
@@ -243,26 +243,6 @@ function App() {
       // log error to console
       console.error("Couldn't add the item:", response.status);
     }
-    // if (response.ok) {
-    //   toggleModal("addItem");
-
-    //   // Use api if you need to make another request
-    //   const updatedClothingArrayResponse = await api("GET", "/items", token);
-
-    //   if (updatedClothingArrayResponse.ok) {
-    //     const updatedClothingArray = await updatedClothingArrayResponse.json();
-    //     setAllClothingArray(updatedClothingArray);
-    //   } else {
-    //     setButtonDisplay("Server error, try again");
-    //     console.error(
-    //       "Couldn't get updated clothes list:",
-    //       updatedClothingArrayResponse.status
-    //     );
-    //   }
-    // } else {
-    //   setButtonDisplay("Server error, try again");
-    //   console.error("Couldn't add the item:", response.status);
-    // }
   }
 
   // Handle User Actions //
@@ -279,10 +259,6 @@ function App() {
       console.error("Can't access user");
       throw Error("Error");
     }
-    // } catch (error) {
-    //   console.error("Error fetching user info:", error);
-    //   return null;
-    // }
   }, []);
   async function handleProfileUpdate({ name, avatar, email }) {
     try {
@@ -305,22 +281,6 @@ function App() {
     }
   }
 
-  /*   useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      fetchUserInfo(token)
-        .then((userInfo) => {
-          userInfo.avatar = null ? userInfo.name[0] : userInfo.avatar;
-          setCurrentUser(userInfo);
-          setIsLoggedIn(true);
-        })
-        .catch((error) => {
-          console.error("Token validation failed:", error);
-          localStorage.removeItem("jwt");
-        });
-    }
-  }, [fetchUserInfo, setCurrentUser, setIsLoggedIn]); */
-
   const { handleLogIn, handleSignUp, handleLogout, response } = useAuth(
     // Pass the correct fetchUserInfo function
     () => toggleModal(""),
@@ -341,21 +301,6 @@ function App() {
     }
   }, [currentUser]);
 
-  // checks for jwt token and validates with server
-
-  /*   function getInitials(fullName) {
-    // Split the full name into an array of words
-    const nameParts = fullName.split(" ");
-    // Extract the first and last names
-    const firstName = nameParts[0] || "";
-    const lastName = nameParts[nameParts.length - 1] || "";
-    // Get the initials of the first and last names
-    const firstInitial = firstName.charAt(0).toUpperCase();
-    const lastInitial = lastName.charAt(0).toUpperCase();
-    // Return the combined initials
-    return firstInitial + lastInitial;
-  }
- */
   return (
     <div className="page">
       <CurrentTemperatureUnitProvider
@@ -424,6 +369,14 @@ function App() {
               selectedCard={selectedCard}
               onClose={handleCloseModal}
               onDeleteItem={handleCardDelete}
+            />
+          )}
+          {activeModal === "confirm" && (
+            <ConfirmDeleteModal
+              onClose={toggleModal}
+              handleDelete={handleCardDelete}
+              selectedCard={selectedCard}
+              buttonDisplay={buttonDisplay}
             />
           )}
           {activeModal === "edit profile" && (

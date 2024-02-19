@@ -3,7 +3,7 @@ import useEsc from "../../hooks/useEsc";
 import "../ConfirmationModals/ConfirmationModal.css";
 import "../ModalWithForm/ModalWithForm.css";
 
-const ConfirmDelete = ({ onClose, handleLogout, buttonDisplay }) => {
+const ConfirmLogout = ({ onClose, handleLogout, buttonDisplay }) => {
   useEsc(onClose);
   return (
     <div className="modal-form ">
@@ -38,4 +38,4 @@ const ConfirmDelete = ({ onClose, handleLogout, buttonDisplay }) => {
   );
 };
 
-export default ConfirmDelete;
+export default ConfirmLogout;

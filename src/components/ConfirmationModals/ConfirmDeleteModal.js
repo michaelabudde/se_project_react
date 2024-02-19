@@ -3,12 +3,7 @@ import useEsc from "../../hooks/useEsc";
 import "../ModalWithForm/ModalWithForm.css";
 import "./ConfirmationModal.css";
 
-const ConfirmDeleteModal = ({
-  onClose,
-  handleDelete,
-  selectedCard,
-  buttonDisplay,
-}) => {
+const ConfirmDeleteModal = ({ onClose, handleDelete, selectedCard }) => {
   useEsc(onClose);
   return (
     <div className="modal-form ">
@@ -27,7 +22,7 @@ const ConfirmDeleteModal = ({
             handleDelete(selectedCard);
           }}
         >
-          {buttonDisplay}
+          Yes, delete item
         </button>
         <button
           type="button"
@@ -37,7 +32,7 @@ const ConfirmDeleteModal = ({
           Cancel
         </button>
         <button
-          className="modal__close-button"
+          className="modal-form__close-button"
           type="button"
           onClick={onClose}
         ></button>
