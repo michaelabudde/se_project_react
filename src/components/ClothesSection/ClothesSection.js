@@ -10,9 +10,10 @@ const ClothesSection = ({
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
   console.log("Fetched user clothes:", clothingArray);
-  const userClothingArray = clothingArray.filter(
-    (item) => item.owner === currentUser._id
-  );
+  const userClothingArray = Array.isArray(clothingArray)
+    ? clothingArray.filter((item) => item.owner === currentUser._id)
+    : [];
+
   return (
     <div className="clothing__section">
       <div className="clothes-section__header-wrapper">
@@ -29,6 +30,7 @@ const ClothesSection = ({
         {userClothingArray.map((item) => {
           return (
             <ItemCard
+              key={item._id}
               item={item}
               onCardClick={onCardClick}
               onCardLike={onCardLike}

@@ -34,13 +34,11 @@ function Main({
     (option) => option.weatherType === weatherType && option.day === day
   )?.link; // should this be weather or weatherType?
 
-  let filteredCards = [];
+  // Ensure clothingArray is always an array
+  const filteredCards = Array.isArray(clothingArray)
+    ? clothingArray.filter((item) => item.weather.toLowerCase() === weatherType)
+    : [];
 
-  if (clothingArray) {
-    filteredCards = clothingArray.filter((item) => {
-      return item.weather.toLowerCase() === weatherType;
-    });
-  }
   return (
     <main className="main">
       <WeatherCard
@@ -63,6 +61,7 @@ function Main({
           {filteredCards.map((item) => {
             return (
               <ItemCard
+                key={item._id}
                 item={item}
                 onCardClick={onCardClick(item)}
                 onCardLike={onCardLike}

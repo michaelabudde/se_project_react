@@ -27,7 +27,6 @@ import ConfirmDeleteModal from "../ConfirmationModals/ConfirmDeleteModal.js";
 // UTILS //
 import { api, addLike, removeLike, getClothingItems } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
-/* import { login, signup } from "../../utils/auth.js"; */
 
 // Hooks //
 import useAuth from "../../hooks/useAuth.js";
@@ -48,22 +47,15 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   // Handle Modals //
-
   const [activeModal, setActiveModal] = useState(null);
-
   const handleCloseModal = useCallback(() => {
     setActiveModal("");
   });
   function onSubmit(request) {
-    // start loading
     setIsLoading(true);
     request()
-      // we need to close only in `then`
       .then(handleCloseModal)
-      // we need to catch possible errors
-      // console.error is used to handle errors if you don’t have any other ways for that
       .catch(console.error)
-      // and in finally we need to stop loading
       .finally(() => setIsLoading(false));
   }
   useEffect(() => {
@@ -91,17 +83,11 @@ function App() {
     },
     [activeModal]
   );
-
   const [weatherTemp, setWeatherTemp] = useState(0);
   const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(
     CurrentTemperatureUnitContext
   );
 
-  /*   const handleToggleSwitchChange = () => {
-    currentTemperatureUnit === "F"
-      ? currentTemperatureUnit("C")
-      : currentTemperatureUnit("F");
-  }; */
   const [weatherLocation, setLocation] = useState("");
   const [sunrise, setSunrise] = useState(null);
   const [sunset, setSunset] = useState(null);
@@ -135,49 +121,62 @@ function App() {
 
   // Handle Card Actions //
   const [selectedCard, setSelectedCard] = useState({ src: "", name: "" });
-  const [allClothingArray, setAllClothingArray] = useState([]);
 
-  useEffect(() => {
-    getClothingItems()
-      .then((data) => {
-        if (data) {
-          setAllClothingArray(data.items);
-        }
-      })
-      .catch(console.error);
+  const [clothingArray, setClothingArray] = useState([]);
+
+  const fetchClothingInfo = useCallback(async (authToken) => {
+    try {
+      const response = await api("GET", "/items", authToken);
+      return response.items;
+    } catch (error) {
+      console.error("Error fetching clothing information:", error);
+      throw error; // You may choose to handle the error differently based on your requirements
+    }
   }, []);
 
-  const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
+  useEffect(() => {
+    const loadClothingData = async () => {
+      try {
+        const token = localStorage.getItem("jwt");
+        const clothingData = await fetchClothingInfo(token);
+        setClothingArray(clothingData);
+      } catch (error) {
+        // Handle error, e.g., set an error state or display a message to the user
+        console.error("Error loading clothing data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (currentUser) {
+      loadClothingData();
+    }
+  }, [currentUser, fetchClothingInfo]);
   const [itemToDelete, setItemToDelete] = useState(null);
   const handleCardDelete = (itemId) => {
     setItemToDelete(itemId);
     // Open the confirmation modal
-    toggleModal("confirm", () => {
-      // This function will be called when the user clicks "Yes" in the confirmation modal
-      setIsDeleteConfirmed(true);
-    });
+    toggleModal("confirm");
   };
 
-  useEffect(() => {
-    // Check if the user has confirmed deletion
-    if (isDeleteConfirmed) {
-      const deleteItem = async (itemId) => {
-        const token = localStorage.getItem("jwt");
-        try {
-          await api("DELETE", `/items/${itemId}`, token, itemId); // changed from api to deleteClothingItems
-          const updatedClothesList = await api("GET", "/items", token);
-          setAllClothingArray(updatedClothesList);
-          handleCloseModal(); // Close the confirmation modal
-        } catch (error) {
-          console.error("Couldn't delete item:", error);
-        }
-      };
-      // Call the deleteItem function
-      deleteItem(itemToDelete);
+  const handleDeleteConfirmed = async () => {
+    const token = localStorage.getItem("jwt");
+    try {
+      // Set clothingArray to an empty array before making the API call
+      setClothingArray([]);
+      console.log("After setClothingArray: ", clothingArray);
+      await api("DELETE", `/items/${itemToDelete}`, token);
+      const updatedClothesList = await api("GET", "/items", token);
+      console.log("Updated clothes list: ", updatedClothesList);
+      setClothingArray(updatedClothesList);
+      console.log("After setClothingArray with updated list: ", clothingArray);
+      handleCloseModal(); // Close the confirmation modal
+    } catch (error) {
+      console.error("Couldn't delete item:", error);
+    } finally {
       // Reset the delete confirmation state
-      setIsDeleteConfirmed(false);
+      setItemToDelete(null);
     }
-  }, [isDeleteConfirmed, itemToDelete, setAllClothingArray, handleCloseModal]);
+  };
 
   const onCardClick = (item) => {
     return () => {
@@ -188,7 +187,6 @@ function App() {
   const onCardLike = async ({ itemId, isLiked }) => {
     const token = localStorage.getItem("jwt");
     let updatedCard;
-
     // Log itemId before making the API call
     console.log("itemId:", itemId);
 
@@ -209,11 +207,9 @@ function App() {
         return;
       }
     }
-
     // Log updatedCard to check its value
     console.log("updatedCard:", updatedCard);
-
-    setAllClothingArray((items) =>
+    setClothingArray((items) =>
       items.map((item) => (item._id === updatedCard._id ? updatedCard : item))
     );
   };
@@ -224,7 +220,7 @@ function App() {
       toggleModal("addItem");
       const response = await api("POST", "/items", token, newItem);
       // add new item to array
-      setAllClothingArray([...allClothingArray, response.data]);
+      setClothingArray([...clothingArray, response.data]);
       handleCloseModal(); // Close the addItem modal
     } catch (err) {
       // log error to console
@@ -233,7 +229,6 @@ function App() {
   }
 
   // Handle User Actions //
-
   const fetchUserInfo = useCallback(async (authToken) => {
     // try {
     const currentUser = await api("GET", "/users/me", authToken);
@@ -274,20 +269,6 @@ function App() {
     fetchUserInfo
   );
 
-  useEffect(() => {
-    const fetchUserClothes = async () => {
-      const token = localStorage.getItem("jwt");
-      console.log("JWT Token:", token);
-      const response = await api("GET", "/items", token);
-      const clothingArray = response.items;
-      console.log("Fetched user clothes:", clothingArray);
-      setAllClothingArray(clothingArray);
-    };
-    if (currentUser) {
-      fetchUserClothes();
-    }
-  }, [currentUser]);
-
   return (
     <div className="page">
       <CurrentTemperatureUnitProvider
@@ -308,14 +289,14 @@ function App() {
               timeOfDay={timeOfDay()}
               onCardClick={onCardClick} //handle selected card
               onCardLike={onCardLike}
-              clothingArray={allClothingArray}
+              clothingArray={clothingArray}
               isLoading={isLoading}
             />
           </Route>
           <ProtectedRoute path="/profile">
             <Profile
               onCardClick={onCardClick}
-              clothingArray={allClothingArray}
+              clothingArray={clothingArray}
               handleAddClick={() => toggleModal("create")} // changed from "addItem"
               handleLogoutClick={() => toggleModal("logout")}
               handleEditProfileClick={() => toggleModal("edit profile")}
@@ -360,7 +341,7 @@ function App() {
           {activeModal === "confirm" && (
             <ConfirmDeleteModal
               onClose={toggleModal}
-              handleDelete={handleCardDelete}
+              handleDelete={handleDeleteConfirmed}
               selectedCard={selectedCard}
             />
           )}
