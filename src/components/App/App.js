@@ -25,14 +25,7 @@ import ConfirmLogoutModal from "../ConfirmationModals/ConfirmLogoutModal.js";
 import ConfirmDeleteModal from "../ConfirmationModals/ConfirmDeleteModal.js";
 
 // UTILS //
-import {
-  api,
-  addLike,
-  removeLike,
-  getClothingItems,
-  addClothingItem,
-  deleteClothingItems,
-} from "../../utils/api.js";
+import { api, addLike, removeLike, getClothingItems } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
 /* import { login, signup } from "../../utils/auth.js"; */
 
@@ -52,7 +45,6 @@ function App() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   // General Actions //
-  const [buttonDisplay, setButtonDisplay] = useState("");
   const [isLoading, setIsLoading] = React.useState(false);
 
   // Handle Modals //
@@ -90,15 +82,12 @@ function App() {
   }, [activeModal, handleCloseModal]); // watch activeModal here
 
   const toggleModal = useCallback(
-    (modalName, buttonDisplay = null, ...additionalTextOptions) => {
-      const additionalText = additionalTextOptions;
+    (modalName) => {
       if (activeModal === modalName) {
         setActiveModal(null);
       } else {
         setActiveModal(modalName);
-        setButtonDisplay(buttonDisplay);
       }
-      return additionalText;
     },
     [activeModal]
   );
@@ -160,8 +149,8 @@ function App() {
 
   const [isDeleteConfirmed, setIsDeleteConfirmed] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
-  const handleCardDelete = (item) => {
-    setItemToDelete(item._id);
+  const handleCardDelete = (itemId) => {
+    setItemToDelete(itemId);
     // Open the confirmation modal
     toggleModal("confirm", () => {
       // This function will be called when the user clicks "Yes" in the confirmation modal
@@ -172,21 +161,14 @@ function App() {
   useEffect(() => {
     // Check if the user has confirmed deletion
     if (isDeleteConfirmed) {
-      const deleteItem = async (item) => {
+      const deleteItem = async (itemId) => {
         const token = localStorage.getItem("jwt");
         try {
-          setButtonDisplay("Deleting...");
-          await deleteClothingItems(
-            "DELETE",
-            `/items/${item._id}`,
-            token,
-            item
-          ); // changed from api to deleteClothingItems
+          await api("DELETE", `/items/${itemId}`, token, itemId); // changed from api to deleteClothingItems
           const updatedClothesList = await api("GET", "/items", token);
           setAllClothingArray(updatedClothesList);
           handleCloseModal(); // Close the confirmation modal
         } catch (error) {
-          setButtonDisplay("Server error, try again");
           console.error("Couldn't delete item:", error);
         }
       };
@@ -203,11 +185,15 @@ function App() {
       setSelectedCard(item);
     };
   };
-  const onCardLike = async ({ cardId, isLiked }) => {
+  const onCardLike = async ({ itemId, isLiked }) => {
     const token = localStorage.getItem("jwt");
     let updatedCard;
+
+    // Log itemId before making the API call
+    console.log("itemId:", itemId);
+
     if (isLiked) {
-      const response = await removeLike({ itemId: cardId }, token);
+      const response = await removeLike(itemId, token);
       if (response.ok) {
         updatedCard = await response.json();
       } else {
@@ -215,7 +201,7 @@ function App() {
         return;
       }
     } else {
-      const response = await addLike({ itemId: cardId }, token);
+      const response = await addLike(itemId, token);
       if (response.ok) {
         updatedCard = await response.json();
       } else {
@@ -223,16 +209,17 @@ function App() {
         return;
       }
     }
+
+    // Log updatedCard to check its value
+    console.log("updatedCard:", updatedCard);
+
     setAllClothingArray((items) =>
       items.map((item) => (item._id === updatedCard._id ? updatedCard : item))
-    ); // changed from cards, card to item ?
+    );
   };
 
   async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
-
-    // Use addClothingItem directly ?
-    // const response = await addClothingItem(newItem, token);
     try {
       toggleModal("addItem");
       const response = await api("POST", "/items", token, newItem);
@@ -320,6 +307,7 @@ function App() {
               weatherTemp={weatherTemp}
               timeOfDay={timeOfDay()}
               onCardClick={onCardClick} //handle selected card
+              onCardLike={onCardLike}
               clothingArray={allClothingArray}
               isLoading={isLoading}
             />
@@ -340,7 +328,6 @@ function App() {
               onClose={handleCloseModal}
               isOpen={activeModal === "signup"}
               handleSignUp={handleSignUp}
-              buttonDisplay={buttonDisplay}
               handleClick={toggleModal}
             />
           )}
@@ -365,7 +352,6 @@ function App() {
           )}
           {activeModal === "preview" && (
             <ItemModal
-              /* key={item._id} */
               selectedCard={selectedCard}
               onClose={handleCloseModal}
               onDeleteItem={handleCardDelete}
@@ -376,7 +362,6 @@ function App() {
               onClose={toggleModal}
               handleDelete={handleCardDelete}
               selectedCard={selectedCard}
-              buttonDisplay={buttonDisplay}
             />
           )}
           {activeModal === "edit profile" && (
@@ -390,7 +375,6 @@ function App() {
             <ConfirmLogoutModal
               onClose={handleCloseModal}
               handleLogout={handleLogout}
-              // buttonDisplay={buttonDisplay}
             />
           )}
         </div>

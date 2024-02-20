@@ -61,11 +61,9 @@ function Main({
         </div>
         <ul className="card__items">
           {filteredCards.map((item) => {
-            console.log(filteredCards);
             return (
               <ItemCard
                 item={item}
-                // key={item._id}
                 onCardClick={onCardClick(item)}
                 onCardLike={onCardLike}
               />

@@ -20,12 +20,7 @@ const ItemCard = ({ item, onCardClick, onCardLike }) => {
           className={likeButtonClassName}
           src={isLiked ? likedButton : likeButton}
           alt="like button"
-          onClick={() =>
-            onCardLike({
-              cardId: item._id,
-              isLiked: isLiked,
-            })
-          }
+          onClick={onCardLike}
         ></img>
       </div>
       <img

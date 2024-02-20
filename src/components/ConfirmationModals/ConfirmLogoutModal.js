@@ -3,7 +3,7 @@ import useEsc from "../../hooks/useEsc";
 import "../ConfirmationModals/ConfirmationModal.css";
 import "../ModalWithForm/ModalWithForm.css";
 
-const ConfirmLogout = ({ onClose, handleLogout, buttonDisplay }) => {
+const ConfirmLogout = ({ onClose, handleLogout }) => {
   useEsc(onClose);
   return (
     <div className="modal-form ">

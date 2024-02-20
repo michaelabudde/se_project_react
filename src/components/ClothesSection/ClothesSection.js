@@ -30,7 +30,6 @@ const ClothesSection = ({
           return (
             <ItemCard
               item={item}
-              key={item._id}
               onCardClick={onCardClick}
               onCardLike={onCardLike}
             />
