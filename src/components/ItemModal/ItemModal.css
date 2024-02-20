@@ -1,4 +1,16 @@
-.item-modal__container-image {
+.item-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3;
+}
+.item-modal__container {
   max-width: 498px;
   max-height: 610px;
   width: 100%;
@@ -24,7 +36,9 @@
 .item-modal__image-preview {
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  max-width: 498px;
+  width: 498px;
+  height: 498px;
+  object-fit: cover;
 }
 .item-modal__footer {
   font-family: "CabinetGrotesk", Arial, sans-serif;

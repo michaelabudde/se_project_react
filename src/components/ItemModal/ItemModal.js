@@ -8,7 +8,7 @@ const ItemModal = ({ selectedCard, onClose, onDeleteItem }) => {
 
   return (
     <div className="item-modal">
-      <div className="item-modal__container-image">
+      <div className="item-modal__container">
         <button
           type="button"
           onClick={onClose}
