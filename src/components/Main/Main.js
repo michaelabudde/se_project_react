@@ -11,6 +11,7 @@ function Main({
   weatherTemp,
   onCardClick,
   onCardLike,
+  onClose,
   clothingArray,
   timeOfDay,
   day = true,
@@ -65,6 +66,7 @@ function Main({
                 item={item}
                 onCardClick={onCardClick(item)}
                 onCardLike={onCardLike}
+                onClose={onClose}
               />
             );
           })}

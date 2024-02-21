@@ -19,6 +19,8 @@ const ItemModal = ({ selectedCard, onClose, onDeleteItem }) => {
 
   return (
     <div className="item-modal">
+      <div className="item-modal__overlay" onClick={onClose} />
+
       <div className="item-modal__container">
         <button
           type="button"

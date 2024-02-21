@@ -10,6 +10,7 @@ const Profile = ({
   handleEditProfileClick,
   onCardClick,
   onCardLike,
+  onClose,
   /*   getInitials, */
 }) => {
   const { currentUser } = useContext(CurrentUserContext);

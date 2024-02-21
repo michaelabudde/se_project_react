@@ -32,7 +32,7 @@ const ClothesSection = ({
             <ItemCard
               key={item._id}
               item={item}
-              onCardClick={onCardClick}
+              onCardClick={onCardClick(item)}
               onCardLike={onCardLike}
             />
           );

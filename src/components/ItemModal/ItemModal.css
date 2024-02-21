@@ -10,6 +10,13 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 3;
 }
+.item-modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
 .item-modal__container {
   max-width: 498px;
   max-height: 610px;
