@@ -15,18 +15,18 @@ const ClothesSection = ({
     : [];
 
   return (
-    <div className="clothing__section">
-      <div className="clothes-section__header-wrapper">
-        <h2 className="clothes-section__title">Your items</h2>
+    <div className="clothes__section">
+      <div className="clothes__section__header-wrapper">
+        <h2 className="clothes__section__title">Your items</h2>
         <button
           type="button"
-          className="clothes-section__add-clothes"
+          className="clothes__section__add-clothes"
           onClick={handleAddClick}
         >
           + Add New
         </button>
       </div>
-      <ul className="clothes-section__cards-list">
+      <ul className="clothes__section_cards">
         {userClothingArray.map((item) => {
           return (
             <ItemCard

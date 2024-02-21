@@ -4,9 +4,6 @@ export function useForm() {
     name: "",
     email: "",
     avatar: "",
-    // imageUrl: "",
-    // password: "",
-    // weather: "", // unsure if I should add these ?
   });
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(true);

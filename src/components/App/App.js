@@ -161,14 +161,13 @@ function App() {
   const handleDeleteConfirmed = async () => {
     const token = localStorage.getItem("jwt");
     try {
-      // Set clothingArray to an empty array before making the API call
-      setClothingArray([]);
-      console.log("After setClothingArray: ", clothingArray);
       await api("DELETE", `/items/${itemToDelete}`, token);
-      const updatedClothesList = await api("GET", "/items", token);
-      console.log("Updated clothes list: ", updatedClothesList);
-      setClothingArray(updatedClothesList);
-      console.log("After setClothingArray with updated list: ", clothingArray);
+
+      // Update the state locally by removing the deleted item
+      setClothingArray((prevClothingArray) =>
+        prevClothingArray.filter((item) => item._id !== itemToDelete)
+      );
+
       handleCloseModal(); // Close the confirmation modal
     } catch (error) {
       console.error("Couldn't delete item:", error);

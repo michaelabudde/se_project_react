@@ -82,3 +82,6 @@
   margin-top: 20px;
   margin-right: 32px;
 }
+.item-modal__delete-button_hidden {
+  display: none;
+}
