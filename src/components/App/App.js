@@ -202,7 +202,7 @@ function App() {
       setClothingArray(
         (prevClothingArray) =>
           prevClothingArray.map((item) =>
-            item._id === updatedCard._id ? updatedCard : item
+            item._id === updatedCard.data._id ? updatedCard : item
           )
         // console.log("Response:", response);
         // if (response.ok) {
