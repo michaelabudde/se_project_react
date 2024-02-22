@@ -20,33 +20,11 @@ const Header = ({
   const { isLoggedIn } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
 
-  /*   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("jwt");
-        if (token && isLoggedIn) {
-          const userInfo = await fetchUserInfo(token);
-          setCurrentUser(userInfo);
-          setLoading(false);
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, [fetchUserInfo, setCurrentUser, isLoggedIn]); */
-
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
   });
   const username = currentUser ? currentUser.name : "Terrence Tegegne"; // changedd from currentUser.name ?
-  console.log("Current User:", currentUser);
-  console.log("Username:", username);
 
   const isAvatarSet = Boolean(currentUser.avatar);
 
@@ -77,10 +55,6 @@ const Header = ({
                   />
                 </span>
               ) : (
-                // ) : (
-                //   <span className={`navigation__user ${isAvatarSet ? "navigation__user_avatar" : ""}`}>
-                //     <img className="navigation__user" src={defaultAvatar} alt="default avatar" />
-                //   </span>
                 <span className="navigation__user_initial">
                   {username?.toUpperCase().charAt(0) || ""}
                 </span>

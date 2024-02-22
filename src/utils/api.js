@@ -29,18 +29,10 @@ export const getClothingItems = async () => {
   return processServerResponse(res);
 };
 
-// export const deleteClothingItems = async (_id) => {
-//   const res = await fetch(`${baseUrl}/items/${_id}`, {
-//     method: "DELETE",
-//     headers: { "Content-Type": "application/json" },
-//   });
-//   return processServerResponse(res);
-// };
 export const addLike = (itemId, token) => {
-  return api("PUT", `items/${itemId}/likes`, token);
-}; // itemId or _id ?
-
-export const removeLike = (itemId, token) => {
-  return api("DELETE", `items/${itemId}/likes`, token);
+  return api("PUT", `/items/${itemId}/likes`, token);
 };
-// changed from data to item ? changed from item_.id to itemId
+export const removeLike = (itemId, token) => {
+  return api("DELETE", `/items/${itemId}/likes`, token);
+};
+// changed from data to item ? changed from item_.id

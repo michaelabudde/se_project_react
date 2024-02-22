@@ -12,6 +12,9 @@ const ItemCard = ({ item, onCardClick, onCardLike }) => {
   const likeButtonClassName = `card__like-button ${
     isLoggedIn ? "card__like-button_unhidden" : "card__like-button_hidden"
   }`;
+  const handleLikeClick = () => {
+    onCardLike({ itemId: item._id, isLiked });
+  };
   return (
     <div className="card__element">
       <div className="card__title-container">
@@ -20,7 +23,7 @@ const ItemCard = ({ item, onCardClick, onCardLike }) => {
           className={likeButtonClassName}
           src={isLiked ? likedButton : likeButton}
           alt="like button"
-          onClick={onCardLike}
+          onClick={handleLikeClick}
         ></img>
       </div>
       <img

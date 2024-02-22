@@ -186,13 +186,12 @@ function App() {
   const onCardLike = async ({ itemId, isLiked }) => {
     const token = localStorage.getItem("jwt");
     let updatedCard;
-    // Log itemId before making the API call
-    console.log("itemId:", itemId);
-
+    console.log("updatedCard:", updatedCard);
     if (isLiked) {
       const response = await removeLike(itemId, token);
       if (response.ok) {
         updatedCard = await response.json();
+        console.log("addLike Response:", response);
       } else {
         console.error("Error removing like:", response.status);
         return;
@@ -201,6 +200,7 @@ function App() {
       const response = await addLike(itemId, token);
       if (response.ok) {
         updatedCard = await response.json();
+        console.log("addLike Response:", response);
       } else {
         console.error("Error adding like:", response.status);
         return;
@@ -211,6 +211,7 @@ function App() {
     setClothingArray((items) =>
       items.map((item) => (item._id === updatedCard._id ? updatedCard : item))
     );
+    console.error("Clothing Array was not updated", response.status);
   };
 
   async function handleAddItemSubmit(newItem) {
