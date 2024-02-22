@@ -25,7 +25,11 @@ import ConfirmLogoutModal from "../ConfirmationModals/ConfirmLogoutModal.js";
 import ConfirmDeleteModal from "../ConfirmationModals/ConfirmDeleteModal.js";
 
 // UTILS //
-import { api, addLike, removeLike, getClothingItems } from "../../utils/api.js";
+import {
+  api,
+  addLike,
+  removeLike /* getClothingItems */,
+} from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
 
 // Hooks //
@@ -124,9 +128,11 @@ function App() {
 
   const [clothingArray, setClothingArray] = useState([]);
 
-  const fetchClothingInfo = useCallback(async (authToken) => {
+  const fetchClothingInfo = useCallback(async () => {
+    // removed Auth Token, added token const ?
+    const token = localStorage.getItem("jwt");
     try {
-      const response = await api("GET", "/items", authToken);
+      const response = await api("GET", "/items", token);
       return response.items;
     } catch (error) {
       console.error("Error fetching clothing information:", error);
@@ -141,7 +147,6 @@ function App() {
         const clothingData = await fetchClothingInfo(token);
         setClothingArray(clothingData);
       } catch (error) {
-        // Handle error, e.g., set an error state or display a message to the user
         console.error("Error loading clothing data:", error);
       } finally {
         setIsLoading(false);
@@ -183,35 +188,36 @@ function App() {
       setSelectedCard(item);
     };
   };
+
   const onCardLike = async ({ itemId, isLiked }) => {
     const token = localStorage.getItem("jwt");
-    let updatedCard;
-    console.log("updatedCard:", updatedCard);
-    if (isLiked) {
-      const response = await removeLike(itemId, token);
-      if (response.ok) {
-        updatedCard = await response.json();
-        console.log("addLike Response:", response);
-      } else {
-        console.error("Error removing like:", response.status);
-        return;
-      }
-    } else {
-      const response = await addLike(itemId, token);
-      if (response.ok) {
-        updatedCard = await response.json();
-        console.log("addLike Response:", response);
-      } else {
-        console.error("Error adding like:", response.status);
-        return;
-      }
+    try {
+      // Call the API directly based on the like or dislike action
+      const response = await api(
+        isLiked ? "DELETE" : "PUT",
+        `/items/${itemId}/likes`,
+        token
+      );
+      const updatedCard = await response;
+      setClothingArray(
+        (prevClothingArray) =>
+          prevClothingArray.map((item) =>
+            item._id === updatedCard._id ? updatedCard : item
+          )
+        // console.log("Response:", response);
+        // if (response.ok) {
+        //   console.log(
+        //     `${isLiked ? "removeLike" : "addLike"} Response:`,
+        //     response
+        //   );
+        //   // Update the state locally based on the response
+        //   );
+        // } else {
+      );
+    } catch (error) {
+      console.error(`Error ${isLiked ? "removing" : "adding"} like:`);
+      console.error("Error updating clothing array:", error);
     }
-    // Log updatedCard to check its value
-    console.log("updatedCard:", updatedCard);
-    setClothingArray((items) =>
-      items.map((item) => (item._id === updatedCard._id ? updatedCard : item))
-    );
-    console.error("Clothing Array was not updated", response.status);
   };
 
   async function handleAddItemSubmit(newItem) {
@@ -230,12 +236,8 @@ function App() {
 
   // Handle User Actions //
   const fetchUserInfo = useCallback(async (authToken) => {
-    // try {
     const currentUser = await api("GET", "/users/me", authToken);
-    console.log("User Info:", currentUser);
     if (currentUser) {
-      /* setCurrentUser(currentUser.data);
-          debugger; */
       return currentUser.data;
     } else {
       console.error("Can't access user");

@@ -21,18 +21,18 @@ export const api = async (method, endpoint, token = "", body = null) => {
   return processServerResponse(res);
 };
 
-export const getClothingItems = async () => {
-  const res = await fetch(`${baseUrl}/items`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  return processServerResponse(res);
-};
+// export const getClothingItems = async () => {
+//   const res = await fetch(`${baseUrl}/items`, {
+//     method: "GET",
+//     headers: { "Content-Type": "application/json" },
+//   });
+//   return processServerResponse(res);
+// };
 
-export const addLike = (itemId, token) => {
-  return api("PUT", `/items/${itemId}/likes`, token);
-};
-export const removeLike = (itemId, token) => {
-  return api("DELETE", `/items/${itemId}/likes`, token);
-};
+// export const addLike = (itemId, token) => {
+//   return api("PUT", `/items/${itemId}/likes`, token);
+// };
+// export const removeLike = (itemId, token) => {
+//   return api("DELETE", `/items/${itemId}/likes`, token);
+// };
 // changed from data to item ? changed from item_.id
