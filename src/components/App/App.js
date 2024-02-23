@@ -27,6 +27,7 @@ import ConfirmDeleteModal from "../ConfirmationModals/ConfirmDeleteModal.js";
 // UTILS //
 import {
   api,
+  fetchUserInfo,
   addLike,
   removeLike /* getClothingItems */,
 } from "../../utils/api.js";
@@ -44,11 +45,12 @@ import { AuthContext, AuthProvider } from "../../contexts/AuthContext.js";
 
 function App() {
   // Contexts //
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   // General Actions //
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoggedInLoading, setIsLoggedInLoading] = useState(true);
 
   // Handle Modals //
   const [activeModal, setActiveModal] = useState(null);
@@ -234,6 +236,7 @@ function App() {
       throw Error("Error");
     }
   }, []);
+
   async function handleProfileUpdate({ name, avatar, email }) {
     try {
       const token = localStorage.getItem("jwt");
@@ -266,15 +269,38 @@ function App() {
       const storedToken = localStorage.getItem("jwt");
       if (storedToken) {
         setIsLoggedIn(true);
-
         // Fetch user info and update current user
         const userInfo = await fetchUserInfo(storedToken);
         setCurrentUser(userInfo);
       }
     };
-
     checkAuthToken();
   }, [setIsLoggedIn, setCurrentUser, fetchUserInfo]);
+
+  // useEffect(() => {
+  //   const checkAuthToken = async () => {
+  //     const storedToken = localStorage.getItem("jwt");
+  //     try {
+  //       if (storedToken) {
+  //         // Set loading to true while fetching user info
+  //         setIsLoggedInLoading(true);
+
+  //         // Fetch user info and update current user
+  //         const userInfo = await fetchUserInfo(storedToken);
+  //         setCurrentUser(userInfo);
+  //         setIsLoggedIn(true);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching user info:", error);
+  //     } finally {
+  //       // Whether successful or not, set loading to false
+  //       setIsLoggedInLoading(false);
+  //     }
+  //   };
+
+  //   checkAuthToken();
+  // }, [setIsLoggedIn, setIsLoggedInLoading, setCurrentUser]);
+
   return (
     <div className="page">
       <CurrentTemperatureUnitProvider
@@ -299,7 +325,11 @@ function App() {
               isLoading={isLoading}
             />
           </Route>
-          <ProtectedRoute path="/profile">
+          <ProtectedRoute
+            isLoggedIn={isLoggedIn}
+            isLoggedinLoading={isLoggedInLoading}
+            path="/profile"
+          >
             <Profile
               onCardClick={onCardClick}
               clothingArray={clothingArray}

@@ -21,6 +21,15 @@ export const api = async (method, endpoint, token = "", body = null) => {
   return processServerResponse(res);
 };
 
+// export const fetchUserInfo = async (authToken) => {
+//   const currentUser = await api("GET", "/users/me", authToken);
+//   if (currentUser) {
+//     return currentUser.data;
+//   } else {
+//     console.error("Can't access user");
+//     throw Error("Error");
+//   }
+// };
 // export const getClothingItems = async () => {
 //   const res = await fetch(`${baseUrl}/items`, {
 //     method: "GET",
