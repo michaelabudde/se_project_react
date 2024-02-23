@@ -199,20 +199,10 @@ function App() {
         token
       );
       const updatedCard = await response;
-      setClothingArray(
-        (prevClothingArray) =>
-          prevClothingArray.map((item) =>
-            item._id === updatedCard.data._id ? updatedCard : item
-          )
-        // console.log("Response:", response);
-        // if (response.ok) {
-        //   console.log(
-        //     `${isLiked ? "removeLike" : "addLike"} Response:`,
-        //     response
-        //   );
-        //   // Update the state locally based on the response
-        //   );
-        // } else {
+      setClothingArray((prevClothingArray) =>
+        prevClothingArray.map((item) =>
+          item._id === updatedCard.data._id ? updatedCard.data : item
+        )
       );
     } catch (error) {
       console.error(`Error ${isLiked ? "removing" : "adding"} like:`);
@@ -271,6 +261,20 @@ function App() {
     fetchUserInfo
   );
 
+  useEffect(() => {
+    const checkAuthToken = async () => {
+      const storedToken = localStorage.getItem("jwt");
+      if (storedToken) {
+        setIsLoggedIn(true);
+
+        // Fetch user info and update current user
+        const userInfo = await fetchUserInfo(storedToken);
+        setCurrentUser(userInfo);
+      }
+    };
+
+    checkAuthToken();
+  }, [setIsLoggedIn, setCurrentUser, fetchUserInfo]);
   return (
     <div className="page">
       <CurrentTemperatureUnitProvider

@@ -11,61 +11,66 @@ export const weatherOptions = [
   {
     link: require("../images/day/day-sunny.svg").default,
     day: true,
-    weatherType: "sunny",
+    weatherType: "hot",
   },
   {
     link: require("../images/day/day-cloudy.svg").default,
     day: true,
-    weatherType: "cloudy",
+    weatherType: "cold",
   },
-  {
-    link: require("../images/day/day-fog.svg").default,
-    day: true,
-    weatherType: "fog",
-  },
-  {
-    link: require("../images/day/day-rain.svg").default,
-    day: true,
-    weatherType: "rain",
-  },
-  {
-    link: require("../images/day/day-snow.svg").default,
-    day: true,
-    weatherType: "snow",
-  },
-  {
-    link: require("../images/day/day-storm.svg").default,
-    day: true,
-    weatherType: "storm",
-  },
+
   {
     link: require("../images/night/night-clear.svg").default,
     day: false,
-    weatherType: "clear",
+    weatherType: "warm",
   },
+
   {
     link: require("../images/night/night-cloudy.svg").default,
     day: false,
-    weatherType: "cloudy",
+    weatherType: "warm",
   },
   {
     link: require("../images/night/night-fog.svg").default,
     day: false,
-    weatherType: "fog",
+    weatherType: "hot",
   },
-  {
-    link: require("../images/night/night-rain.svg").default,
-    day: false,
-    weatherType: "rain",
-  },
+
   {
     link: require("../images/night/night-snow.svg").default,
     day: false,
-    weatherType: "snow",
+    weatherType: "cold",
   },
-  {
-    link: require("../images/night/night-storm.svg").default,
-    day: false,
-    weatherType: "storm",
-  },
+
+  // {
+  //   link: require("../images/day/day-fog.svg").default,
+  //   day: true,
+  //   weatherType: "fog",
+  // },
+  // {
+  //   link: require("../images/day/day-rain.svg").default,
+  //   day: true,
+  //   weatherType: "rain",
+  // },
+  // {
+  //   link: require("../images/day/day-snow.svg").default,
+  //   day: true,
+  //   weatherType: "snow",
+  // },
+  // {
+  //   link: require("../images/day/day-storm.svg").default,
+  //   day: true,
+  //   weatherType: "storm",
+  // },
+
+  // {
+  //   link: require("../images/night/night-storm.svg").default,
+  //   day: false,
+  //   weatherType: "storm",
+  // },
+  // {
+  //   link: require("../images/night/night-rain.svg").default,
+  //   day: false,
+  //   weatherType: "rain",
+  // },
 ];

@@ -19,7 +19,7 @@ function Main({
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
   const temp = weatherTemp?.temperature?.[currentTemperatureUnit] || 999;
 
-  const weatherType = useMemo(() => {
+  const weatherOption = useMemo(() => {
     const tempF = weatherTemp?.temperature?.F;
     if (tempF >= 86) {
       return "hot";
@@ -32,12 +32,15 @@ function Main({
 
   // Construct the image path based on weatherType
   const weatherCardImage = weatherOptions.find(
-    (option) => option.weatherType === weatherType && option.day === day
+    (option) => option.weatherType === weatherOption && option.day === day
   )?.link; // should this be weather or weatherType?
 
   // Ensure clothingArray is always an array
+
   const filteredCards = Array.isArray(clothingArray)
-    ? clothingArray.filter((item) => item.weather.toLowerCase() === weatherType)
+    ? clothingArray.filter(
+        (item) => item.weather.toLowerCase() === weatherOption
+      )
     : [];
 
   return (
@@ -45,14 +48,15 @@ function Main({
       <WeatherCard
         weatherCard={weatherCardImage}
         day={timeOfDay}
-        type="cloudy"
+        // type="cloudy"
         temp={temp}
       />
       <section className="main__clothes">
         <div className="main__info">
           <div className="card__section">
             <p className="card__section-title">
-              Today is {temp}° {currentTemperatureUnit} and it is {weatherType}
+              Today is {temp}° {currentTemperatureUnit} and it is{" "}
+              {weatherOption}
             </p>
             <p className="card__section-title_slash"> / </p>
             <p className="card__section-title">You may want to wear:</p>
