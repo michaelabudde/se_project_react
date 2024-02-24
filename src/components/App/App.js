@@ -264,42 +264,42 @@ function App() {
     fetchUserInfo
   );
 
-  useEffect(() => {
-    const checkAuthToken = async () => {
-      const storedToken = localStorage.getItem("jwt");
-      if (storedToken) {
-        setIsLoggedIn(true);
-        // Fetch user info and update current user
-        const userInfo = await fetchUserInfo(storedToken);
-        setCurrentUser(userInfo);
-      }
-    };
-    checkAuthToken();
-  }, [setIsLoggedIn, setCurrentUser, fetchUserInfo]);
-
   // useEffect(() => {
   //   const checkAuthToken = async () => {
   //     const storedToken = localStorage.getItem("jwt");
-  //     try {
-  //       if (storedToken) {
-  //         // Set loading to true while fetching user info
-  //         setIsLoggedInLoading(true);
-
-  //         // Fetch user info and update current user
-  //         const userInfo = await fetchUserInfo(storedToken);
-  //         setCurrentUser(userInfo);
-  //         setIsLoggedIn(true);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching user info:", error);
-  //     } finally {
-  //       // Whether successful or not, set loading to false
-  //       setIsLoggedInLoading(false);
+  //     if (storedToken) {
+  //       setIsLoggedIn(true);
+  //       // Fetch user info and update current user
+  //       const userInfo = await fetchUserInfo(storedToken);
+  //       setCurrentUser(userInfo);
   //     }
   //   };
-
   //   checkAuthToken();
-  // }, [setIsLoggedIn, setIsLoggedInLoading, setCurrentUser]);
+  // }, [setIsLoggedIn, setCurrentUser, fetchUserInfo]);
+  console.log({ isLoggedIn, isLoggedInLoading });
+  useEffect(() => {
+    const checkAuthToken = async () => {
+      const storedToken = localStorage.getItem("jwt");
+      try {
+        if (storedToken) {
+          // Set loading to true while fetching user info
+          setIsLoggedInLoading(true);
+
+          // Fetch user info and update current user
+          const userInfo = await fetchUserInfo(storedToken);
+          setCurrentUser(userInfo);
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      } finally {
+        // Whether successful or not, set loading to false
+        setIsLoggedInLoading(false);
+      }
+    };
+
+    checkAuthToken();
+  }, [setIsLoggedIn, setIsLoggedInLoading, fetchUserInfo, setCurrentUser]);
 
   return (
     <div className="page">
@@ -327,7 +327,7 @@ function App() {
           </Route>
           <ProtectedRoute
             isLoggedIn={isLoggedIn}
-            isLoggedinLoading={isLoggedInLoading}
+            isLoggedInLoading={isLoggedInLoading}
             path="/profile"
           >
             <Profile

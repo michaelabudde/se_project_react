@@ -21,9 +21,12 @@ const ModalWithForm = ({
 
       <div className="modal-form__container">
         <h1 className="modal-form__title">{formInfo.title}</h1>
-        <span className="modal-form__error modal__server-error">
-          {response || ""}
-        </span>
+        <div className="modal-form__label-container">
+          <label className="modal-form__label"></label>
+          <span className="modal-form__error modal__server-error">
+            {response || ""}
+          </span>
+        </div>
         <button
           type="button"
           onClick={onClose}

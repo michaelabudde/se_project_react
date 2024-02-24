@@ -40,9 +40,14 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
       extraButton={extraButton}
       modalName="sign-up"
     >
-      <label className="modal-form__label" htmlFor="email">
-        Email*
-      </label>
+      <div className="modal-form__label-container">
+        <label className="modal-form__label" htmlFor="email">
+          Email*
+        </label>
+        <span className="modal-form__error" id="name-error">
+          {errors.email || ""}
+        </span>
+      </div>
       <input
         className="modal-form__input"
         type="email"
@@ -55,12 +60,14 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
         onChange={handleChange}
         value={values.email || ""}
       />
-      <span className="modal-form__error" id="name-error">
-        {errors.email || ""}
-      </span>
-      <label className="modal-form__label" htmlFor="password">
-        Password*
-      </label>
+      <div className="modal-form__label-container">
+        <label className="modal-form__label" htmlFor="password">
+          Password*
+        </label>
+        <span className="modal-form__error" id="name-error">
+          {errors.password || ""}
+        </span>
+      </div>
       <input
         className="modal-form__input"
         type="text"
@@ -73,12 +80,14 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
         onChange={handleChange}
         value={values.password || ""}
       />
-      <span className="modal-form__error" id="name-error">
-        {errors.password || ""}
-      </span>
-      <label className="modal-form__label" htmlFor="name">
-        Name*
-      </label>
+      <div className="modal-form__label-container">
+        <label className="modal-form__label" htmlFor="name">
+          Name*
+        </label>
+        <span className="modal-form__error" id="name-error">
+          {errors.name || ""}
+        </span>
+      </div>
       <input
         className="modal-form__input"
         type="text"
@@ -91,12 +100,14 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
         onChange={handleChange}
         value={values.name || ""}
       />
-      <span className="modal-form__error" id="name-error">
-        {errors.name || ""}
-      </span>
-      <label className="modal-form__label" htmlFor="link">
-        Profile Picture URL
-      </label>
+      <div className="modal-form__label-container">
+        <label className="modal-form__label" htmlFor="link">
+          Profile Picture URL
+        </label>
+        <span className="modal-form__error" id="link-error">
+          {errors.avatar || ""}
+        </span>
+      </div>
       <input
         className="modal-form__input"
         id="link"
@@ -106,9 +117,6 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
         onChange={handleChange}
         value={values.avatar || ""}
       />
-      <span className="modal-form__error" id="link-error">
-        {errors.avatar || ""}
-      </span>
     </ModalWithForm>
   );
 };

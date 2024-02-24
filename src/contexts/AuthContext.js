@@ -6,7 +6,7 @@ export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoggedInLoading, setIsLoggedInLoading] = useState(true);
+  // const [isLoggedInLoading, setIsLoggedInLoading] = useState(true);
 
   // const { setCurrentUser } = useContext(CurrentUserContext);
 
@@ -39,8 +39,6 @@ export function AuthProvider({ children }) {
       value={{
         isLoggedIn,
         setIsLoggedIn,
-        isLoggedInLoading,
-        setIsLoggedInLoading,
       }}
     >
       {children}

@@ -2,6 +2,7 @@
   display: flex;
   justify-content: left;
   padding: 0px 40px 0px 40px;
+  min-height: 100vh;
 }
 .profile__sidebar {
   max-height: 56px;

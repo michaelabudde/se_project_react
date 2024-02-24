@@ -5,7 +5,7 @@ import { api } from "../utils/api";
 import { login as loginConfig, signup as signupConfig } from "../utils/auth";
 
 const useAuth = (toggleModal, fetchUserInfo) => {
-  const { setIsLoggedIn, setIsLoggedInLoading } = useContext(AuthContext);
+  const { setIsLoggedIn } = useContext(AuthContext);
   const { setCurrentUser } = useContext(CurrentUserContext);
   const [response, setResponse] = useState("");
 
@@ -13,15 +13,16 @@ const useAuth = (toggleModal, fetchUserInfo) => {
     const config = loginConfig(email, password);
     try {
       const res = await api("POST", "/login", "", config);
+
       // Check if the response contains a token
       if (res.token) {
         localStorage.setItem("jwt", res.token);
-        // Set loading to true while fetching user info
-        setIsLoggedInLoading(true);
         setIsLoggedIn(true);
+
         // Fetch user info and update current user
         const userInfo = await fetchUserInfo(res.token);
         setCurrentUser(userInfo);
+
         toggleModal("login");
       } else {
         console.error(res.message);
@@ -29,9 +30,6 @@ const useAuth = (toggleModal, fetchUserInfo) => {
       }
     } catch (error) {
       console.error("Error during login:", error);
-    } finally {
-      // Whether successful or not, set loading to false
-      setIsLoggedInLoading(false);
     }
   };
 
