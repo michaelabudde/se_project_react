@@ -36,7 +36,9 @@
 .card__items {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 17px;
+  /* justify-content: center;
+  justify-items: start; */
+  gap: 15px;
   margin-top: 34px;
+  padding: 0;
 }
