@@ -57,7 +57,8 @@ function App() {
   const handleCloseModal = useCallback(() => {
     setActiveModal("");
   });
-  function onSubmit(request) {
+  function onSubmit(e, request) {
+    e.preventDefault();
     setIsLoading(true);
     request()
       .then(handleCloseModal)

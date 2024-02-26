@@ -44,7 +44,7 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
       // buttonState={isValid}
       extraButton={extraButton}
       modalName="sign-up"
-      onSubmit={(values) => handleSignUp(values, setSignupError)}
+      onSubmit={onSubmit}
     >
       <div className="modal-form__label-container">
         <label className="modal-form__label" htmlFor="email">
