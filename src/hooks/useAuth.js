@@ -8,12 +8,12 @@ const useAuth = (toggleModal, fetchUserInfo) => {
   const { setIsLoggedIn } = useContext(AuthContext);
   const { setCurrentUser } = useContext(CurrentUserContext);
   const [response, setResponse] = useState("");
+  const [signupError, setSignupError] = useState(null);
 
   const handleLogIn = async ({ email, password }) => {
     const config = loginConfig(email, password);
     try {
       const res = await api("POST", "/login", "", config);
-
       // Check if the response contains a token
       if (res.token) {
         localStorage.setItem("jwt", res.token);
@@ -35,7 +35,7 @@ const useAuth = (toggleModal, fetchUserInfo) => {
 
   const handleSignUp = async (
     { name, avatar, email, password },
-    setSignupError,
+    // setSignupError,
     toggleModal
   ) => {
     const config = signupConfig(name, avatar, email, password);
@@ -53,7 +53,8 @@ const useAuth = (toggleModal, fetchUserInfo) => {
       }
     } catch (error) {
       console.error("Error during sign up:", error);
-      setSignupError("Sign up failed");
+      setSignupError(error.message);
+      console.log(error.message);
     }
   };
 
@@ -64,7 +65,14 @@ const useAuth = (toggleModal, fetchUserInfo) => {
     setCurrentUser({ avatar: "T T" });
     toggleModal("logout");
   };
-  return { handleLogIn, handleSignUp, handleLogout, response };
+  return {
+    handleLogIn,
+    handleSignUp,
+    handleLogout,
+    response,
+    signupError,
+    setSignupError,
+  };
 };
 
 export default useAuth;

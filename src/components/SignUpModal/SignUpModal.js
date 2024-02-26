@@ -3,8 +3,14 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect, useState } from "react";
 import { useForm } from "../../hooks/useForm";
 
-const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
-  const [signupError, setSignupError] = useState(null);
+const SignUpModal = ({
+  onClose,
+  isOpen,
+  handleSignUp,
+  handleClick,
+  signupError,
+}) => {
+  //
   const { values, handleChange, errors, isValid, resetForm } = useForm();
 
   const formInfo = {
@@ -33,9 +39,11 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
   }, [isOpen, resetForm]);
 
   // Clear signupError when the modal opens
-  useEffect(() => {
-    setSignupError(null);
-  }, [isOpen]);
+  // useEffect(() => {
+  //   setSignupError(null);
+  // }, [isOpen]);
+
+  //removed   {errors.email || signupError || ""}
 
   return (
     <ModalWithForm
@@ -54,6 +62,7 @@ const SignUpModal = ({ onClose, isOpen, handleSignUp, handleClick }) => {
           {errors.email || signupError || ""}
         </span>
       </div>
+
       <input
         className="modal-form__input"
         type="email"

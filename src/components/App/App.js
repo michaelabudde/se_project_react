@@ -259,11 +259,13 @@ function App() {
     }
   }
 
-  const { handleLogIn, handleSignUp, handleLogout, response } = useAuth(
-    // Pass the correct fetchUserInfo function
-    () => toggleModal(""),
-    fetchUserInfo
-  );
+  const { handleLogIn, handleSignUp, handleLogout, response, signupError } =
+    useAuth(
+      // Pass the correct fetchUserInfo function
+      () => toggleModal(""),
+
+      fetchUserInfo
+    );
 
   // useEffect(() => {
   //   const checkAuthToken = async () => {
@@ -277,7 +279,7 @@ function App() {
   //   };
   //   checkAuthToken();
   // }, [setIsLoggedIn, setCurrentUser, fetchUserInfo]);
-  console.log({ isLoggedIn, isLoggedInLoading });
+
   useEffect(() => {
     const checkAuthToken = async () => {
       const storedToken = localStorage.getItem("jwt");
@@ -347,6 +349,7 @@ function App() {
               isOpen={activeModal === "signup"}
               handleSignUp={handleSignUp}
               handleClick={toggleModal}
+              signupError={signupError}
             />
           )}
           {activeModal === "login" && (
