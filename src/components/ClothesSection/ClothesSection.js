@@ -9,7 +9,6 @@ const ClothesSection = ({
   onCardLike,
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
-  console.log("Fetched user clothes:", clothingArray);
   const userClothingArray = Array.isArray(clothingArray)
     ? clothingArray.filter((item) => item.owner === currentUser._id)
     : [];

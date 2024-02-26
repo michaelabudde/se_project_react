@@ -262,8 +262,7 @@ function App() {
   const { handleLogIn, handleSignUp, handleLogout, response, signupError } =
     useAuth(
       // Pass the correct fetchUserInfo function
-      () => toggleModal(""),
-
+      toggleModal,
       fetchUserInfo
     );
 

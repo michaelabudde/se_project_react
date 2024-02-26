@@ -33,30 +33,29 @@ const useAuth = (toggleModal, fetchUserInfo) => {
     }
   };
 
-  const handleSignUp = async (
-    { name, avatar, email, password },
+  const handleSignUp = async ({ name, avatar, email, password }) =>
     // setSignupError,
-    toggleModal
-  ) => {
-    const config = signupConfig(name, avatar, email, password);
-    try {
-      const res = await api("POST", "/signup", "", config);
-      // Check if the response is successful
-      if (res.data) {
-        // SignUp successful, proceed to login
-        await handleLogIn({ email, password });
-        toggleModal("signup");
-      } else {
-        console.error(res.message);
-        setResponse(res.message || "Sign up failed");
-        setSignupError(res.message || "Email already in use");
+    {
+      const config = signupConfig(name, avatar, email, password);
+      try {
+        const res = await api("POST", "/signup", "", config);
+        // Check if the response is successful
+        if (res.data) {
+          // SignUp successful, proceed to login
+          await handleLogIn({ email, password });
+          toggleModal("signup");
+          console.log(toggleModal);
+        } else {
+          console.error(res.message);
+          setResponse(res.message || "Sign up failed");
+          setSignupError(res.message || "Email already in use");
+        }
+      } catch (error) {
+        console.error("Error during sign up:", error);
+        setSignupError(error.message);
+        console.log(error.message);
       }
-    } catch (error) {
-      console.error("Error during sign up:", error);
-      setSignupError(error.message);
-      console.log(error.message);
-    }
-  };
+    };
 
   const handleLogout = () => {
     localStorage.removeItem("jwt");
