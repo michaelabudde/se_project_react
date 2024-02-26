@@ -33,11 +33,14 @@ const useAuth = (toggleModal, fetchUserInfo) => {
     }
   };
 
-  const handleSignUp = async ({ name, avatar, email, password }) => {
+  const handleSignUp = async (
+    { name, avatar, email, password },
+    setSignupError,
+    toggleModal
+  ) => {
     const config = signupConfig(name, avatar, email, password);
     try {
       const res = await api("POST", "/signup", "", config);
-
       // Check if the response is successful
       if (res.data) {
         // SignUp successful, proceed to login
@@ -46,9 +49,11 @@ const useAuth = (toggleModal, fetchUserInfo) => {
       } else {
         console.error(res.message);
         setResponse(res.message || "Sign up failed");
+        setSignupError(res.message || "Email already in use");
       }
     } catch (error) {
       console.error("Error during sign up:", error);
+      setSignupError("Sign up failed");
     }
   };
 
