@@ -1,33 +1,9 @@
-import { createContext, useState } from "react";
+import React from "react";
 
-// Creating the context with default values
-export const CurrentTemperatureUnitContext = createContext({
+export const CurrentTemperatureUnitContext = React.createContext({
   currentTemperatureUnit: "F",
   handleToggleSwitchChange: () => {},
 });
-
-// Creating the provider component
-export const CurrentTemperatureUnitProvider = ({ children }) => {
-  // State variable and function for managing temperature unit
-  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-
-  // Function for handling toggle switch change
-  const handleToggleSwitchChange = () => {
-    setCurrentTemperatureUnit((prevUnit) => (prevUnit === "F" ? "C" : "F"));
-  };
-
-  // Providing the state and function through the context
-  const contextValue = {
-    currentTemperatureUnit,
-    handleToggleSwitchChange,
-  };
-
-  return (
-    <CurrentTemperatureUnitContext.Provider value={contextValue}>
-      {children}
-    </CurrentTemperatureUnitContext.Provider>
-  );
-};
 
 // attempted new code:
 // import { createContext, useState } from "react";

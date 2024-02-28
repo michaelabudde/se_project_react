@@ -6,6 +6,7 @@ const ToggleSwitch = () => {
     CurrentTemperatureUnitContext
   );
   console.log(currentTemperatureUnit); // logged
+  console.log(handleToggleSwitchChange);
   // const handleChange = () => {
   //   console.log("Toggle Switch Clicked"); // logged
   //   handleToggleSwitchChange();
