@@ -9,6 +9,7 @@ const useAuth = (toggleModal, fetchUserInfo) => {
   const { setCurrentUser } = useContext(CurrentUserContext);
   const [response, setResponse] = useState("");
   const [signupError, setSignupError] = useState(null);
+  const [loginError, setLoginError] = useState(null);
 
   const handleLogIn = async ({ email, password }) => {
     const config = loginConfig(email, password);
@@ -27,9 +28,11 @@ const useAuth = (toggleModal, fetchUserInfo) => {
       } else {
         console.error(res.message);
         setResponse(res.message || "Log in failed");
+        setLoginError(res.message || "Wrong email or password");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      setLoginError(error.message);
     }
   };
 
@@ -64,13 +67,17 @@ const useAuth = (toggleModal, fetchUserInfo) => {
     setCurrentUser({ avatar: "T T" });
     toggleModal("logout");
   };
+
   return {
     handleLogIn,
     handleSignUp,
     handleLogout,
     response,
+    setResponse,
     signupError,
     setSignupError,
+    loginError,
+    setLoginError,
   };
 };
 

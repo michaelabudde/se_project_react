@@ -3,7 +3,13 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect } from "react";
 import { useForm } from "../../hooks/useForm";
 
-const LogInModal = ({ onClose, isOpen, handleLogIn, handleClick }) => {
+const LogInModal = ({
+  onClose,
+  isOpen,
+  handleLogIn,
+  handleClick,
+  loginError,
+}) => {
   const { values, handleChange, errors, isValid, resetForm } = useForm();
 
   const formInfo = {
@@ -41,9 +47,14 @@ const LogInModal = ({ onClose, isOpen, handleLogIn, handleClick }) => {
       extraButton={extraButton}
       modalName="login"
     >
-      <label className="modal-form__label" htmlFor="email">
-        Email
-      </label>
+      <div className="modal-form__label-container">
+        <label className="modal-form__label" htmlFor="email">
+          Email
+        </label>
+        <span className="modal-form__error" id="name-error">
+          {errors.email || loginError || ""}
+        </span>
+      </div>
       <input
         className="modal-form__input"
         type="email"
@@ -56,12 +67,14 @@ const LogInModal = ({ onClose, isOpen, handleLogIn, handleClick }) => {
         onChange={handleChange}
         value={values.email || ""}
       />
-      <span className="modal-form__error" id="name-error">
-        {errors.email || ""}
-      </span>
-      <label className="modal-form__label" htmlFor="password">
-        Password
-      </label>
+      <div className="modal-form__label-container">
+        <label className="modal-form__label" htmlFor="password">
+          Password
+        </label>
+        <span className="modal-form__error" id="name-error">
+          {errors.password || ""}
+        </span>
+      </div>
       <input
         className="modal-form__input"
         type="text"
@@ -74,9 +87,6 @@ const LogInModal = ({ onClose, isOpen, handleLogIn, handleClick }) => {
         onChange={handleChange}
         value={values.password || ""}
       />
-      <span className="modal-form__error" id="name-error">
-        {errors.password || ""}
-      </span>
     </ModalWithForm>
   );
 };

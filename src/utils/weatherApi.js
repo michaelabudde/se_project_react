@@ -1,6 +1,6 @@
 import { processServerResponse } from "../utils/api";
-const latitude = 40.758;
-const longitude = -73.985;
+const latitude = 19.432;
+const longitude = -99.133;
 const APIkey = `9ce8b49fe15f8d325d97fd1f76150e35`;
 export const getForecast = () => {
   const weatherApi = fetch(

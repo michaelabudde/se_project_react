@@ -7,6 +7,8 @@ import { weatherOptions } from "../../utils/constants";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import React, { useContext, useMemo } from "react";
 
+// import { name, imageUrl, weather } from "../../utils/auth";
+
 function Main({
   weatherTemp,
   onCardClick,

@@ -4,7 +4,6 @@ export const processServerResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
-  debugger;
   return (
     res
       .json()

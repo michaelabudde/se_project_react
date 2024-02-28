@@ -32,6 +32,7 @@ import {
   removeLike /* getClothingItems */,
 } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
+// import { clothingItem } from "../../utils/auth.js";
 
 // Hooks //
 import useAuth from "../../hooks/useAuth.js";
@@ -212,18 +213,43 @@ function App() {
       console.error("Error updating clothing array:", error);
     }
   };
+  // const [addItemError, setAddItemError] = useState(null);
 
+  // async function handleAddItemSubmit(newItem) {
+  //   const token = localStorage.getItem("jwt");
+  //   // const newItem = clothingItem(name, imageUrl, weather);
+  //   try {
+  //     toggleModal("addItem");
+  //     const response = await api("POST", "/items", token, newItem);
+  //     // add new item to array
+  //     if (response.message && response.message.includes("weather")) {
+  //       setResponse("Please select a weather type");
+  //     setClothingArray([...clothingArray, response.data]);
+  //     handleCloseModal(); // Close the addItem modal
+  //   } catch (err) {
+  //     // log error to console
+  //     console.error("Couldn't add the item:", response.status);
+  //     setResponse(response.message || "Couldn't add the item");
+  //     // added this to try and show error to user
+  //   }
+  // }
   async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
     try {
       toggleModal("addItem");
       const response = await api("POST", "/items", token, newItem);
-      // add new item to array
-      setClothingArray([...clothingArray, response.data]);
-      handleCloseModal(); // Close the addItem modal
+      // Check if there's an error message related to the weather field
+      if (response.message && response.message.includes("weather")) {
+        setResponse("Please select a weather type");
+      } else {
+        // No weather-related error, add the new item to the array
+        setClothingArray([...clothingArray, response.data]);
+        handleCloseModal(); // Close the addItem modal
+      }
     } catch (err) {
-      // log error to console
+      // Handle other errors
       console.error("Couldn't add the item:", response.status);
+      setResponse(response.message || "Couldn't add the item");
     }
   }
 
@@ -259,12 +285,20 @@ function App() {
     }
   }
 
-  const { handleLogIn, handleSignUp, handleLogout, response, signupError } =
-    useAuth(
-      // Pass the correct fetchUserInfo function
-      toggleModal,
-      fetchUserInfo
-    );
+  const {
+    handleLogIn,
+    handleSignUp,
+    handleLogout,
+    response,
+    setResponse,
+    signupError,
+    loginError,
+  } = useAuth(
+    // Pass the correct fetchUserInfo function
+    toggleModal,
+    fetchUserInfo,
+    handleAddItemSubmit
+  );
 
   // useEffect(() => {
   //   const checkAuthToken = async () => {
@@ -359,6 +393,7 @@ function App() {
               onSubmit={onSubmit}
               handleLogIn={handleLogIn}
               handleClick={toggleModal}
+              loginError={loginError}
             />
           )}
           {activeModal === "create" && (
@@ -368,6 +403,7 @@ function App() {
               onAddItem={handleAddItemSubmit}
               isLoading={isLoading}
               onSubmit={onSubmit}
+              // addItemError={addItemError}
             />
           )}
           {activeModal === "preview" && (
