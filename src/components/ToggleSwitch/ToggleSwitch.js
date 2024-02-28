@@ -5,9 +5,17 @@ const ToggleSwitch = () => {
   const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(
     CurrentTemperatureUnitContext
   );
-  const handleChange = handleToggleSwitchChange;
+  console.log(currentTemperatureUnit); // logged
+  // const handleChange = () => {
+  //   console.log("Toggle Switch Clicked"); // logged
+  //   handleToggleSwitchChange();
+  // };
   return (
-    <div className="switch" onClick={handleChange}>
+    <div
+      className="switch"
+      onClick={handleToggleSwitchChange}
+      onChange={handleToggleSwitchChange}
+    >
       <input type="checkbox" className="switch__box"></input>
       <span
         className={

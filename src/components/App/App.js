@@ -31,10 +31,7 @@ import { getForecast } from "../../utils/weatherApi";
 import useAuth from "../../hooks/useAuth.js";
 
 // CONTEXTS //
-import {
-  CurrentTemperatureUnitContext,
-  CurrentTemperatureUnitProvider,
-} from "../../contexts/CurrentTemperatureUnitContext";
+import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import { AuthContext } from "../../contexts/AuthContext.js";
 
@@ -292,14 +289,18 @@ function App() {
 
   return (
     <div className="page">
-      <CurrentTemperatureUnitProvider
-        value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+      <CurrentTemperatureUnitContext.Provider
+        value={{
+          currentTemperatureUnit,
+          handleToggleSwitchChange,
+        }}
       >
         <div className="page_wrapper">
           <Header
             fetchUserInfo={fetchUserInfo}
             handleClick={toggleModal}
             weatherLocation={weatherLocation}
+            weatherTemp={weatherTemp}
             handleAddClick={() => toggleModal("create")}
           />
 
@@ -386,7 +387,7 @@ function App() {
           )}
         </div>
         <Footer />
-      </CurrentTemperatureUnitProvider>
+      </CurrentTemperatureUnitContext.Provider>
     </div>
   );
 }

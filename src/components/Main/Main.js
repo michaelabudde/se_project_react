@@ -33,7 +33,7 @@ function Main({
   // Construct the image path based on weatherType
   const weatherCardImage = weatherOptions.find(
     (option) => option.weatherType === weatherOption && option.day === day
-  )?.link; 
+  )?.link;
   // Ensure clothingArray is always an array
 
   const filteredCards = Array.isArray(clothingArray)
@@ -44,11 +44,7 @@ function Main({
 
   return (
     <main className="main">
-      <WeatherCard
-        weatherCard={weatherCardImage}
-        day={timeOfDay}
-        temp={temp}
-      />
+      <WeatherCard weatherCard={weatherCardImage} day={timeOfDay} temp={temp} />
       <section className="main__clothes">
         <div className="main__info">
           <div className="card__section">

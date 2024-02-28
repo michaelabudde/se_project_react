@@ -5,6 +5,7 @@
   padding: 0px;
   align-items: center;
   cursor: pointer;
+  z-index: 1;
 }
 .switch__box {
   border-radius: 28px;
@@ -21,6 +22,7 @@
   background: rgb(255, 255, 255);
   position: relative;
   transition: border 0.3s;
+  z-index: 1;
 }
 .switch__box:hover {
   border: solid 2px #000;
@@ -38,7 +40,7 @@
   padding: 0px;
   /* top: 0;
   left: 0; */
-  z-index: 0;
+  z-index: 1;
   transition: 0.2s;
 }
 .switch__slider-F {
@@ -88,7 +90,7 @@
   font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
   font-size: 14px;
   line-height: 17px;
-  z-index: 1;
+  z-index: 2;
   /* margin: 0px;
   padding: 0px;
   width: 28px;
@@ -101,7 +103,7 @@
   font-family: "Cabinet Grotesk Bold", Arial, Helvetica, sans-serif;
   font-size: 14px;
   line-height: 17px;
-  z-index: 1;
+  z-index: 2;
   /* margin: 0px;
   padding: 0px;
   width: 28px;
