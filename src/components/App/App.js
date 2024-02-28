@@ -82,9 +82,13 @@ function App() {
     [activeModal]
   );
   const [weatherTemp, setWeatherTemp] = useState(0);
-  // const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(
+  // const { currentTemperatureUnit, } = useContext(
   //   CurrentTemperatureUnitContext
   // );
+  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const handleToggleSwitchChange = () => {
+    setCurrentTemperatureUnit((prevUnit) => (prevUnit === "F" ? "C" : "F"));
+  };
   const [weatherLocation, setLocation] = useState("");
   const [sunrise, setSunrise] = useState(null);
   const [sunset, setSunset] = useState(null);
