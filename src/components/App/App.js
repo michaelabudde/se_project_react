@@ -85,7 +85,6 @@ function App() {
   const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(
     CurrentTemperatureUnitContext
   );
-
   const [weatherLocation, setLocation] = useState("");
   const [sunrise, setSunrise] = useState(null);
   const [sunset, setSunset] = useState(null);
@@ -292,7 +291,7 @@ function App() {
       <CurrentTemperatureUnitContext.Provider
         value={{
           currentTemperatureUnit,
-          handleToggleSwitchChange,
+          // handleToggleSwitchChange,
         }}
       >
         <div className="page_wrapper">
@@ -301,6 +300,7 @@ function App() {
             handleClick={toggleModal}
             weatherLocation={weatherLocation}
             weatherTemp={weatherTemp}
+            handleToggleSwitchChange={handleToggleSwitchChange}
             handleAddClick={() => toggleModal("create")}
           />
 
