@@ -8,7 +8,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 const ItemCard = ({ item, onCardClick, onCardLike }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const { isLoggedIn } = useContext(AuthContext);
-  const isLiked = item.likes.includes(currentUser._id); // cannot read id?
+  const isLiked = item.likes.includes(currentUser._id);
   const likeButtonClassName = `card__like-button ${
     isLoggedIn ? "card__like-button_unhidden" : "card__like-button_hidden"
   }`;

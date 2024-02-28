@@ -48,7 +48,6 @@ const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
       formInfo={formInfo}
       onClose={onClose}
       onSubmit={onSubmit}
-      // buttonState={isValid}
       extraButton={extraButton}
     >
       <label className="modal-form__label" htmlFor="name">

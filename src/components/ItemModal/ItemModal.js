@@ -4,15 +4,11 @@ import "./ItemModal.css";
 
 const ItemModal = ({ selectedCard, onClose, onDeleteItem }) => {
   const { currentUser } = useContext(CurrentUserContext);
-
   const handleCardDelete = () => {
     onDeleteItem(selectedCard._id);
   };
-
   // Checking if the current user is the owner of the current clothing item
   const isOwn = selectedCard.owner === currentUser?._id;
-
-  // Creating a variable which you'll then set in `className` for the delete button
   const itemDeleteButton = `item-modal__delete-button ${
     isOwn ? "item-modal__delete-button" : "item-modal__delete-button_hidden"
   }`;
@@ -37,8 +33,6 @@ const ItemModal = ({ selectedCard, onClose, onDeleteItem }) => {
           <div className="item-modal__weather-type">
             Weather Type: {selectedCard.weather}
           </div>
-
-          {/* Apply the conditional class to the delete button */}
           <button
             type="button"
             className={itemDeleteButton}

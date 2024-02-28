@@ -3,7 +3,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "../ModalWithForm/ModalWithForm.css";
 import { useForm } from "../../hooks/useForm";
 
-const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
+const AddItemModal = ({ onClose, onAddItem, isOpen, response }) => {
   const { values, handleChange, errors, setErrors, resetForm } = useForm({
     name: "",
     imageUrl: "",
@@ -14,6 +14,7 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
     name: "create",
     buttonText: "Add garment",
   };
+
   function onSubmit(e) {
     e.preventDefault();
     if (values.weather === "") {
@@ -31,7 +32,6 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
     resetForm();
   }, [isOpen, resetForm]);
 
-  // removed addItemError || from name error
   return (
     <ModalWithForm
       onClose={onClose}
@@ -70,7 +70,9 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
         />
         <div className="modal-form__label-container">
           <label className="modal-form__label">Select the Weather Type:</label>
-          <span className="modal-form__error">{errors.weather || ""} </span>
+          <span className="modal-form__error">
+            {errors.weather || response || ""}
+          </span>
         </div>
         <div className="modal-form__radio-inputs">
           <div>
@@ -80,10 +82,7 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
               id="choiceHot"
               name="weather"
               value="hot"
-              onChange={(e) => {
-                handleChange(e);
-                setErrors({ ...errors, weather: "" }); // Clear the weather-related error
-              }}
+              onChange={handleChange}
             />
             <label className="modal-form__label_radio" htmlFor="choiceHot">
               Hot
@@ -96,10 +95,7 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
               id="choiceWarm"
               name="weather"
               value="warm"
-              onChange={(e) => {
-                handleChange(e);
-                setErrors({ ...errors, weather: "" }); // Clear the weather-related error
-              }}
+              onChange={handleChange}
             />
             <label className="modal-form__label_radio" htmlFor="choiceWarm">
               Warm
@@ -112,10 +108,7 @@ const AddItemModal = ({ onClose, onAddItem, isOpen }) => {
               id="choiceCold"
               name="weather"
               value="cold"
-              onChange={(e) => {
-                handleChange(e);
-                setErrors({ ...errors, weather: "" }); // Clear the weather-related error
-              }}
+              onChange={handleChange}
             />
             <label className="modal-form__label_radio" htmlFor="choiceCold">
               Cold

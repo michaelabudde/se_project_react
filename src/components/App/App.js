@@ -13,7 +13,6 @@ import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Profile from "../Profile/Profile";
 import Footer from "../Footer/Footer";
-import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
 // MODALS //
 import AddItemModal from "../AddItemModal/AddItemModal";
@@ -25,24 +24,19 @@ import ConfirmLogoutModal from "../ConfirmationModals/ConfirmLogoutModal.js";
 import ConfirmDeleteModal from "../ConfirmationModals/ConfirmDeleteModal.js";
 
 // UTILS //
-import {
-  api,
-  fetchUserInfo,
-  addLike,
-  removeLike /* getClothingItems */,
-} from "../../utils/api.js";
+import { api } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
-// import { clothingItem } from "../../utils/auth.js";
 
 // Hooks //
 import useAuth from "../../hooks/useAuth.js";
+
 // CONTEXTS //
 import {
   CurrentTemperatureUnitContext,
   CurrentTemperatureUnitProvider,
 } from "../../contexts/CurrentTemperatureUnitContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
-import { AuthContext, AuthProvider } from "../../contexts/AuthContext.js";
+import { AuthContext } from "../../contexts/AuthContext.js";
 
 function App() {
   // Contexts //
@@ -76,7 +70,6 @@ function App() {
     };
     document.addEventListener("keydown", handleEscClose);
     return () => {
-      // don't forget to add a clean up function for removing the listener
       document.removeEventListener("keydown", handleEscClose);
     };
   }, [activeModal, handleCloseModal]); // watch activeModal here
@@ -129,18 +122,16 @@ function App() {
 
   // Handle Card Actions //
   const [selectedCard, setSelectedCard] = useState({ src: "", name: "" });
-
   const [clothingArray, setClothingArray] = useState([]);
 
   const fetchClothingInfo = useCallback(async () => {
-    // removed Auth Token, added token const ?
     const token = localStorage.getItem("jwt");
     try {
       const response = await api("GET", "/items", token);
       return response.items;
     } catch (error) {
       console.error("Error fetching clothing information:", error);
-      throw error; // You may choose to handle the error differently based on your requirements
+      throw error;
     }
   }, []);
 
@@ -171,12 +162,10 @@ function App() {
     const token = localStorage.getItem("jwt");
     try {
       await api("DELETE", `/items/${itemToDelete}`, token);
-
       // Update the state locally by removing the deleted item
       setClothingArray((prevClothingArray) =>
         prevClothingArray.filter((item) => item._id !== itemToDelete)
       );
-
       handleCloseModal(); // Close the confirmation modal
     } catch (error) {
       console.error("Couldn't delete item:", error);
@@ -213,43 +202,27 @@ function App() {
       console.error("Error updating clothing array:", error);
     }
   };
-  // const [addItemError, setAddItemError] = useState(null);
 
-  // async function handleAddItemSubmit(newItem) {
-  //   const token = localStorage.getItem("jwt");
-  //   // const newItem = clothingItem(name, imageUrl, weather);
-  //   try {
-  //     toggleModal("addItem");
-  //     const response = await api("POST", "/items", token, newItem);
-  //     // add new item to array
-  //     if (response.message && response.message.includes("weather")) {
-  //       setResponse("Please select a weather type");
-  //     setClothingArray([...clothingArray, response.data]);
-  //     handleCloseModal(); // Close the addItem modal
-  //   } catch (err) {
-  //     // log error to console
-  //     console.error("Couldn't add the item:", response.status);
-  //     setResponse(response.message || "Couldn't add the item");
-  //     // added this to try and show error to user
-  //   }
-  // }
   async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
     try {
-      toggleModal("addItem");
-      const response = await api("POST", "/items", token, newItem);
+      const res = await api("POST", "/items", token, newItem);
+
       // Check if there's an error message related to the weather field
-      if (response.message && response.message.includes("weather")) {
+      if (res.message && res.message.includes("weather")) {
         setResponse("Please select a weather type");
       } else {
-        // No weather-related error, add the new item to the array
-        setClothingArray([...clothingArray, response.data]);
+        // No weather-related error, clear the error message
+        setResponse("");
+        // Add the new item to the array
+        setClothingArray([...clothingArray, res.data]);
         handleCloseModal(); // Close the addItem modal
+        // toggleModal("addItem");
       }
     } catch (err) {
       // Handle other errors
-      console.error("Couldn't add the item:", response.status);
-      setResponse(response.message || "Couldn't add the item");
+      console.error("Couldn't add the item:", err);
+      setResponse(err.message || "Couldn't add the item");
     }
   }
 
@@ -269,8 +242,6 @@ function App() {
       const token = localStorage.getItem("jwt");
       const data = { name, avatar, email };
       const updatedInfo = await api("PATCH", "/users/me", token, data);
-
-      // processServerResponse already handles the ok check
       if (updatedInfo) {
         // Fetch the updated user information
         const userInfo = await fetchUserInfo(token);
@@ -293,25 +264,7 @@ function App() {
     setResponse,
     signupError,
     loginError,
-  } = useAuth(
-    // Pass the correct fetchUserInfo function
-    toggleModal,
-    fetchUserInfo,
-    handleAddItemSubmit
-  );
-
-  // useEffect(() => {
-  //   const checkAuthToken = async () => {
-  //     const storedToken = localStorage.getItem("jwt");
-  //     if (storedToken) {
-  //       setIsLoggedIn(true);
-  //       // Fetch user info and update current user
-  //       const userInfo = await fetchUserInfo(storedToken);
-  //       setCurrentUser(userInfo);
-  //     }
-  //   };
-  //   checkAuthToken();
-  // }, [setIsLoggedIn, setCurrentUser, fetchUserInfo]);
+  } = useAuth(toggleModal, fetchUserInfo, handleAddItemSubmit);
 
   useEffect(() => {
     const checkAuthToken = async () => {
@@ -348,14 +301,13 @@ function App() {
             handleClick={toggleModal}
             weatherLocation={weatherLocation}
             handleAddClick={() => toggleModal("create")}
-            /*  getInitials={getInitials} */
           />
 
           <Route exact path="/">
             <Main
               weatherTemp={weatherTemp}
               timeOfDay={timeOfDay()}
-              onCardClick={onCardClick} //handle selected card
+              onCardClick={onCardClick}
               onCardLike={onCardLike}
               clothingArray={clothingArray}
               isLoading={isLoading}
@@ -369,11 +321,10 @@ function App() {
             <Profile
               onCardClick={onCardClick}
               clothingArray={clothingArray}
-              handleAddClick={() => toggleModal("create")} // changed from "addItem"
+              handleAddClick={() => toggleModal("create")}
               handleLogoutClick={() => toggleModal("logout")}
               handleEditProfileClick={() => toggleModal("edit profile")}
               onCardLike={onCardLike}
-              /* getInitials={getInitials} */
             />
           </ProtectedRoute>
           {activeModal === "signup" && (
@@ -403,7 +354,7 @@ function App() {
               onAddItem={handleAddItemSubmit}
               isLoading={isLoading}
               onSubmit={onSubmit}
-              // addItemError={addItemError}
+              response={response}
             />
           )}
           {activeModal === "preview" && (

@@ -43,7 +43,6 @@ const LogInModal = ({
       formInfo={formInfo}
       onClose={onClose}
       onSubmit={onSubmit}
-      // buttonState={isValid}
       extraButton={extraButton}
       modalName="login"
     >

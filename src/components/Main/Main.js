@@ -7,8 +7,6 @@ import { weatherOptions } from "../../utils/constants";
 import { CurrentTemperatureUnitContext } from "../../contexts/CurrentTemperatureUnitContext";
 import React, { useContext, useMemo } from "react";
 
-// import { name, imageUrl, weather } from "../../utils/auth";
-
 function Main({
   weatherTemp,
   onCardClick,
@@ -35,8 +33,7 @@ function Main({
   // Construct the image path based on weatherType
   const weatherCardImage = weatherOptions.find(
     (option) => option.weatherType === weatherOption && option.day === day
-  )?.link; // should this be weather or weatherType?
-
+  )?.link; 
   // Ensure clothingArray is always an array
 
   const filteredCards = Array.isArray(clothingArray)
@@ -50,7 +47,6 @@ function Main({
       <WeatherCard
         weatherCard={weatherCardImage}
         day={timeOfDay}
-        // type="cloudy"
         temp={temp}
       />
       <section className="main__clothes">

@@ -31,28 +31,3 @@ export const api = async (method, endpoint, token = "", body = null) => {
   const res = await fetch(`${baseUrl}${endpoint}`, requestOptions);
   return processServerResponse(res);
 };
-
-// export const fetchUserInfo = async (authToken) => {
-//   const currentUser = await api("GET", "/users/me", authToken);
-//   if (currentUser) {
-//     return currentUser.data;
-//   } else {
-//     console.error("Can't access user");
-//     throw Error("Error");
-//   }
-// };
-// export const getClothingItems = async () => {
-//   const res = await fetch(`${baseUrl}/items`, {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//   });
-//   return processServerResponse(res);
-// };
-
-// export const addLike = (itemId, token) => {
-//   return api("PUT", `/items/${itemId}/likes`, token);
-// };
-// export const removeLike = (itemId, token) => {
-//   return api("DELETE", `/items/${itemId}/likes`, token);
-// };
-// changed from data to item ? changed from item_.id

@@ -6,7 +6,7 @@ export function useForm() {
     avatar: "",
     imageUrl: "",
     weather: "",
-  }); // added imageUrl and weather
+  });
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(true);
   const [delayedErrors, setDelayedErrors] = useState({});
@@ -21,8 +21,7 @@ export function useForm() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDelayedErrors(errors);
-    }, 900); // Adjust the delay time as needed
-
+    }, 900);
     return () => clearTimeout(timer);
   }, [errors]);
   const resetForm = useCallback(

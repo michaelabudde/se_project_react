@@ -1,30 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import "./Header.css";
 import "./Navigation.css";
-import { baseUrl } from "../../utils/constants.js";
 import WTWRlogo from "../../images/WTWRlogo.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { AuthContext } from "../../contexts/AuthContext.js";
-import { processServerResponse } from "../../utils/api";
-const Header = ({
-  fetchUserInfo,
-  /*   isLoggedIn, */ // not defined in app ?
-  weatherLocation,
-  handleClick,
-  handleAddClick,
-  /*   getInitials, */
-}) => {
+const Header = ({ weatherLocation, handleClick, handleAddClick }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const { isLoggedIn } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
 
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
   });
-  const username = currentUser ? currentUser.name : "Terrence Tegegne"; // changedd from currentUser.name ?
+  const username = currentUser ? currentUser.name : "Terrence Tegegne";
 
   const isAvatarSet = Boolean(currentUser.avatar);
 

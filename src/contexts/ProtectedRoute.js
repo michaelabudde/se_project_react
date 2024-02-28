@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-// import { AuthContext } from "./AuthContext";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
 function ProtectedRoute({ children, isLoggedIn, isLoggedInLoading, ...props }) {

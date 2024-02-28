@@ -41,36 +41,4 @@ export const weatherOptions = [
     day: false,
     weatherType: "cold",
   },
-
-  // {
-  //   link: require("../images/day/day-fog.svg").default,
-  //   day: true,
-  //   weatherType: "fog",
-  // },
-  // {
-  //   link: require("../images/day/day-rain.svg").default,
-  //   day: true,
-  //   weatherType: "rain",
-  // },
-  // {
-  //   link: require("../images/day/day-snow.svg").default,
-  //   day: true,
-  //   weatherType: "snow",
-  // },
-  // {
-  //   link: require("../images/day/day-storm.svg").default,
-  //   day: true,
-  //   weatherType: "storm",
-  // },
-
-  // {
-  //   link: require("../images/night/night-storm.svg").default,
-  //   day: false,
-  //   weatherType: "storm",
-  // },
-  // {
-  //   link: require("../images/night/night-rain.svg").default,
-  //   day: false,
-  //   weatherType: "rain",
-  // },
 ];
