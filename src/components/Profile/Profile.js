@@ -1,7 +1,6 @@
 import React from "react";
 import "./Profile.css";
 import ClothesSection from "../ClothesSection/ClothesSection";
-import Sidebar from "../Sidebar/Sidebar";
 
 const Profile = ({
   clothingArray,
@@ -13,10 +12,6 @@ const Profile = ({
 }) => {
   return (
     <section className="profile">
-      <Sidebar
-        handleLogoutClick={handleLogoutClick}
-        handleEditProfileClick={handleEditProfileClick}
-      />
       <ClothesSection
         clothingArray={clothingArray}
         handleAddClick={handleAddClick}
