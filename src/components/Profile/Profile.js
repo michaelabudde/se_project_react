@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import React from "react";
 import "./Profile.css";
 import ClothesSection from "../ClothesSection/ClothesSection";
+import Sidebar from "../Sidebar/Sidebar";
 
 const Profile = ({
   clothingArray,
@@ -10,46 +10,13 @@ const Profile = ({
   handleEditProfileClick,
   onCardClick,
   onCardLike,
-  onClose,
-  /*   getInitials, */
 }) => {
-  const { currentUser } = useContext(CurrentUserContext);
   return (
     <section className="profile">
-      <div className="profile__sidebar">
-        <div className="profile__sidebar-user-info">
-          <div className="profile__sidebar-image-container">
-            {currentUser.avatar ? (
-              <img
-                src={currentUser.avatar}
-                alt="user avatar"
-                className="profile__sidebar-user-avatar"
-              ></img>
-            ) : (
-              currentUser.name?.toUpperCase().charAt(0) || ""
-            )}
-          </div>
-          <h3 className="profile__sidebar-username">
-            {currentUser ? currentUser.name : "User Profile"}
-          </h3>
-        </div>
-        <div className="profile__sidebar-options">
-          <button
-            className="profile__sidebar-button"
-            type="button"
-            onClick={handleEditProfileClick}
-          >
-            Change Profile Data
-          </button>
-          <button
-            className="profile__sidebar-button"
-            type="button"
-            onClick={handleLogoutClick}
-          >
-            Log Out
-          </button>
-        </div>
-      </div>
+      <Sidebar
+        handleLogoutClick={handleLogoutClick}
+        handleEditProfileClick={handleEditProfileClick}
+      />
       <ClothesSection
         clothingArray={clothingArray}
         handleAddClick={handleAddClick}
