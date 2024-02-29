@@ -80,6 +80,7 @@
   flex-direction: column;
   align-content: flex-start;
   flex-wrap: wrap;
+  cursor: pointer;
 }
 .modal-form__error {
   color: red;
@@ -136,6 +137,7 @@
 }
 .modal-form__label_radio {
   padding-bottom: 10px;
+  cursor: pointer;
 }
 
 .modal-form__submit-button:hover {

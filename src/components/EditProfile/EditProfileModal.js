@@ -1,10 +1,11 @@
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect, useContext } from "react";
-import { useForm } from "../../hooks/useForm";
+import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "../ModalWithForm/ModalWithForm.css";
 const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
-  const { values, handleChange, errors, isValid, resetForm } = useForm();
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormAndValidation();
   const { currentUser } = useContext(CurrentUserContext);
 
   const formInfo = {

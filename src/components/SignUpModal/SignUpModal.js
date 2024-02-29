@@ -1,7 +1,7 @@
 import "../ModalWithForm/ModalWithForm.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect } from "react";
-import { useForm } from "../../hooks/useForm";
+import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
 const SignUpModal = ({
   onClose,
@@ -10,7 +10,7 @@ const SignUpModal = ({
   handleClick,
   signupError,
 }) => {
-  const { values, handleChange, errors, resetForm } = useForm();
+  const { values, handleChange, errors, resetForm } = useFormAndValidation();
 
   const formInfo = {
     title: "Sign up",

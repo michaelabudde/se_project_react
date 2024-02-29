@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-export function useForm() {
+export function useFormAndValidation() {
   const [values, setValues] = useState({
     name: "",
     email: "",

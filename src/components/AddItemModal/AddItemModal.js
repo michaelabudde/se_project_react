@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "../ModalWithForm/ModalWithForm.css";
-import { useForm } from "../../hooks/useForm";
+import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
 const AddItemModal = ({ onClose, onAddItem, isOpen, response }) => {
-  const { values, handleChange, errors, setErrors, resetForm } = useForm({
-    name: "",
-    imageUrl: "",
-    weather: "",
-  });
+  const { values, handleChange, errors, setErrors, resetForm } =
+    useFormAndValidation();
   const formInfo = {
     title: "New Garment",
     name: "create",
@@ -41,11 +38,14 @@ const AddItemModal = ({ onClose, onAddItem, isOpen, response }) => {
     >
       <div>
         <div className="modal-form__label-container">
-          <label className="modal-form__label">Name</label>
+          <label className="modal-form__label" htmlFor="nameInput">
+            Name
+          </label>
           <span className="modal-form__error">{errors.name || " "}</span>
         </div>
         <input
           type="text"
+          id="nameInput"
           name="name"
           className="modal-form__input modal__input_type_card-name"
           placeholder="Name"
@@ -55,12 +55,16 @@ const AddItemModal = ({ onClose, onAddItem, isOpen, response }) => {
           value={values.name || ""}
           onChange={handleChange}
         />
+
         <div className="modal-form__label-container">
-          <label className="modal-form__label">Image</label>
+          <label className="modal-form__label" htmlFor="imageUrlInput">
+            Image
+          </label>
           <span className="modal-form__error">{errors.imageUrl || ""} </span>
         </div>
         <input
           type="url"
+          id="imageUrlInput"
           name="imageUrl"
           className="modal-form__input modal__input_type_url"
           placeholder="Image URL"
@@ -68,12 +72,16 @@ const AddItemModal = ({ onClose, onAddItem, isOpen, response }) => {
           onChange={handleChange}
           required
         />
+
         <div className="modal-form__label-container">
-          <label className="modal-form__label">Select the Weather Type:</label>
+          <label className="modal-form__label" htmlFor="weatherInput">
+            Select the Weather Type:
+          </label>
           <span className="modal-form__error">
             {errors.weather || response || ""}
           </span>
         </div>
+
         <div className="modal-form__radio-inputs">
           <div>
             <input
