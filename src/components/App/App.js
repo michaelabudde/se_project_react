@@ -48,7 +48,10 @@ function App() {
   const [activeModal, setActiveModal] = useState(null);
   const handleCloseModal = useCallback(() => {
     setActiveModal("");
-  });
+  }, []);
+  const handleOpenModal = useCallback((modalName) => {
+    setActiveModal(modalName);
+  }, []);
   function onSubmit(e, request) {
     e.preventDefault();
     setIsLoading(true);
@@ -71,16 +74,6 @@ function App() {
     };
   }, [activeModal, handleCloseModal]); // watch activeModal here
 
-  const toggleModal = useCallback(
-    (modalName) => {
-      if (activeModal === modalName) {
-        setActiveModal(null);
-      } else {
-        setActiveModal(modalName);
-      }
-    },
-    [activeModal]
-  );
   const [weatherTemp, setWeatherTemp] = useState(0);
   // const { currentTemperatureUnit, } = useContext(
   //   CurrentTemperatureUnitContext
@@ -155,7 +148,7 @@ function App() {
   const handleCardDelete = (itemId) => {
     setItemToDelete(itemId);
     // Open the confirmation modal
-    toggleModal("confirm");
+    handleOpenModal("confirm");
   };
 
   const handleDeleteConfirmed = async () => {
@@ -217,7 +210,6 @@ function App() {
         // Add the new item to the array
         setClothingArray([...clothingArray, res.data]);
         handleCloseModal(); // Close the addItem modal
-        // toggleModal("addItem");
       }
     } catch (err) {
       // Handle other errors
@@ -264,7 +256,7 @@ function App() {
     setResponse,
     signupError,
     loginError,
-  } = useAuth(toggleModal, fetchUserInfo, handleAddItemSubmit);
+  } = useAuth(handleOpenModal, fetchUserInfo, handleAddItemSubmit);
 
   useEffect(() => {
     const checkAuthToken = async () => {
@@ -301,11 +293,11 @@ function App() {
         <div className="page_wrapper">
           <Header
             fetchUserInfo={fetchUserInfo}
-            handleClick={toggleModal}
+            handleClick={handleOpenModal}
             weatherLocation={weatherLocation}
             weatherTemp={weatherTemp}
             handleToggleSwitchChange={handleToggleSwitchChange}
-            handleAddClick={() => toggleModal("create")}
+            handleAddClick={() => handleOpenModal("create")}
           />
 
           <Route exact path="/">
@@ -326,9 +318,9 @@ function App() {
             <Profile
               onCardClick={onCardClick}
               clothingArray={clothingArray}
-              handleAddClick={() => toggleModal("create")}
-              handleLogoutClick={() => toggleModal("logout")}
-              handleEditProfileClick={() => toggleModal("edit profile")}
+              handleAddClick={() => handleOpenModal("create")}
+              handleLogoutClick={() => handleOpenModal("logout")}
+              handleEditProfileClick={() => handleOpenModal("edit profile")}
               onCardLike={onCardLike}
             />
           </ProtectedRoute>
@@ -337,7 +329,7 @@ function App() {
               onClose={handleCloseModal}
               isOpen={activeModal === "signup"}
               handleSignUp={handleSignUp}
-              handleClick={toggleModal}
+              handleClick={handleOpenModal}
               signupError={signupError}
             />
           )}
@@ -348,7 +340,7 @@ function App() {
               isLoading={isLoading}
               onSubmit={onSubmit}
               handleLogIn={handleLogIn}
-              handleClick={toggleModal}
+              handleClick={handleOpenModal}
               loginError={loginError}
             />
           )}
@@ -371,7 +363,7 @@ function App() {
           )}
           {activeModal === "confirm" && (
             <ConfirmDeleteModal
-              onClose={toggleModal}
+              onClose={handleCloseModal}
               handleDelete={handleDeleteConfirmed}
               selectedCard={selectedCard}
             />

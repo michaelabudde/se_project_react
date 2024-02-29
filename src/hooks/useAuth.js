@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { api } from "../utils/api";
 import { login as loginConfig, signup as signupConfig } from "../utils/auth";
 
-const useAuth = (toggleModal, fetchUserInfo) => {
+const useAuth = (handleCloseModal, fetchUserInfo) => {
   const { setIsLoggedIn } = useContext(AuthContext);
   const { setCurrentUser } = useContext(CurrentUserContext);
   const [response, setResponse] = useState("");
@@ -24,7 +24,7 @@ const useAuth = (toggleModal, fetchUserInfo) => {
         const userInfo = await fetchUserInfo(res.token);
         setCurrentUser(userInfo);
 
-        toggleModal("login");
+        handleCloseModal("");
       } else {
         console.error(res.message);
         setResponse(res.message || "Log in failed");
@@ -44,7 +44,7 @@ const useAuth = (toggleModal, fetchUserInfo) => {
       if (res.data) {
         // SignUp successful, proceed to login
         await handleLogIn({ email, password });
-        toggleModal("signup");
+        handleCloseModal("");
       } else {
         console.error(res.message);
         setResponse(res.message || "Sign up failed");
@@ -62,7 +62,7 @@ const useAuth = (toggleModal, fetchUserInfo) => {
     setIsLoggedIn(false);
     setCurrentUser(null);
     setCurrentUser({ avatar: "T T" });
-    toggleModal("logout");
+    handleCloseModal("");
   };
 
   return {
