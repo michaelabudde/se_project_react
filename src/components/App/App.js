@@ -123,6 +123,7 @@ function App() {
     const token = localStorage.getItem("jwt");
     try {
       const response = await api("GET", "/items", token);
+      // const response = await getItems(token);
       return response.items;
     } catch (error) {
       console.error("Error fetching clothing information:", error);
@@ -200,17 +201,16 @@ function App() {
     const token = localStorage.getItem("jwt");
     try {
       const res = await api("POST", "/items", token, newItem);
-
+      // const res = await addItem(token, newItem);
       // Check if there's an error message related to the weather field
-      if (res.message && res.message.includes("weather")) {
-        setErrorResponse("Please select a weather type");
-      } else {
-        // No weather-related error, clear the error message
-        setErrorResponse("");
-        // Add the new item to the array
-        setClothingArray([...clothingArray, res.data]);
-        handleCloseModal(); // Close the addItem modal
-      }
+      // if (res.message && res.message.includes("weather")) {
+      //   setErrorResponse("Please select a weather type");
+      // } else {
+      //   // No weather-related error, clear the error message
+      //   setErrorResponse("");
+      // Add the new item to the array
+      setClothingArray([...clothingArray, res.data]);
+      handleCloseModal(); // Close the addItem modal
     } catch (error) {
       // Handle other errors
       console.error("Couldn't add the item:", error);
