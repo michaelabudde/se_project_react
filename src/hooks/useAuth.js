@@ -7,10 +7,36 @@ import { login as loginConfig, signup as signupConfig } from "../utils/auth";
 const useAuth = (handleCloseModal, fetchUserInfo) => {
   const { setIsLoggedIn } = useContext(AuthContext);
   const { setCurrentUser } = useContext(CurrentUserContext);
-  const [response, setResponse] = useState("");
+  const [errorResponse, setErrorResponse] = useState("");
+  // changed from response to be more specific
   const [signupError, setSignupError] = useState(null);
   const [loginError, setLoginError] = useState(null);
 
+  // const fetchUserInfo = async (token) => {
+  //   try {
+  //     const currentUser = await api("GET", "/users/me", token);
+  //     if (currentUser) {
+  //       return currentUser.data;
+  //     } else {
+  //       console.error("Can't access user");
+  //       return null; // Handle fetch failure by returning null
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during fetchUserInfo:", error);
+  //     return null; // Handle fetch failure by returning null
+  //   }
+  // };
+  // const fetchUserInfo = async (token) => {
+  //   const currentUser = await api("GET", "/users/me", token);
+  //   if (currentUser) {
+  //     return currentUser.data;
+  //   } else {
+  //     console.error("Can't access user");
+  //     throw Error("Error");
+  //   }
+  // };
+
+  // debugger;
   const handleLogIn = async ({ email, password }) => {
     const config = loginConfig(email, password);
     try {
@@ -24,10 +50,10 @@ const useAuth = (handleCloseModal, fetchUserInfo) => {
         const userInfo = await fetchUserInfo(res.token);
         setCurrentUser(userInfo);
 
-        handleCloseModal("");
+        handleCloseModal(""); // does it need to handle close if subit already handles close?
       } else {
         console.error(res.message);
-        setResponse(res.message || "Log in failed");
+        setErrorResponse(res.message || "Log in failed");
         setLoginError(res.message || "Wrong email or password");
       }
     } catch (error) {
@@ -47,7 +73,7 @@ const useAuth = (handleCloseModal, fetchUserInfo) => {
         handleCloseModal("");
       } else {
         console.error(res.message);
-        setResponse(res.message || "Sign up failed");
+        setErrorResponse(res.message || "Sign up failed");
         setSignupError(res.message || "Email already in use");
       }
     } catch (error) {
@@ -64,13 +90,13 @@ const useAuth = (handleCloseModal, fetchUserInfo) => {
     setCurrentUser({ avatar: "T T" });
     handleCloseModal("");
   };
-
   return {
+    fetchUserInfo,
     handleLogIn,
     handleSignUp,
     handleLogout,
-    response,
-    setResponse,
+    errorResponse,
+    setErrorResponse,
     signupError,
     setSignupError,
     loginError,

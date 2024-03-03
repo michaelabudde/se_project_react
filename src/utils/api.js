@@ -31,3 +31,28 @@ export const api = async (method, endpoint, token = "", body = null) => {
   const res = await fetch(`${baseUrl}${endpoint}`, requestOptions);
   return processServerResponse(res);
 };
+// debugger;
+
+// export const getItems = async (token) => {
+//   try {
+//     const response = await api("GET", "/items", token);
+//     console.log(response);
+//     return response.items; // Return the response from the API call
+//   } catch (error) {
+//     // Handle errors if needed
+//     console.error("Error fetching items:", error);
+//     throw error; // Rethrow the error to be handled in the calling code
+//   }
+// };
+
+// export const addItem = async (token, newItem) => {
+//   try {
+//     const res = await api("POST", "/items", token, newItem);
+//     console.log(res);
+//     return res; // Return the response
+//   } catch (error) {
+//     // Handle errors if needed
+//     console.error("Error adding item:", error);
+//     throw error; // Rethrow the error to be handled in the calling code
+//   }
+// };

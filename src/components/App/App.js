@@ -24,7 +24,7 @@ import ConfirmLogoutModal from "../ConfirmationModals/ConfirmLogoutModal.js";
 import ConfirmDeleteModal from "../ConfirmationModals/ConfirmDeleteModal.js";
 
 // UTILS //
-import { api } from "../../utils/api.js";
+import { api, getItems, addItem } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
 
 // Hooks //
@@ -47,25 +47,28 @@ function App() {
   // Handle Modals //
   const [activeModal, setActiveModal] = useState(null);
   const handleCloseModal = useCallback(() => {
-    setActiveModal("");
+    setActiveModal(null);
   }, []);
   const handleOpenModal = useCallback((modalName) => {
     setActiveModal(modalName);
   }, []);
+
   function onSubmit(e, request) {
     e.preventDefault();
     setIsLoading(true);
+    console.log(request);
     request()
       .then(handleCloseModal)
       .catch(console.error)
       .finally(() => setIsLoading(false));
   }
+  // debugger;
   useEffect(() => {
     if (!activeModal) return; // stop the effect not to add the listener if there is no active modal
     const handleEscClose = (e) => {
       // define the function inside useEffect not to lose the reference on rerendering
       if (e.key === "Escape") {
-        handleCloseModal();
+        handleCloseModal(null);
       }
     };
     document.addEventListener("keydown", handleEscClose);
@@ -112,7 +115,6 @@ function App() {
       })
       .catch(console.error);
   }, []);
-
   // Handle Card Actions //
   const [selectedCard, setSelectedCard] = useState({ src: "", name: "" });
   const [clothingArray, setClothingArray] = useState([]);
@@ -159,15 +161,13 @@ function App() {
       setClothingArray((prevClothingArray) =>
         prevClothingArray.filter((item) => item._id !== itemToDelete)
       );
-      handleCloseModal(); // Close the confirmation modal
+
+      setItemToDelete(null);
+      handleCloseModal(null); // Close the confirmation modal
     } catch (error) {
       console.error("Couldn't delete item:", error);
-    } finally {
-      // Reset the delete confirmation state
-      setItemToDelete(null);
     }
   };
-
   const onCardClick = (item) => {
     return () => {
       setActiveModal("preview");
@@ -203,18 +203,18 @@ function App() {
 
       // Check if there's an error message related to the weather field
       if (res.message && res.message.includes("weather")) {
-        setResponse("Please select a weather type");
+        setErrorResponse("Please select a weather type");
       } else {
         // No weather-related error, clear the error message
-        setResponse("");
+        setErrorResponse("");
         // Add the new item to the array
         setClothingArray([...clothingArray, res.data]);
         handleCloseModal(); // Close the addItem modal
       }
-    } catch (err) {
+    } catch (error) {
       // Handle other errors
-      console.error("Couldn't add the item:", err);
-      setResponse(err.message || "Couldn't add the item");
+      console.error("Couldn't add the item:", error);
+      setErrorResponse(error.message || "Couldn't add the item");
     }
   }
 
@@ -252,8 +252,8 @@ function App() {
     handleLogIn,
     handleSignUp,
     handleLogout,
-    response,
-    setResponse,
+    errorResponse,
+    setErrorResponse,
     signupError,
     loginError,
   } = useAuth(handleOpenModal, fetchUserInfo, handleAddItemSubmit);
@@ -292,7 +292,6 @@ function App() {
       >
         <div className="page_wrapper">
           <Header
-            fetchUserInfo={fetchUserInfo}
             handleClick={handleOpenModal}
             weatherLocation={weatherLocation}
             weatherTemp={weatherTemp}
@@ -327,7 +326,7 @@ function App() {
           {activeModal === "signup" && (
             <SignUpModal
               onClose={handleCloseModal}
-              isOpen={activeModal === "signup"}
+              // isOpen={activeModal === "signup"}
               handleSignUp={handleSignUp}
               handleClick={handleOpenModal}
               signupError={signupError}
@@ -336,7 +335,7 @@ function App() {
           {activeModal === "login" && (
             <LogInModal
               onClose={handleCloseModal}
-              isOpen={activeModal === "login"}
+              // isOpen={activeModal === "login"}
               isLoading={isLoading}
               onSubmit={onSubmit}
               handleLogIn={handleLogIn}
@@ -347,11 +346,11 @@ function App() {
           {activeModal === "create" && (
             <AddItemModal
               onClose={handleCloseModal}
-              isOpen={activeModal === "create"}
+              // isOpen={activeModal === "create"}
               onAddItem={handleAddItemSubmit}
               isLoading={isLoading}
-              onSubmit={onSubmit}
-              response={response}
+              // onSubmit={onSubmit}
+              errorResponse={errorResponse}
             />
           )}
           {activeModal === "preview" && (
@@ -371,7 +370,7 @@ function App() {
           {activeModal === "edit profile" && (
             <EditProfileModal
               onClose={handleCloseModal}
-              isOpen={activeModal === "edit profile"}
+              // isOpen={activeModal === "edit profile"}
               handleProfileUpdate={handleProfileUpdate}
             />
           )}

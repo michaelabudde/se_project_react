@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "../ModalWithForm/ModalWithForm.css";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
-
-const AddItemModal = ({ onClose, onAddItem, isOpen, response }) => {
+const AddItemModal = ({ onClose, onAddItem, response }) => {
+  // isopen removed
   const { values, handleChange, errors, setErrors, resetForm } =
     useFormAndValidation();
   const formInfo = {
@@ -11,29 +11,36 @@ const AddItemModal = ({ onClose, onAddItem, isOpen, response }) => {
     name: "create",
     buttonText: "Add garment",
   };
-
   function onSubmit(e) {
     e.preventDefault();
-    if (values.weather === "") {
-      // Display an error message for the weather field
-      setErrors({ ...errors, message: "Please select a weather type" });
-    } else {
-      // Clear the weather-related error if weather is selected
-      setErrors({ ...errors, message: "" });
-      // Proceed with the form submission
-      onAddItem(values);
-    }
+    const newItem = { ...values };
+    onAddItem(newItem);
   }
+  // previously onSubmit which was not specific enough
+  // function handleWeatherInputError(e) {
+  //   e.preventDefault();
+  //   if (values.weather === "") {
+  //     // Display an error message for the weather field
+  //     setErrors({ ...errors, message: "Please select a weather type" });
+  //   } else {
+  //     // Clear the weather-related error if weather is selected
+  //     setErrors({ ...errors, message: "" });
+  //     // Proceed with the form submission
+  //     onAddItem(values);
+  //   }
+  // }
+  // removed isOpen
 
+  // add || handleWeaterinputError to radio error
   useEffect(() => {
     resetForm();
-  }, [isOpen, resetForm]);
+  }, [resetForm]);
 
   return (
     <ModalWithForm
       onClose={onClose}
       onSubmit={onSubmit}
-      isOpen={isOpen}
+      // isOpen={isOpen}
       formInfo={formInfo}
     >
       <div>
@@ -79,6 +86,7 @@ const AddItemModal = ({ onClose, onAddItem, isOpen, response }) => {
           </label>
           <span className="modal-form__error">
             {errors.weather || response || ""}
+            {/* added handle weather input error here  */}
           </span>
         </div>
 

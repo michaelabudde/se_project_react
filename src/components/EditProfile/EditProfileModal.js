@@ -3,7 +3,8 @@ import { useEffect, useContext } from "react";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "../ModalWithForm/ModalWithForm.css";
-const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
+const EditProfileModal = ({ onClose, handleProfileUpdate }) => {
+  // removed isopen
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
   const { currentUser } = useContext(CurrentUserContext);
@@ -31,7 +32,8 @@ const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
   }
 
   useEffect(() => {
-    if (isOpen && currentUser) {
+    // removed isOpen
+    if (currentUser) {
       resetForm(
         {
           name: currentUser.name || "",
@@ -42,8 +44,8 @@ const EditProfileModal = ({ onClose, isOpen, handleProfileUpdate }) => {
         true
       );
     }
-  }, [isOpen, currentUser, resetForm]);
-
+  }, [currentUser, resetForm]);
+  // removed isOpen
   return (
     <ModalWithForm
       formInfo={formInfo}

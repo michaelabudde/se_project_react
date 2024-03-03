@@ -4,7 +4,6 @@ import "../Profile/Profile.css";
 
 const SideBar = ({ handleLogoutClick, handleEditProfileClick }) => {
   const { currentUser } = useContext(CurrentUserContext);
-  console.log(handleEditProfileClick);
   return (
     <div className="profile__sidebar">
       <div className="profile__sidebar-user-info">

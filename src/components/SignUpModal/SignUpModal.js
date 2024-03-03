@@ -3,13 +3,8 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect } from "react";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
-const SignUpModal = ({
-  onClose,
-  isOpen,
-  handleSignUp,
-  handleClick,
-  signupError,
-}) => {
+const SignUpModal = ({ onClose, handleSignUp, handleClick, signupError }) => {
+  // isOpen removed
   const { values, handleChange, errors, resetForm } = useFormAndValidation();
 
   const formInfo = {
@@ -35,8 +30,8 @@ const SignUpModal = ({
 
   useEffect(() => {
     resetForm();
-  }, [isOpen, resetForm]);
-
+  }, [resetForm]);
+  // isOpen removed
   return (
     <ModalWithForm
       formInfo={formInfo}
