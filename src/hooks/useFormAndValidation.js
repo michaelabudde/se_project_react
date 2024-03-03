@@ -12,7 +12,7 @@ export function useFormAndValidation() {
   const [delayedErrors, setDelayedErrors] = useState({});
 
   const handleChange = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     const { name, value } = event.target;
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: event.target.validationMessage });
