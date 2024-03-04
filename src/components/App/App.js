@@ -219,22 +219,17 @@ function App() {
   const [itemToDelete, setItemToDelete] = useState(null);
   const handleCardDelete = (itemId) => {
     setItemToDelete(itemId);
-    // Open the confirmation modal
     handleOpenModal("confirm");
   };
-  async function handleDeleteConfirmed(itemId) {
+  async function handleDeleteConfirmed() {
     const token = localStorage.getItem("jwt");
     try {
-      // await api("DELETE", `/items/${itemToDelete}`, token);
-      await deleteItem(token, itemId);
-
-      // Update the state locally by removing the deleted item
+      await deleteItem(token, itemToDelete);
       setClothingArray((prevClothingArray) =>
         prevClothingArray.filter((item) => item._id !== itemToDelete)
       );
-
       setItemToDelete(null);
-      handleCloseModal(null); // Close the confirmation modal
+      handleCloseModal(null);
     } catch (error) {
       console.error("Couldn't delete item:", error);
     }
