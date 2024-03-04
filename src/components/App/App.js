@@ -226,8 +226,8 @@ function App() {
     const token = localStorage.getItem("jwt");
     try {
       // await api("DELETE", `/items/${itemToDelete}`, token);
-      const res = await deleteItem(token, itemId);
-      console.log(res);
+      await deleteItem(token, itemId);
+
       // Update the state locally by removing the deleted item
       setClothingArray((prevClothingArray) =>
         prevClothingArray.filter((item) => item._id !== itemToDelete)

@@ -36,7 +36,6 @@ export const api = async (method, endpoint, token = "", body = null) => {
 export const getItems = async (token) => {
   try {
     const response = await api("GET", "/items", token);
-    console.log(response);
 
     return response; // Return the response from the API call
   } catch (error) {
@@ -59,7 +58,7 @@ export const addItem = async (token, newItem) => {
 
 export const deleteItem = async (token, itemId) => {
   try {
-    const res = await api("DELETE", "/items", token, itemId);
+    const res = await api("DELETE", `/items/${itemId}`, token);
     return res;
   } catch (error) {
     console.error("Error deleting item:", error);
