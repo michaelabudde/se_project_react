@@ -3,7 +3,13 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect } from "react";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
-const SignUpModal = ({ onClose, handleSignUp, handleClick, signupError }) => {
+const SignUpModal = ({
+  onClose,
+  handleSignUp,
+  handleClick,
+  signupError,
+  isLoading,
+}) => {
   // isOpen removed
   const { values, handleChange, errors, resetForm } = useFormAndValidation();
 
@@ -39,6 +45,7 @@ const SignUpModal = ({ onClose, handleSignUp, handleClick, signupError }) => {
       extraButton={extraButton}
       modalName="sign-up"
       onSubmit={onSubmit}
+      isLoading={isLoading}
     >
       <div className="modal-form__label-container">
         <label className="modal-form__label" htmlFor="email">

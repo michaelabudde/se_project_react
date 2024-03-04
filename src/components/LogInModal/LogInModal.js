@@ -3,7 +3,13 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { useEffect } from "react";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
-const LogInModal = ({ onClose, handleLogIn, handleClick, loginError }) => {
+const LogInModal = ({
+  onClose,
+  handleLogIn,
+  handleClick,
+  loginError,
+  isLoading,
+}) => {
   // removed isOpen
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
@@ -41,6 +47,7 @@ const LogInModal = ({ onClose, handleLogIn, handleClick, loginError }) => {
       onClose={onClose}
       onSubmit={onSubmit}
       extraButton={extraButton}
+      isLoading={isLoading}
       modalName="login"
     >
       <div className="modal-form__label-container">

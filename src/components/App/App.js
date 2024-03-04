@@ -44,6 +44,7 @@ import { AuthContext } from "../../contexts/AuthContext.js";
 
 function App() {
   // Contexts //
+  const token = localStorage.getItem("jwt");
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
@@ -117,7 +118,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({ src: "", name: "" });
   const [clothingArray, setClothingArray] = useState([]);
   const fetchClothingInfo = useCallback(async () => {
-    const token = localStorage.getItem("jwt");
+    // const token = localStorage.getItem("jwt");
     try {
       const response = await getItems(token);
       return response.items;
@@ -129,13 +130,11 @@ function App() {
   useEffect(() => {
     const loadClothingData = async () => {
       try {
-        const token = localStorage.getItem("jwt");
+        // const token = localStorage.getItem("jwt");
         const clothingData = (await fetchClothingInfo(token)).reverse();
         setClothingArray(clothingData);
       } catch (error) {
         console.error("Error loading clothing data:", error);
-      } finally {
-        setIsLoading(false);
       }
     };
     if (currentUser) {
@@ -151,7 +150,7 @@ function App() {
   };
 
   const onCardLike = async ({ itemId, isLiked }) => {
-    const token = localStorage.getItem("jwt");
+    // const token = localStorage.getItem("jwt");
 
     try {
       const response = await likeCard(token, itemId, isLiked);
@@ -167,19 +166,55 @@ function App() {
       console.error("Error updating clothing array:", error);
     }
   };
+  // function handleSubmit(request) {
+  //   // start loading
+  //   setIsLoading(true);
+  //   request()
+  //     // we need to close only in `then`
+  //     .then(handleCloseModal)
+  //     // we need to catch possible errors
+  //     // console.error is used to handle errors if you don’t have any other ways for that
+  //     .catch(console.error)
+  //     // and in finally we need to stop loading
+  //     .finally(() => setIsLoading(false));
+  // }
+  function handleSubmit(request) {
+    // start loading
+    setIsLoading(true);
+
+    // Return the promise chain
+    return (
+      request()
+        // we need to close only in `then`
+        .then(handleCloseModal)
+        // we need to catch possible errors
+        // console.error is used to handle errors if you don’t have any other ways for that
+        .catch((error) => {
+          console.error(error);
+          throw error; // Rethrow the error to be handled in the calling code
+        })
+        // and in finally we need to stop loading
+        .finally(() => setIsLoading(false))
+    );
+  }
   async function handleAddItemSubmit(newItem) {
-    const token = localStorage.getItem("jwt");
     try {
-      const res = await addItem(token, newItem);
-      // Check if there's an error message related to the weather field
-      // if (res.message && res.message.includes("weather")) {
-      //   setErrorResponse("Please select a weather type");
-      // } else {
-      //   // No weather-related error, clear the error message
-      //   setErrorResponse("");
-      // Add the new item to the array
-      setClothingArray([res.data, ...clothingArray]);
-      handleCloseModal(); // Close the addItem modal
+      // Create a function that returns a promise
+      const makeRequest = async () => {
+        // Return the promise from addItem
+        try {
+          const res = await addItem(token, newItem);
+          // Add the new item to the array
+          setClothingArray([res.data, ...clothingArray]);
+        } catch (error) {
+          // Handle errors
+          console.error("Error adding item:", error);
+          throw error; // Rethrow the error to be handled in the calling code
+        }
+      };
+
+      // Call handleSubmit passing the request function
+      handleSubmit(makeRequest);
     } catch (error) {
       // Handle other errors
       console.error("Couldn't add the item:", error);
@@ -187,20 +222,52 @@ function App() {
     }
   }
 
+  // async function handleAddItemSubmit(newItem) {
+  //   try {
+  //     // isLoading true
+  //     const res = await addItem(token, newItem);
+  //     // Check if there's an error message related to the weather field
+  //     // if (res.message && res.message.includes("weather")) {
+  //     //   setErrorResponse("Please select a weather type");
+  //     // } else {
+  //     //   // No weather-related error, clear the error message
+  //     //   setErrorResponse("");
+  //     // Add the new item to the array
+  //     setClothingArray([res.data, ...clothingArray]);
+  //     handleCloseModal(); // Close the addItem modal
+  //   } catch (error) {
+  //     // Handle other errors
+  //     console.error("Couldn't add the item:", error);
+  //     setErrorResponse(error.message || "Couldn't add the item");
+  //   }
+  // }
   const [itemToDelete, setItemToDelete] = useState(null);
   const handleCardDelete = (itemId) => {
     setItemToDelete(itemId);
     handleOpenModal("confirm");
   };
   async function handleDeleteConfirmed() {
-    const token = localStorage.getItem("jwt");
     try {
-      await deleteItem(token, itemToDelete);
-      setClothingArray((prevClothingArray) =>
-        prevClothingArray.filter((item) => item._id !== itemToDelete)
-      );
-      setItemToDelete(null);
-      handleCloseModal(null);
+      // Create a function that returns a promise
+      const makeRequest = () => {
+        // Return the promise from deleteItem
+        return deleteItem(token, itemToDelete)
+          .then(() => {
+            // Update the state locally by removing the deleted item
+            setClothingArray((prevClothingArray) =>
+              prevClothingArray.filter((item) => item._id !== itemToDelete)
+            );
+            setItemToDelete(null);
+          })
+          .catch((error) => {
+            // Handle errors
+            console.error("Couldn't delete item:", error);
+            throw error; // Rethrow the error to be handled in the calling code
+          });
+      };
+
+      // Call handleSubmit passing the request function
+      handleSubmit(makeRequest);
     } catch (error) {
       console.error("Couldn't delete item:", error);
     }
@@ -208,16 +275,27 @@ function App() {
 
   async function handleProfileUpdate({ name, avatar, email }) {
     try {
-      const token = localStorage.getItem("jwt");
-      const data = { name, avatar, email };
-      // Use the new updateProfile function
-      const updatedInfo = await updateProfile(token, data);
-      setCurrentUser(updatedInfo.data); // Update the current user with the fetched info
-      handleCloseModal(null);
+      // Create a function that returns a promise
+      const makeRequest = () => {
+        // Return the promise from updateProfile
+        return updateProfile(token, { name, avatar, email })
+          .then((updatedInfo) => {
+            setCurrentUser(updatedInfo.data); // Update the current user with the fetched info
+          })
+          .catch((error) => {
+            // Handle errors
+            console.error("Error updating profile:", error);
+            throw error; // Rethrow the error to be handled in the calling code
+          });
+      };
+
+      // Call handleSubmit passing the request function
+      await handleSubmit(makeRequest);
     } catch (error) {
       console.error("Error updating profile:", error);
     }
   }
+
   const {
     handleLogIn,
     handleSignUp,
@@ -230,14 +308,14 @@ function App() {
 
   useEffect(() => {
     const checkAuthToken = async () => {
-      const storedToken = localStorage.getItem("jwt");
+      // const storedToken = localStorage.getItem("jwt");
       try {
-        if (storedToken) {
+        if (token) {
           // Set loading to true while fetching user info
           setIsLoggedInLoading(true);
 
           // Fetch user info and update current user
-          const userInfo = await fetchUserInfo(storedToken);
+          const userInfo = await fetchUserInfo(token);
           setCurrentUser(userInfo);
           setIsLoggedIn(true);
         }
@@ -250,7 +328,7 @@ function App() {
     };
 
     checkAuthToken();
-  }, [setIsLoggedIn, setIsLoggedInLoading, setCurrentUser]);
+  }, [token, setIsLoggedIn, setIsLoggedInLoading, setCurrentUser]);
   // removed fetchUserInfo from being a dependency which fixed infinite loop
 
   return (
@@ -277,7 +355,6 @@ function App() {
               onCardClick={onCardClick}
               onCardLike={onCardLike}
               clothingArray={clothingArray}
-              isLoading={isLoading}
             />
           </Route>
           <ProtectedRoute

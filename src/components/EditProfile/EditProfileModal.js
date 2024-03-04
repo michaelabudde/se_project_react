@@ -3,7 +3,7 @@ import { useEffect, useContext } from "react";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "../ModalWithForm/ModalWithForm.css";
-const EditProfileModal = ({ onClose, handleProfileUpdate }) => {
+const EditProfileModal = ({ onClose, handleProfileUpdate, isLoading }) => {
   // removed isopen
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
@@ -52,6 +52,7 @@ const EditProfileModal = ({ onClose, handleProfileUpdate }) => {
       onClose={onClose}
       onSubmit={onSubmit}
       extraButton={extraButton}
+      isLoading={isLoading}
     >
       <label className="modal-form__label" htmlFor="name">
         Name

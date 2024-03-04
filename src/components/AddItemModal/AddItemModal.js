@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "../ModalWithForm/ModalWithForm.css";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
-const AddItemModal = ({ onClose, onAddItem, response }) => {
+const AddItemModal = ({ onClose, onAddItem, response, isLoading }) => {
   // isopen removed
   const { values, handleChange, errors, setErrors, resetForm } =
     useFormAndValidation();
@@ -42,6 +42,7 @@ const AddItemModal = ({ onClose, onAddItem, response }) => {
       onSubmit={onSubmit}
       // isOpen={isOpen}
       formInfo={formInfo}
+      isLoading={isLoading}
     >
       <div>
         <div className="modal-form__label-container">

@@ -67,23 +67,7 @@ const useAuth = (handleCloseModal) => {
     handleCloseModal("");
   };
 
-  // const fetchUserInfo = async (token) => {
-  //   try {
-  //     const currentUser = await api("GET", "/users/me", token);
-  //     if (currentUser) {
-  //       return currentUser.data;
-  //     } else {
-  //       console.error("Can't access user");
-  //       return null; // Handle fetch failure by returning null
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during fetchUserInfo:", error);
-  //     return null; // Handle fetch failure by returning null
-  //   }
-  // };
   return {
-    // fetchUserInfo,
-
     handleLogIn,
     handleSignUp,
     handleLogout,
