@@ -60,15 +60,6 @@ function App() {
     setActiveModal(modalName);
   }, []);
 
-  function onSubmit(e, request) {
-    e.preventDefault();
-    setIsLoading(true);
-    console.log(request);
-    request()
-      .then(handleCloseModal)
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
-  }
   // debugger;
   useEffect(() => {
     if (!activeModal) return; // stop the effect not to add the listener if there is no active modal
@@ -325,7 +316,6 @@ function App() {
             <LogInModal
               onClose={handleCloseModal}
               isLoading={isLoading}
-              onSubmit={onSubmit}
               handleLogIn={handleLogIn}
               handleClick={handleOpenModal}
               loginError={loginError}
