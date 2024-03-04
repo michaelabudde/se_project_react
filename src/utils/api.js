@@ -93,3 +93,12 @@ export const fetchUserInfo = async (token) => {
     return null; // Handle fetch failure by returning null
   }
 };
+export const updateProfile = async (token, data) => {
+  try {
+    const updatedInfo = await api("PATCH", "/users/me", token, data);
+    return updatedInfo;
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw error; // Rethrow the error to be handled in the calling code
+  }
+};

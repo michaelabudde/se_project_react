@@ -25,12 +25,12 @@ import ConfirmDeleteModal from "../ConfirmationModals/ConfirmDeleteModal.js";
 
 // UTILS //
 import {
-  api,
   getItems,
   addItem,
   deleteItem,
   likeCard,
   fetchUserInfo,
+  updateProfile,
 } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
 
@@ -128,7 +128,6 @@ function App() {
   const fetchClothingInfo = useCallback(async () => {
     const token = localStorage.getItem("jwt");
     try {
-      // const response = await api("GET", "/items", token);
       const response = await getItems(token);
       return response.items;
     } catch (error) {
@@ -160,26 +159,6 @@ function App() {
     };
   };
 
-  // const onCardLike = async ({ itemId, isLiked }) => {
-  //   const token = localStorage.getItem("jwt");
-  //   try {
-  //     // Call the API directly based on the like or dislike action
-  //     const response = await api(
-  //       isLiked ? "DELETE" : "PUT",
-  //       `/items/${itemId}/likes`,
-  //       token
-  //     );
-  //     const updatedCard = await response;
-  //     setClothingArray((prevClothingArray) =>
-  //       prevClothingArray.map((item) =>
-  //         item._id === updatedCard.data._id ? updatedCard.data : item
-  //       )
-  //     );
-  //   } catch (error) {
-  //     console.error(`Error ${isLiked ? "removing" : "adding"} like:`);
-  //     console.error("Error updating clothing array:", error);
-  //   }
-  // };
   const onCardLike = async ({ itemId, isLiked }) => {
     const token = localStorage.getItem("jwt");
 
@@ -217,21 +196,6 @@ function App() {
       setErrorResponse(error.message || "Couldn't add the item");
     }
   }
-  // const handleDeleteConfirmed = async () => {
-  //   const token = localStorage.getItem("jwt");
-  //   try {
-  //     await api("DELETE", `/items/${itemToDelete}`, token);
-  //     // Update the state locally by removing the deleted item
-  //     setClothingArray((prevClothingArray) =>
-  //       prevClothingArray.filter((item) => item._id !== itemToDelete)
-  //     );
-
-  //     setItemToDelete(null);
-  //     handleCloseModal(null); // Close the confirmation modal
-  //   } catch (error) {
-  //     console.error("Couldn't delete item:", error);
-  //   }
-  // };
 
   const [itemToDelete, setItemToDelete] = useState(null);
   const handleCardDelete = (itemId) => {
@@ -251,18 +215,20 @@ function App() {
       console.error("Couldn't delete item:", error);
     }
   }
-  // Handle User Actions //
+
   async function handleProfileUpdate({ name, avatar, email }) {
     try {
       const token = localStorage.getItem("jwt");
       const data = { name, avatar, email };
-      const updatedInfo = await api("PATCH", "/users/me", token, data);
+
+      // Use the new updateProfile function
+      const updatedInfo = await updateProfile(token, data);
+
       if (updatedInfo) {
         // Fetch the updated user information
         const userInfo = await fetchUserInfo(token);
-
-        // setActiveModal(null);
         setCurrentUser(userInfo); // Update the current user with the fetched info
+        handleCloseModal(null);
       } else {
         console.error("Couldn't update profile");
       }
@@ -350,7 +316,6 @@ function App() {
           {activeModal === "signup" && (
             <SignUpModal
               onClose={handleCloseModal}
-              // isOpen={activeModal === "signup"}
               handleSignUp={handleSignUp}
               handleClick={handleOpenModal}
               signupError={signupError}
@@ -359,7 +324,6 @@ function App() {
           {activeModal === "login" && (
             <LogInModal
               onClose={handleCloseModal}
-              // isOpen={activeModal === "login"}
               isLoading={isLoading}
               onSubmit={onSubmit}
               handleLogIn={handleLogIn}
@@ -370,10 +334,8 @@ function App() {
           {activeModal === "create" && (
             <AddItemModal
               onClose={handleCloseModal}
-              // isOpen={activeModal === "create"}
               onAddItem={handleAddItemSubmit}
               isLoading={isLoading}
-              // onSubmit={onSubmit}
               errorResponse={errorResponse}
             />
           )}
@@ -394,7 +356,6 @@ function App() {
           {activeModal === "edit profile" && (
             <EditProfileModal
               onClose={handleCloseModal}
-              // isOpen={activeModal === "edit profile"}
               handleProfileUpdate={handleProfileUpdate}
             />
           )}
