@@ -11,8 +11,7 @@ const LogInModal = ({
   isLoading,
 }) => {
   // removed isOpen
-  const { values, handleChange, errors, isValid, resetForm } =
-    useFormAndValidation();
+  const { values, handleChange, errors, resetForm } = useFormAndValidation();
 
   const formInfo = {
     title: "Log in",

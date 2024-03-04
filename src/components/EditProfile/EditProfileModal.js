@@ -5,8 +5,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "../ModalWithForm/ModalWithForm.css";
 const EditProfileModal = ({ onClose, handleProfileUpdate, isLoading }) => {
   // removed isopen
-  const { values, handleChange, errors, isValid, resetForm } =
-    useFormAndValidation();
+  const { values, handleChange, errors, resetForm } = useFormAndValidation();
   const { currentUser } = useContext(CurrentUserContext);
 
   const formInfo = {

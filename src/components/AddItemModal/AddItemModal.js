@@ -4,8 +4,7 @@ import "../ModalWithForm/ModalWithForm.css";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 const AddItemModal = ({ onClose, onAddItem, response, isLoading }) => {
   // isopen removed
-  const { values, handleChange, errors, setErrors, resetForm } =
-    useFormAndValidation();
+  const { values, handleChange, errors, resetForm } = useFormAndValidation();
   const formInfo = {
     title: "New Garment",
     name: "create",

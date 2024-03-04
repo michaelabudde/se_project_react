@@ -126,7 +126,7 @@ function App() {
       console.error("Error fetching clothing information:", error);
       throw error;
     }
-  }, []);
+  }, [token]);
   useEffect(() => {
     const loadClothingData = async () => {
       try {
@@ -140,7 +140,7 @@ function App() {
     if (currentUser) {
       loadClothingData();
     }
-  }, [currentUser, fetchClothingInfo]);
+  }, [token, currentUser, fetchClothingInfo]);
 
   const onCardClick = (item) => {
     return () => {
