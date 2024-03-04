@@ -33,26 +33,50 @@ export const api = async (method, endpoint, token = "", body = null) => {
 };
 // debugger;
 
-// export const getItems = async (token) => {
-//   try {
-//     const response = await api("GET", "/items", token);
-//     console.log(response);
-//     return response.items; // Return the response from the API call
-//   } catch (error) {
-//     // Handle errors if needed
-//     console.error("Error fetching items:", error);
-//     throw error; // Rethrow the error to be handled in the calling code
-//   }
-// };
+export const getItems = async (token) => {
+  try {
+    const response = await api("GET", "/items", token);
+    console.log(response);
 
-// export const addItem = async (token, newItem) => {
-//   try {
-//     const res = await api("POST", "/items", token, newItem);
-//     console.log(res);
-//     return res; // Return the response
-//   } catch (error) {
-//     // Handle errors if needed
-//     console.error("Error adding item:", error);
-//     throw error; // Rethrow the error to be handled in the calling code
-//   }
-// };
+    return response; // Return the response from the API call
+  } catch (error) {
+    // Handle errors if needed
+    console.error("Error fetching items:", error);
+    throw error; // Rethrow the error to be handled in the calling code
+  }
+};
+
+export const addItem = async (token, newItem) => {
+  try {
+    const res = await api("POST", "/items", token, newItem);
+    return res; // Return the response
+  } catch (error) {
+    // Handle errors if needed
+    console.error("Error adding item:", error);
+    throw error; // Rethrow the error to be handled in the calling code
+  }
+};
+
+export const deleteItem = async (token, itemId) => {
+  try {
+    const res = await api("DELETE", "/items", token, itemId);
+    return res;
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    throw error; // Rethrow the error to be handled in the calling code
+  }
+};
+export const fetchUserInfo = async (token) => {
+  try {
+    const currentUser = await api("GET", "/users/me", token);
+    if (currentUser) {
+      return currentUser.data;
+    } else {
+      console.error("Can't access user");
+      return null; // Handle fetch failure by returning null
+    }
+  } catch (error) {
+    console.error("Error during fetchUserInfo:", error);
+    return null; // Handle fetch failure by returning null
+  }
+};

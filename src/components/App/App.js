@@ -24,7 +24,13 @@ import ConfirmLogoutModal from "../ConfirmationModals/ConfirmLogoutModal.js";
 import ConfirmDeleteModal from "../ConfirmationModals/ConfirmDeleteModal.js";
 
 // UTILS //
-import { api, getItems, addItem } from "../../utils/api.js";
+import {
+  api,
+  getItems,
+  addItem,
+  deleteItem,
+  fetchUserInfo,
+} from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
 
 // Hooks //
@@ -118,19 +124,17 @@ function App() {
   // Handle Card Actions //
   const [selectedCard, setSelectedCard] = useState({ src: "", name: "" });
   const [clothingArray, setClothingArray] = useState([]);
-
   const fetchClothingInfo = useCallback(async () => {
     const token = localStorage.getItem("jwt");
     try {
-      const response = await api("GET", "/items", token);
-      // const response = await getItems(token);
+      // const response = await api("GET", "/items", token);
+      const response = await getItems(token);
       return response.items;
     } catch (error) {
       console.error("Error fetching clothing information:", error);
       throw error;
     }
   }, []);
-
   useEffect(() => {
     const loadClothingData = async () => {
       try {
@@ -147,28 +151,7 @@ function App() {
       loadClothingData();
     }
   }, [currentUser, fetchClothingInfo]);
-  const [itemToDelete, setItemToDelete] = useState(null);
-  const handleCardDelete = (itemId) => {
-    setItemToDelete(itemId);
-    // Open the confirmation modal
-    handleOpenModal("confirm");
-  };
 
-  const handleDeleteConfirmed = async () => {
-    const token = localStorage.getItem("jwt");
-    try {
-      await api("DELETE", `/items/${itemToDelete}`, token);
-      // Update the state locally by removing the deleted item
-      setClothingArray((prevClothingArray) =>
-        prevClothingArray.filter((item) => item._id !== itemToDelete)
-      );
-
-      setItemToDelete(null);
-      handleCloseModal(null); // Close the confirmation modal
-    } catch (error) {
-      console.error("Couldn't delete item:", error);
-    }
-  };
   const onCardClick = (item) => {
     return () => {
       setActiveModal("preview");
@@ -200,8 +183,8 @@ function App() {
   async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
     try {
-      const res = await api("POST", "/items", token, newItem);
-      // const res = await addItem(token, newItem);
+      // const res = await api("POST", "/items", token, newItem);
+      const res = await addItem(token, newItem);
       // Check if there's an error message related to the weather field
       // if (res.message && res.message.includes("weather")) {
       //   setErrorResponse("Please select a weather type");
@@ -209,7 +192,7 @@ function App() {
       //   // No weather-related error, clear the error message
       //   setErrorResponse("");
       // Add the new item to the array
-      setClothingArray([...clothingArray, res.data]);
+      setClothingArray([res.data, ...clothingArray]);
       handleCloseModal(); // Close the addItem modal
     } catch (error) {
       // Handle other errors
@@ -217,18 +200,46 @@ function App() {
       setErrorResponse(error.message || "Couldn't add the item");
     }
   }
+  // const handleDeleteConfirmed = async () => {
+  //   const token = localStorage.getItem("jwt");
+  //   try {
+  //     await api("DELETE", `/items/${itemToDelete}`, token);
+  //     // Update the state locally by removing the deleted item
+  //     setClothingArray((prevClothingArray) =>
+  //       prevClothingArray.filter((item) => item._id !== itemToDelete)
+  //     );
 
-  // Handle User Actions //
-  const fetchUserInfo = useCallback(async (authToken) => {
-    const currentUser = await api("GET", "/users/me", authToken);
-    if (currentUser) {
-      return currentUser.data;
-    } else {
-      console.error("Can't access user");
-      throw Error("Error");
+  //     setItemToDelete(null);
+  //     handleCloseModal(null); // Close the confirmation modal
+  //   } catch (error) {
+  //     console.error("Couldn't delete item:", error);
+  //   }
+  // };
+
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const handleCardDelete = (itemId) => {
+    setItemToDelete(itemId);
+    // Open the confirmation modal
+    handleOpenModal("confirm");
+  };
+  async function handleDeleteConfirmed(itemId) {
+    const token = localStorage.getItem("jwt");
+    try {
+      // await api("DELETE", `/items/${itemToDelete}`, token);
+      const res = await deleteItem(token, itemId);
+      console.log(res);
+      // Update the state locally by removing the deleted item
+      setClothingArray((prevClothingArray) =>
+        prevClothingArray.filter((item) => item._id !== itemToDelete)
+      );
+
+      setItemToDelete(null);
+      handleCloseModal(null); // Close the confirmation modal
+    } catch (error) {
+      console.error("Couldn't delete item:", error);
     }
-  }, []);
-
+  }
+  // Handle User Actions //
   async function handleProfileUpdate({ name, avatar, email }) {
     try {
       const token = localStorage.getItem("jwt");
@@ -238,7 +249,7 @@ function App() {
         // Fetch the updated user information
         const userInfo = await fetchUserInfo(token);
 
-        setActiveModal(null);
+        // setActiveModal(null);
         setCurrentUser(userInfo); // Update the current user with the fetched info
       } else {
         console.error("Couldn't update profile");
@@ -247,7 +258,6 @@ function App() {
       console.error("Error updating profile:", error);
     }
   }
-
   const {
     handleLogIn,
     handleSignUp,
@@ -256,7 +266,8 @@ function App() {
     setErrorResponse,
     signupError,
     loginError,
-  } = useAuth(handleOpenModal, fetchUserInfo, handleAddItemSubmit);
+    // fetchUserInfo,
+  } = useAuth(handleOpenModal, handleAddItemSubmit);
 
   useEffect(() => {
     const checkAuthToken = async () => {
@@ -280,7 +291,8 @@ function App() {
     };
 
     checkAuthToken();
-  }, [setIsLoggedIn, setIsLoggedInLoading, fetchUserInfo, setCurrentUser]);
+  }, [setIsLoggedIn, setIsLoggedInLoading, setCurrentUser]);
+  // removed fetchUserInfo from being a dependency which fixed infinite loop
 
   return (
     <div className="page">

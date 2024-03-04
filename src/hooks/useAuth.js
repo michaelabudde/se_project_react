@@ -1,40 +1,16 @@
 import { useState, useContext } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { AuthContext } from "../contexts/AuthContext";
-import { api } from "../utils/api";
+import { api, fetchUserInfo } from "../utils/api";
 import { login as loginConfig, signup as signupConfig } from "../utils/auth";
 
-const useAuth = (handleCloseModal, fetchUserInfo) => {
+const useAuth = (handleCloseModal) => {
   const { setIsLoggedIn } = useContext(AuthContext);
   const { setCurrentUser } = useContext(CurrentUserContext);
   const [errorResponse, setErrorResponse] = useState("");
   // changed from response to be more specific
   const [signupError, setSignupError] = useState(null);
   const [loginError, setLoginError] = useState(null);
-
-  // const fetchUserInfo = async (token) => {
-  //   try {
-  //     const currentUser = await api("GET", "/users/me", token);
-  //     if (currentUser) {
-  //       return currentUser.data;
-  //     } else {
-  //       console.error("Can't access user");
-  //       return null; // Handle fetch failure by returning null
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during fetchUserInfo:", error);
-  //     return null; // Handle fetch failure by returning null
-  //   }
-  // };
-  // const fetchUserInfo = async (token) => {
-  //   const currentUser = await api("GET", "/users/me", token);
-  //   if (currentUser) {
-  //     return currentUser.data;
-  //   } else {
-  //     console.error("Can't access user");
-  //     throw Error("Error");
-  //   }
-  // };
 
   // debugger;
   const handleLogIn = async ({ email, password }) => {
@@ -90,8 +66,24 @@ const useAuth = (handleCloseModal, fetchUserInfo) => {
     setCurrentUser({ avatar: "T T" });
     handleCloseModal("");
   };
+
+  // const fetchUserInfo = async (token) => {
+  //   try {
+  //     const currentUser = await api("GET", "/users/me", token);
+  //     if (currentUser) {
+  //       return currentUser.data;
+  //     } else {
+  //       console.error("Can't access user");
+  //       return null; // Handle fetch failure by returning null
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during fetchUserInfo:", error);
+  //     return null; // Handle fetch failure by returning null
+  //   }
+  // };
   return {
-    fetchUserInfo,
+    // fetchUserInfo,
+
     handleLogIn,
     handleSignUp,
     handleLogout,
