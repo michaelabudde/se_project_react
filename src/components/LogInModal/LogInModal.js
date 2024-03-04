@@ -32,7 +32,7 @@ const LogInModal = ({ onClose, handleLogIn, handleClick, loginError }) => {
 
   useEffect(() => {
     resetForm();
-  }, [, resetForm]);
+  }, [resetForm]);
   // removed isOpen
 
   return (

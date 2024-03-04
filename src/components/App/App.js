@@ -130,7 +130,7 @@ function App() {
     const loadClothingData = async () => {
       try {
         const token = localStorage.getItem("jwt");
-        const clothingData = await fetchClothingInfo(token);
+        const clothingData = (await fetchClothingInfo(token)).reverse();
         setClothingArray(clothingData);
       } catch (error) {
         console.error("Error loading clothing data:", error);
@@ -145,7 +145,7 @@ function App() {
 
   const onCardClick = (item) => {
     return () => {
-      setActiveModal("preview");
+      handleOpenModal("preview");
       setSelectedCard(item);
     };
   };
@@ -170,7 +170,6 @@ function App() {
   async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
     try {
-      // const res = await api("POST", "/items", token, newItem);
       const res = await addItem(token, newItem);
       // Check if there's an error message related to the weather field
       // if (res.message && res.message.includes("weather")) {
@@ -211,18 +210,10 @@ function App() {
     try {
       const token = localStorage.getItem("jwt");
       const data = { name, avatar, email };
-
       // Use the new updateProfile function
       const updatedInfo = await updateProfile(token, data);
-
-      if (updatedInfo) {
-        // Fetch the updated user information
-        const userInfo = await fetchUserInfo(token);
-        setCurrentUser(userInfo); // Update the current user with the fetched info
-        handleCloseModal(null);
-      } else {
-        console.error("Couldn't update profile");
-      }
+      setCurrentUser(updatedInfo.data); // Update the current user with the fetched info
+      handleCloseModal(null);
     } catch (error) {
       console.error("Error updating profile:", error);
     }
@@ -235,7 +226,6 @@ function App() {
     setErrorResponse,
     signupError,
     loginError,
-    // fetchUserInfo,
   } = useAuth(handleOpenModal, handleAddItemSubmit);
 
   useEffect(() => {
@@ -310,6 +300,7 @@ function App() {
               handleSignUp={handleSignUp}
               handleClick={handleOpenModal}
               signupError={signupError}
+              isLoading={isLoading}
             />
           )}
           {activeModal === "login" && (
@@ -341,18 +332,21 @@ function App() {
               onClose={handleCloseModal}
               handleDelete={handleDeleteConfirmed}
               selectedCard={selectedCard}
+              isLoading={isLoading}
             />
           )}
           {activeModal === "edit profile" && (
             <EditProfileModal
               onClose={handleCloseModal}
               handleProfileUpdate={handleProfileUpdate}
+              isLoading={isLoading}
             />
           )}
           {activeModal === "logout" && (
             <ConfirmLogoutModal
               onClose={handleCloseModal}
               handleLogout={handleLogout}
+              isLoading={isLoading}
             />
           )}
         </div>

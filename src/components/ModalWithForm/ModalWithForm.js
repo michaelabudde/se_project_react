@@ -39,12 +39,8 @@ const ModalWithForm = ({
           {children}
 
           <div className="modal-form__button-wrapper">
-            <button
-              type="submit"
-              className="modal-form__submit-button"
-              buttontext={isLoading ? "Saving..." : "Save"}
-            >
-              {formInfo.buttonText}
+            <button type="submit" className="modal-form__submit-button">
+              {isLoading ? "Saving..." : formInfo.buttonText}
             </button>
             {extraButton &&
               extraButton.map((btn, index) => (

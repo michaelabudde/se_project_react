@@ -84,10 +84,7 @@ const AddItemModal = ({ onClose, onAddItem, response }) => {
           <label className="modal-form__label" htmlFor="weatherInput">
             Select the Weather Type:
           </label>
-          <span className="modal-form__error">
-            {errors.weather || response || ""}
-            {/* added handle weather input error here  */}
-          </span>
+          <span className="modal-form__error">{errors.weather || ""}</span>
         </div>
 
         <div className="modal-form__radio-inputs">
@@ -97,8 +94,9 @@ const AddItemModal = ({ onClose, onAddItem, response }) => {
               type="radio"
               id="choiceHot"
               name="weather"
-              value="hot"
+              value={values.weather || "hot"}
               onChange={handleChange}
+              required
             />
             <label className="modal-form__label_radio" htmlFor="choiceHot">
               Hot
@@ -110,8 +108,9 @@ const AddItemModal = ({ onClose, onAddItem, response }) => {
               type="radio"
               id="choiceWarm"
               name="weather"
-              value="warm"
+              value={values.weather || "warm"}
               onChange={handleChange}
+              required
             />
             <label className="modal-form__label_radio" htmlFor="choiceWarm">
               Warm
@@ -123,8 +122,9 @@ const AddItemModal = ({ onClose, onAddItem, response }) => {
               type="radio"
               id="choiceCold"
               name="weather"
-              value="cold"
+              value={values.weather || "cold"}
               onChange={handleChange}
+              required
             />
             <label className="modal-form__label_radio" htmlFor="choiceCold">
               Cold

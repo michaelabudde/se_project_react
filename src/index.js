@@ -10,19 +10,17 @@ import { ResponseProvider } from "./contexts/ResponseContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <>
-    <HashRouter basename={"/se_project_react"}>
-      <Switch>
-        <ResponseProvider>
-          <AuthProvider>
-            <CurrentUserProvider>
-              <App />
-            </CurrentUserProvider>
-          </AuthProvider>
-        </ResponseProvider>
-      </Switch>
-    </HashRouter>
-  </>
+  <HashRouter basename={"/se_project_react"}>
+    <Switch>
+      <ResponseProvider>
+        <AuthProvider>
+          <CurrentUserProvider>
+            <App />
+          </CurrentUserProvider>
+        </AuthProvider>
+      </ResponseProvider>
+    </Switch>
+  </HashRouter>
 );
 
 reportWebVitals();
