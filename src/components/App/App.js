@@ -29,6 +29,7 @@ import {
   getItems,
   addItem,
   deleteItem,
+  likeCard,
   fetchUserInfo,
 } from "../../utils/api.js";
 import { getForecast } from "../../utils/weatherApi";
@@ -159,27 +160,43 @@ function App() {
     };
   };
 
+  // const onCardLike = async ({ itemId, isLiked }) => {
+  //   const token = localStorage.getItem("jwt");
+  //   try {
+  //     // Call the API directly based on the like or dislike action
+  //     const response = await api(
+  //       isLiked ? "DELETE" : "PUT",
+  //       `/items/${itemId}/likes`,
+  //       token
+  //     );
+  //     const updatedCard = await response;
+  //     setClothingArray((prevClothingArray) =>
+  //       prevClothingArray.map((item) =>
+  //         item._id === updatedCard.data._id ? updatedCard.data : item
+  //       )
+  //     );
+  //   } catch (error) {
+  //     console.error(`Error ${isLiked ? "removing" : "adding"} like:`);
+  //     console.error("Error updating clothing array:", error);
+  //   }
+  // };
   const onCardLike = async ({ itemId, isLiked }) => {
     const token = localStorage.getItem("jwt");
+
     try {
-      // Call the API directly based on the like or dislike action
-      const response = await api(
-        isLiked ? "DELETE" : "PUT",
-        `/items/${itemId}/likes`,
-        token
-      );
+      const response = await likeCard(token, itemId, isLiked);
+
       const updatedCard = await response;
+
       setClothingArray((prevClothingArray) =>
         prevClothingArray.map((item) =>
           item._id === updatedCard.data._id ? updatedCard.data : item
         )
       );
     } catch (error) {
-      console.error(`Error ${isLiked ? "removing" : "adding"} like:`);
       console.error("Error updating clothing array:", error);
     }
   };
-
   async function handleAddItemSubmit(newItem) {
     const token = localStorage.getItem("jwt");
     try {

@@ -65,6 +65,20 @@ export const deleteItem = async (token, itemId) => {
     throw error; // Rethrow the error to be handled in the calling code
   }
 };
+
+export const likeCard = async (token, itemId, isLiked) => {
+  const method = isLiked ? "DELETE" : "PUT";
+  const endpoint = `/items/${itemId}/likes`;
+
+  try {
+    const response = await api(method, endpoint, token);
+    return response;
+  } catch (error) {
+    console.error(`Error ${isLiked ? "removing" : "adding"} like:`, error);
+    throw error;
+  }
+};
+
 export const fetchUserInfo = async (token) => {
   try {
     const currentUser = await api("GET", "/users/me", token);
