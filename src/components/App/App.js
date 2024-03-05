@@ -166,18 +166,7 @@ function App() {
       console.error("Error updating clothing array:", error);
     }
   };
-  // function handleSubmit(request) {
-  //   // start loading
-  //   setIsLoading(true);
-  //   request()
-  //     // we need to close only in `then`
-  //     .then(handleCloseModal)
-  //     // we need to catch possible errors
-  //     // console.error is used to handle errors if you don’t have any other ways for that
-  //     .catch(console.error)
-  //     // and in finally we need to stop loading
-  //     .finally(() => setIsLoading(false));
-  // }
+
   function handleSubmit(request) {
     // start loading
     setIsLoading(true);
@@ -191,7 +180,6 @@ function App() {
         // console.error is used to handle errors if you don’t have any other ways for that
         .catch((error) => {
           console.error(error);
-          throw error; // Rethrow the error to be handled in the calling code
         })
         // and in finally we need to stop loading
         .finally(() => setIsLoading(false))
