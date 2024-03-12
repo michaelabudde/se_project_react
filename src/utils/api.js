@@ -80,18 +80,17 @@ export const likeCard = async (token, itemId, isLiked) => {
 };
 
 export const fetchUserInfo = async (token) => {
-  try {
-    const currentUser = await api("GET", "/users/me", token);
-    if (currentUser) {
-      return currentUser.data;
-    } else {
-      console.error("Can't access user");
-      return null; // Handle fetch failure by returning null
-    }
-  } catch (error) {
-    console.error("Error during fetchUserInfo:", error);
-    return null; // Handle fetch failure by returning null
+  const currentUser = await api("GET", "/users/me", token);
+  if (currentUser) {
+    return currentUser.data;
+  } else {
+    console.error("Can't access user");
+    // return null; // Handle fetch failure by returning null
   }
+  // } catch (error) {
+  //   console.error("Error during fetchUserInfo:", error);
+  //   // return null; // Handle fetch failure by returning null
+  // }
 };
 export const updateProfile = async (token, data) => {
   try {
