@@ -6,7 +6,10 @@ export const headers = {
   authorization: "",
   "Content-Type": "application/json",
 };
-export const baseUrl = "http://localhost:3001";
+export const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://wtwrapp.ignorelist.com"
+    : "http://localhost:3001";
 export const weatherOptions = [
   {
     link: require("../images/day/day-sunny.svg").default,
