@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/se_project_react/static/css/main.71124341.css",
-    "main.js": "/se_project_react/static/js/main.2e301392.js",
-    "static/js/453.2b71ad4e.chunk.js": "/se_project_react/static/js/453.2b71ad4e.chunk.js",
-    "static/media/CabinetGrotesk-Bold.woff": "/se_project_react/static/media/CabinetGrotesk-Bold.4e6ceb64c2d0c044d897.woff",
-    "static/media/CabinetGrotesk-Medium.woff": "/se_project_react/static/media/CabinetGrotesk-Medium.ed9c4b9af2fe3a8dd14d.woff",
-    "static/media/night-snow.svg": "/se_project_react/static/media/night-snow.20a89d711249712380ea9f4269b386a3.svg",
-    "static/media/night-fog.svg": "/se_project_react/static/media/night-fog.cee462810b2a7c8696b7701170241a66.svg",
-    "static/media/WTWRlogo.svg": "/se_project_react/static/media/WTWRlogo.57ca9e066fcc1886b5fecd9341c7c321.svg",
-    "static/media/night-cloudy.svg": "/se_project_react/static/media/night-cloudy.c52565b10982a97a5a67275442bd12ee.svg",
-    "static/media/day-cloudy.svg": "/se_project_react/static/media/day-cloudy.afb98af2bd43d3a2a330e655695bd2c9.svg",
-    "static/media/Modal-Close-Button-grey.svg": "/se_project_react/static/media/Modal-Close-Button-grey.41654df85174806f9922.svg",
-    "index.html": "/se_project_react/index.html",
-    "static/media/Modal-Close-Button-white.svg": "/se_project_react/static/media/Modal-Close-Button-white.34bff1eb1ed0331b4c52.svg",
-    "static/media/day-sunny.svg": "/se_project_react/static/media/day-sunny.1c3ffd02d92146a2673939be89b88d54.svg",
-    "static/media/night-clear.svg": "/se_project_react/static/media/night-clear.ae0e6bbe1e0bfc883f3ba207396bf3b4.svg",
-    "main.71124341.css.map": "/se_project_react/static/css/main.71124341.css.map",
-    "main.2e301392.js.map": "/se_project_react/static/js/main.2e301392.js.map",
-    "453.2b71ad4e.chunk.js.map": "/se_project_react/static/js/453.2b71ad4e.chunk.js.map"
+    "main.css": "/static/css/main.c34c2e61.css",
+    "main.js": "/static/js/main.e692a085.js",
+    "static/js/453.2b71ad4e.chunk.js": "/static/js/453.2b71ad4e.chunk.js",
+    "static/media/CabinetGrotesk-Bold.woff": "/static/media/CabinetGrotesk-Bold.4e6ceb64c2d0c044d897.woff",
+    "static/media/CabinetGrotesk-Medium.woff": "/static/media/CabinetGrotesk-Medium.ed9c4b9af2fe3a8dd14d.woff",
+    "static/media/night-snow.svg": "/static/media/night-snow.20a89d711249712380ea9f4269b386a3.svg",
+    "static/media/night-fog.svg": "/static/media/night-fog.cee462810b2a7c8696b7701170241a66.svg",
+    "static/media/WTWRlogo.svg": "/static/media/WTWRlogo.57ca9e066fcc1886b5fecd9341c7c321.svg",
+    "static/media/night-cloudy.svg": "/static/media/night-cloudy.c52565b10982a97a5a67275442bd12ee.svg",
+    "static/media/day-cloudy.svg": "/static/media/day-cloudy.afb98af2bd43d3a2a330e655695bd2c9.svg",
+    "static/media/Modal-Close-Button-grey.svg": "/static/media/Modal-Close-Button-grey.41654df85174806f9922.svg",
+    "static/media/Modal-Close-Button-white.svg": "/static/media/Modal-Close-Button-white.34bff1eb1ed0331b4c52.svg",
+    "index.html": "/index.html",
+    "static/media/day-sunny.svg": "/static/media/day-sunny.1c3ffd02d92146a2673939be89b88d54.svg",
+    "static/media/night-clear.svg": "/static/media/night-clear.ae0e6bbe1e0bfc883f3ba207396bf3b4.svg",
+    "main.c34c2e61.css.map": "/static/css/main.c34c2e61.css.map",
+    "main.e692a085.js.map": "/static/js/main.e692a085.js.map",
+    "453.2b71ad4e.chunk.js.map": "/static/js/453.2b71ad4e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.71124341.css",
-    "static/js/main.2e301392.js"
+    "static/css/main.c34c2e61.css",
+    "static/js/main.e692a085.js"
   ]
 }
