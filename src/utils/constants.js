@@ -8,7 +8,7 @@ export const headers = {
 };
 export const baseUrl =
   process.env.NODE_ENV === "production"
-    ? "https://api.wtwrapp.ignorelist.com"
+    ? "https://api.wtwrapp.ignorelist.com" // changed to backend
     : "http://localhost:3001";
 export const weatherOptions = [
   {
