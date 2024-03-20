@@ -90,8 +90,8 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  max-width: 100%;
-  /* word-wrap: break-word; */
+  max-width: fit-content;
+  word-wrap: break-word;
   overflow: hidden; /* Hide any overflowing text */
   text-overflow: ellipsis; /* Add an ellipsis (...) for overflow text */
 }
