@@ -65,6 +65,7 @@
   align-items: center;
   flex-direction: row;
   display: flex;
+  width: 440px;
 }
 .modal-form__label {
   display: flex;
@@ -90,7 +91,9 @@
   font-style: normal;
   font-weight: 700;
   max-width: 100%;
-  word-wrap: break-word;
+  /* word-wrap: break-word; */
+  overflow: hidden; /* Hide any overflowing text */
+  text-overflow: ellipsis; /* Add an ellipsis (...) for overflow text */
 }
 .modal-form__input {
   color: rgba(0, 0, 0, 0.5);
