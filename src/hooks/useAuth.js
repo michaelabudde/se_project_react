@@ -16,7 +16,7 @@ const useAuth = (handleCloseModal) => {
   const handleLogIn = async ({ email, password }) => {
     const config = loginConfig(email, password);
     try {
-      const res = await api("POST", "/login", "", config);
+      const res = await api("POST", "/signin", "", config);
       // Check if the response contains a token
       if (res.token) {
         localStorage.setItem("jwt", res.token);
