@@ -36,7 +36,6 @@ const EditProfileModal = ({ onClose, handleProfileUpdate, isLoading }) => {
       resetForm(
         {
           name: currentUser.name || "",
-          email: currentUser.email || "",
           avatar: currentUser.avatar || "",
         },
         {},
@@ -69,23 +68,6 @@ const EditProfileModal = ({ onClose, handleProfileUpdate, isLoading }) => {
       />
       <span className="modal-form__error" id="name-error">
         {errors.name || ""}
-      </span>
-      <label className="modal-form__label" htmlFor="email">
-        Email
-      </label>
-      <input
-        className="modal-form__input"
-        type="email"
-        id="email"
-        name="email"
-        placeholder={"Email"}
-        minLength="1"
-        maxLength="30"
-        onChange={handleChange}
-        value={values.email}
-      />
-      <span className="modal-form__error" id="name-error">
-        {errors.email || ""}
       </span>
       <label className="modal-form__label" htmlFor="link">
         Profile Picture URL

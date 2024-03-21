@@ -31,7 +31,6 @@ export const api = async (method, endpoint, token = "", body = null) => {
   const res = await fetch(`${baseUrl}${endpoint}`, requestOptions);
   return processServerResponse(res);
 };
-// debugger;
 
 export const getItems = async (token) => {
   try {
@@ -85,12 +84,7 @@ export const fetchUserInfo = async (token) => {
     return currentUser.data;
   } else {
     console.error("Can't access user");
-    // return null; // Handle fetch failure by returning null
   }
-  // } catch (error) {
-  //   console.error("Error during fetchUserInfo:", error);
-  //   // return null; // Handle fetch failure by returning null
-  // }
 };
 export const updateProfile = async (token, data) => {
   try {
