@@ -20,4 +20,14 @@ The site will also be updated to be responsive to different screen sizes.
 
 ## Links and Videos
 
+# Links to Front End:
+
+https://wtwrapp.ignorelist.com
+
+https://www.wtwrapp.ignorelist.com
+
+# Links to Back End:
+
+https://api.wtwrapp.ignorelist.com
+
 backend express project: https://github.com/michaelabudde/se_project_express.git
