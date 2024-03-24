@@ -12,8 +12,6 @@ Users can now switch between two pages, the homepage and a profile page which ho
 
 This application currently uses HTML, CSS, Javascript, and React.
 
-A mock server is currently used for data, which will eventually be pulled from an actual database.
-
 ## Plans for Improvement
 
 The site will also be updated to be responsive to different screen sizes.
