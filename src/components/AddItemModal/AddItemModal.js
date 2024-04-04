@@ -15,22 +15,7 @@ const AddItemModal = ({ onClose, onAddItem, response, isLoading }) => {
     const newItem = { ...values };
     onAddItem(newItem);
   }
-  // previously onSubmit which was not specific enough
-  // function handleWeatherInputError(e) {
-  //   e.preventDefault();
-  //   if (values.weather === "") {
-  //     // Display an error message for the weather field
-  //     setErrors({ ...errors, message: "Please select a weather type" });
-  //   } else {
-  //     // Clear the weather-related error if weather is selected
-  //     setErrors({ ...errors, message: "" });
-  //     // Proceed with the form submission
-  //     onAddItem(values);
-  //   }
-  // }
-  // removed isOpen
 
-  // add || handleWeaterinputError to radio error
   useEffect(() => {
     resetForm();
   }, [resetForm]);
