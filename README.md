@@ -16,7 +16,13 @@ This application currently uses HTML, CSS, Javascript, and React.
 
 The site will also be updated to be responsive to different screen sizes.
 
-## Links and Videos
+## Images
+
+<p float="left">
+<img src="./src/images/wtwrhome.png" width="400"/>
+
+<img src="./src//images/wtwrprofile.png" width="400"/>
+</p>
 
 # Links to Front End:
 
